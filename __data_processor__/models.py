@@ -68,41 +68,9 @@ class SchoolData(models.Model):
     place = models.CharField(max_length=100, null=True, blank=True)
     stratification = models.ForeignKey(Stratification, on_delete=models.SET_NULL, null=True, blank=True)
     geoid = models.ForeignKey(CountyGEOID, on_delete=models.SET_NULL, null=True, blank=True)
-    # address_details = models.ManyToManyField(
-    #     SchoolAddressFile, 
-    #     blank=True,
-    #     verbose_name="Address Details",
-    #     related_name="school_data") 
     def __str__(self):
         return f"{self.county} - {self.student_count}"
-    
-        # Set related_name to 'school_address_details' in the
-        # ManyToManyField to avoid conflicts with the reverse
-        # to allow the reverse querying from the SchoolAddressFile model to fetch related SchoolData instances
-        #Retained the existing field names for the (district_code and the school_code) in SchoolData for storage byt
-        # added the foreign key relationship to the SchoolAddressFile model to store the address details of the school
-        # Since the existing dataProcessing logic relies on the district_code and the school_code fields being simple fields
-        # removing them and then  replacing them with the foreign key relationship to the SchoolAddressFile model would break the existing logic
-        #Adding the foreignKey relationship(address_details)  allows you to introduce new functionality to the existing dataProcessing logic
-        # without breaking the existing logic
-        # This will also prevent all the insert and update look ups in the SchoolData model to avoid traversing the 
-        # SchoolAddressFile model
-        # to fetch the address details of the school
-        # this will also let you work independently with the school_code and the district_code field in the SchoolData model
-        # without you having to always verify that the actual value actaully exists in the SchoolAddressFile model
-        # Change to the foreign key relation for the school_code and the district_code  would have required  significant migration effort
-        # and would also have had us to handle the case for where the SchoolAddressFile record doesnt exist or has some missing data
-        # It also takes care of the case where the school_code and district_code  in the SchoolData dont match the ones in the SchoolAddressFile
-        # You can still store them as plain fields in  without requiring a corresponding  ForeignKey rleationship in the SchoolAddressFile model
-        # the address_details can actually be used to provide explicit mapping to the SchoolAddressFile enabling you to fetch the full address details
-        # of the school
-        # example school = SchoolData.objects.get(id=1)
-        #print(school.address_details.address, school.address_details.city, school.address_details.state, school.address_details.zip_code)
-        #  you retain the simplicity of  querying district_code and school_code directly while enabling advanced relationships via the address_details field
-        # You also avoid duplicatiing address related fields like the district_name and the school_name inside the SchoolData
-        #If you're confident that all your SchoolData rows will always match a corresponding
-        # SchoolAddressFile entry, you can replace district_code and school_code with ForeignKey fields.
-        # However, this approach offers flexibility and avoids potential data or migration
+
     #REMOVING LEADING ZEROS FROM THE SCHOOL_CODE AND DISTRICT_CODE
     def save(self, *args, **kwargs):
         self.school_code = self.school_code.lstrip("0")
@@ -133,6 +101,19 @@ class MetopioStateWideLayerTransformation(models.Model):
     class Meta:
         verbose_name = 'Metopio Statewide Data Transformation'
         verbose_name_plural = 'Metopio Statewide Data Transformations'
+        ordering = ['period', 'stratification']  # Add this line
+
+class MetopioStateWideRemovalDataTransformation(models.Model):
+    layer = models.CharField(max_length=50, default='State')  # Constant value: 'State'
+    geoid = models.CharField(max_length=50, default='WI')  # Constant value: 'wisconsin'
+    topic = models.CharField(max_length=50, default='FVDEWVAR')  # Constant value: 'FVDEYLCV'
+    stratification = models.TextField(blank=True)  # To store stratification notes
+    period = models.CharField(max_length=20)  # Transformed SCHOOL_YEAR (e.g., 2023-24 → 2023-2024)
+    value = models.PositiveIntegerField()  # Derived from STUDENT_COUNT
+
+    class Meta:
+        verbose_name = 'Metopio Statewide Removal Data Transformation'
+        verbose_name_plural = 'Metopio Statewide Removal Data Transformations'
         ordering = ['period', 'stratification']  # Add this line
 
 class MetopioTriCountyLayerTransformation(models.Model):
@@ -186,3 +167,33 @@ class MetopioCityLayerTransformation(models.Model):
         verbose_name = 'City Layer Transformation'
         verbose_name_plural = 'City Layer Transformations'
         ordering = ['period']
+
+class SchoolRemovalData(models.Model):
+    school_year = models.CharField(max_length=7)
+    agency_type = models.CharField(max_length=50)
+    cesa = models.CharField(max_length=10)
+    county = models.CharField(max_length=50)
+    district_code = models.CharField(max_length=10)
+    school_code = models.CharField(max_length=10)
+    grade_group = models.CharField(max_length=50)
+    charter_ind = models.CharField(max_length=4)
+    district_name = models.CharField(max_length=100)
+    school_name = models.CharField(max_length=100)
+    group_by = models.CharField(max_length=50)
+    group_by_value = models.CharField(max_length=200)
+    removal_type_description = models.CharField(max_length=200)
+    tfs_enrollment_count = models.CharField(max_length=20)
+    removal_count = models.CharField(max_length=20)
+    place = models.CharField(max_length=100, null=True, blank=True)
+    stratification = models.ForeignKey(Stratification, on_delete=models.SET_NULL, null=True, blank=True)
+    geoid = models.ForeignKey(CountyGEOID, on_delete=models.SET_NULL, null=True, blank=True)
+    
+    
+    
+    def __str__(self):
+        return f"{self.county} - {self.student_count}"
+    
+    def save(self, *args, **kwargs):
+        self.school_code = self.school_code.lstrip("0")
+        self.district_code = self.district_code.lstrip("0")
+        super(SchoolRemovalData, self).save(*args, **kwargs)

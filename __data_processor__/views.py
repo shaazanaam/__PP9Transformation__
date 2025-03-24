@@ -15,7 +15,7 @@ from .models import (
     MetopioCityLayerTransformation,  # Add this line
 )
 from .forms import UploadFileForm
-from .models import ZipCodeLayerTransformation
+from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation
 from .models import SchoolAddressFile
 from .models import CountyGEOID
 from django.http import HttpResponse
@@ -29,8 +29,6 @@ from django.core.paginator import Paginator
 from django.contrib import messages  # For adding feedback messages
 from .transformers import DataTransformer
 from collections import defaultdict
-
-
 
 def data_processor_home(request):
     if request.method == "POST":
@@ -54,7 +52,6 @@ def data_processor_home(request):
 
 ## Create a view and template to display a success message after the transformation
 ##  This is to show the user that the transformation was successful and provide a link to view the transformed data
-
 
 def transformation_success(request):
     # Example details we can customize this based on the needs
@@ -95,6 +92,10 @@ def transformation_success(request):
         transformer = DataTransformer(request)
         transformer.transform_Metopio_CityLayer()
         data_list = MetopioCityLayerTransformation.objects.all()
+    elif transformation_type == "Statewide-Removal":
+        transformer = DataTransformer(request)
+        transformer.transform_Statewide_Removal()
+        data_list = MetopioStateWideRemovalDataTransformation.objects.all()
     else:
         # Handle unknown transformation types
         details = "Unknown transformation type. Please check your request."
@@ -128,8 +129,8 @@ def transformation_success(request):
 # Handles the error gracefully : Implements the retry mechanism to handle database locking errors
 # Links the data in the SchoolData and the Stratification using the foreign key
 #Addition of the Stratification file upload and processing
-
 # handling to load the main file and the stratification file
+
 def handle_uploaded_file(f, stratifications_file=None):
     """ Handle file upload and process main and stratification files """
     try:
@@ -137,6 +138,11 @@ def handle_uploaded_file(f, stratifications_file=None):
         upload_dir = os.path.join(settings.BASE_DIR, "uploads")
         os.makedirs(upload_dir, exist_ok=True)
         file_path = os.path.join(upload_dir, f.name)
+
+        # Check if the file has already been processed
+        if os.path.exists(file_path):
+            logger.info(f"File {file_path} has already been processed. Skipping.")
+            return
         
         with open(file_path, "wb+") as destination:
             for chunk in f.chunks():
@@ -221,7 +227,6 @@ def handle_uploaded_file(f, stratifications_file=None):
                     # Insert new data into the database
                     SchoolData.objects.bulk_create(data)
                     logger.info(f"{len(data)} records inserted into the database")
-                    break
             except OperationalError as e:
                 if "database is locked" in str(e):
                     retries -= 1
@@ -234,8 +239,6 @@ def handle_uploaded_file(f, stratifications_file=None):
         logger.error(f"Error handling file upload: {e}")
         raise
 
-
-
 # data_processor/views.py
 def upload_file(request):
     message = ""             # Initialize the message variable
@@ -247,7 +250,7 @@ def upload_file(request):
         stratifications_file = request.FILES.get("stratifications_file")  
         county_geoid_file = request.FILES.get("county_geoid_file") #New County GEOID file
         school_address_file = request.FILES.get("school_address_file")  #New School Address file
-        
+        school_removal_file = request.FILES.get("school_removal_file")  #New School Removal file
         
         #Get the stratification file if provided
 
@@ -264,85 +267,8 @@ def upload_file(request):
             load_county_geoid_file(county_geoid_file)
         if school_address_file:
             load_school_address_file(school_address_file)
-            # after loading the school_address_file we are going to  update the SchoolData model
-            # to take care of the Many-to-Many relationship
-            # We will be tryng to handle the Many to Many relationship population of the SchoolData model
-            # by bypassing  the bulk updates and rather use the native SQL for batch processing
-            
-            # try:
-            #     logger.info("Populating address_details for the SchoolData model...")
-
-            #     # Fetch all the necessary data upfront
-            #     school_address_data = SchoolAddressFile.objects.values("id", "lea_code", "school_code")
-            #     school_data = SchoolData.objects.values("id", "district_code", "school_code")
-
-            #     # Create a dictionary mapping (lea_code, school_code) from the  SchoolAddressFile ID
-                
-            #     address_map = {
-            #         (address["lea_code"], address["school_code"]): address["id"]
-            #         for address in school_address_data
-            #     }
-
-            #     # Prepare records for the intermediate table
-            #     # Please notice that we are not going to be inserting the entire school object or the complete dictionary
-            #     # of the school data -- we are just inserting  the value corresponding to id key in the school dictionary
-            #     # What then goes into the records_to_insert is the id of the school and the id of the address
-            #     # records_to_insert =  is a list of tuples containing the school["id"] and the address_id
-            #     # please also note that both the school["id"] and the address_id are the primary keys 
-            #     # of the corresponding school records in the SchoolData and SchoolAddressFile models respectively
-            #     # Why only ids are Inserted:
-            #     # The Many-to-Many relationship between the SchoolData and SchoolAddressFile  is being stored in an intermediate 
-            #     # table that Django creates automatically. This table has two columns: schooldata_id and schooladdressfile_id.
-            #     # this table only needs to know which schooldata_id( the id of the school) corresponds to which 
-            #     # schooladdressfile_id (the id of the address).
-            #     # Storing only the id values ensures minimal redundancy and optimal storage.
-            #     # The id value in the school_data dictionary
-            #     # ({'id': 2080317, 'district_code': '8022', 'school_code': '8148'}) 
-            #     # represents the primary key of the corresponding SchoolData object
-            #     # Please also understand that key for the  dictionary for the address_map is actually the tuple of the lea_code and the school_code
-            #     # so the address_map.get((school["district_code"], school["school_code"])) will return the id of the address
-            #     # that corresponds to the school["district_code"] and school["school_code"]
-            #     # The records_to_insert is a list of tuples containing the school["id"] and the address_id
-            #     # The address_id is the id of the address that corresponds to the school["district_code"] and school["school_code"]
-            #     # The address_id is gotten from the address_map dictionary
-            #     # The address_map dictionary is a dictionary that maps the tuple of the lea_code and the school_code to the id of the address
-                
-                
-            #     m2m_table_name = SchoolData.address_details.through._meta.db_table
-            #     records_to_insert = []
-
-            #     for school in school_data:
-            #         address_id = address_map.get((school["district_code"], school["school_code"]))
-            #         if address_id:
-            #             records_to_insert.append((school["id"], address_id))
-
-            #     # Delete existing Many-to-Many relationshipythops
-            #     with connection.cursor() as cursor:
-            #         cursor.execute(f"DELETE FROM {m2m_table_name}")
-
-            #     # Insert new relationships in batches
-            #     # values =", ".join(f"({school_id}, {address_id})" for school_id, address_id in records_to_insert)
-            #     # Converts the batch into a string representation for the SQL insert query
-            #     # for example for a batch of [(1, 2), (3, 4), (5, 6)]
-            #     # the values will be "(1, 2), (3, 4), (5, 6)"
-            #     # then cursor.execute(f"INSERT INTO {m2m_table_name} (schooldata_id, schooladdressfile_id) VALUES {values}")
-            #     # inserts the values into the intermediate table M2M  join table
-            #     # for a batch of 500 records at a time this means inserting 500 rows in a single query
-                
-            #     batch_size = 500
-            #     with connection.cursor() as cursor:
-            #         for i in range(0, len(records_to_insert), batch_size):
-            #             batch = records_to_insert[i:i+batch_size]
-            #             values = ", ".join(f"({school_id}, {address_id})" for school_id, address_id in batch)
-            #             cursor.execute(f"INSERT INTO {m2m_table_name} (schooldata_id, schooladdressfile_id) VALUES {values}")
-
-            #     logger.info(f"Successfully populated {len(records_to_insert)} address details for SchoolData records.")
-
-            # except Exception as e:
-            #     logger.error(f"Error populating address details: {e}")
-            #     raise   
-            # # Redirect to the success page or back to upload with a success message
-
+        if school_removal_file:
+            load_school_removal_data(school_removal_file)
             return redirect(
                 f"{reverse('upload')}?message=File uploaded successfully. Now you can run the transformation."
             )
@@ -363,6 +289,8 @@ def upload_file(request):
                 success = transformer.transforms_Metopio_ZipCodeLayer()          # Apply Metopio Zipcode transformation 
             elif transformation_type == "City-Town":
                 success = transformer.transform_Metopio_CityLayer()              # Apply Metopio City-Town transformation
+            elif transformation_type =="Statewide-Removal":
+                success = transformer.transform_Statewide_Removal()             # Apply Statewide Removal transformation
             else:
                 success = transformer.apply_transformation(transformation_type ) # Apply the transformation
 
@@ -387,7 +315,6 @@ def upload_file(request):
         {"form": form, "message": message, "details": details},
     )
     
-
 # handle the county geoid file upload
 
 def load_county_geoid_file(file):
@@ -499,6 +426,64 @@ def load_school_address_file(file):
         logger.error(f"Error processing School Address file: {e}")
         raise
 
+#handle the school removal data
+def load_school_removal_data(file):
+    # Save the file to the uploads directory
+    upload_dir = os.path.join(settings.BASE_DIR, "uploads")
+    os.makedirs(upload_dir, exist_ok=True)
+    file_path = os.path.join(upload_dir, file.name)
+
+    with open(file_path, "wb+") as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
+    logger.info(f"School Removal file uploaded successfully to {file_path}")
+
+    try:
+        with open(file_path, "r") as csvfile:
+            reader = csv.DictReader(csvfile)
+            SchoolRemovalData.objects.all().delete()  # Clear existing records
+            data = []
+
+            strat_map = {
+                f"{strat.group_by}{strat.group_by_value}": strat
+                for strat in Stratification.objects.all()
+            }
+            # Validate required columns
+            for row in reader:
+                if row["REMOVAL_COUNT"] == "*" or row["REMOVAL_COUNT"] == "0":
+                    continue
+                group_by = "Grade Level" if row["GROUP_BY"] == "Grade" else row["GROUP_BY"]
+                combined_key = group_by + row["GROUP_BY_VALUE"]
+                stratification = strat_map.get(combined_key)
+                unknown_key = (group_by, "Unknown")
+                data.append(
+                    SchoolRemovalData(
+                        school_year=row["SCHOOL_YEAR"],
+                        agency_type=row["AGENCY_TYPE"],
+                        cesa=row["CESA"],
+                        county=row["COUNTY"],
+                        district_code=row["DISTRICT_CODE"],
+                        school_code=row["SCHOOL_CODE"],
+                        grade_group=row["GRADE_GROUP"],
+                        charter_ind=row["CHARTER_IND"],
+                        district_name=row["DISTRICT_NAME"],
+                        school_name=row["SCHOOL_NAME"],
+                        group_by=group_by,
+                        group_by_value=row["GROUP_BY_VALUE"],
+                        removal_type_description = row["REMOVAL_TYPE_DESCRIPTION"],
+                        tfs_enrollment_count=row["TFS_ENROLLMENT_COUNT"],
+                        removal_count=row["REMOVAL_COUNT"],
+                        stratification=stratification,
+                    )
+                )
+
+            # Bulk insert data
+            SchoolRemovalData.objects.bulk_create(data)
+            logger.info(f"{len(data)} School Removal records inserted into the database")
+            
+    except Exception as e:
+        logger.error(f"Error processing School Removal file: {e}")
+        raise
 def statewide_view(request):
     transformation_type = request.GET.get(
         "type"
@@ -651,6 +636,28 @@ def city_town_view(request):
 #OUTPUT DOWNLOADS
 ##EXCEL HANDLE ##
 
+#Removal views
+def statewide_removal(request):
+    transformation_type = request.GET.get(
+        "type", "Statewide-Removal"
+    )
+    print(f"Query Parameters: {request.GET}")  # Log query parameters
+
+    DataTransformer(request).transform_Statewide_Removal()
+
+    data_list  = MetopioStateWideRemovalDataTransformation.objects.all()
+
+    #Paginate the results
+    paginator = Paginator(data_list, 20)  # Show 20 records per page
+    page_number = request.GET.get("page")
+    data = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "__data_processor__/statewide_removal.html",
+        {"data": data, "transformation_type": transformation_type},
+    )
+
 def generate_transformed_excel(transformation_type):
     # Fetch the transformed data based on the transformation type
     if transformation_type == "Tri-County":
@@ -710,6 +717,8 @@ def generate_transformed_csv(transformation_type):
         data = ZipCodeLayerTransformation.objects.all()
     elif transformation_type == "City-Town":
         data = MetopioCityLayerTransformation.objects.all()
+    elif transformation_type == "Statewide-Removal":
+        data = MetopioStateWideRemovalDataTransformation.objects.all()
     else:
         data = TransformedSchoolData.objects.filter(
             place="WI"
@@ -739,10 +748,25 @@ def download_csv(request):
         "type", "Statewide"
     )  # Default to 'Statewide' if not specified
 
+    # Generate the transformed CSV file
     csv_file = generate_transformed_csv(transformation_type)
+
+    # Extract the period from the CSV file
+    period = "unknown"  # Default value in case period is not found
+    try:
+        with open(csv_file, "r") as f:
+            reader = csv.DictReader(f)
+            first_row = next(reader, None)  # Get the first row
+            if first_row and "period" in first_row:
+                period = first_row["period"].replace("-", "_")  # Replace invalid characters for filenames
+    except Exception as e:
+        logger.error(f"Error extracting period from CSV file: {e}")
+
+    # Construct the new file name
+    new_file_name = f"transformed_{transformation_type.lower()}_{period}.csv"
 
     # Serve the file as a download
     with open(csv_file, "rb") as f:
         response = HttpResponse(f.read(), content_type="text/csv")
-        response["Content-Disposition"] = f"attachment; filename={csv_file}"
+        response["Content-Disposition"] = f"attachment; filename={new_file_name}"
         return response

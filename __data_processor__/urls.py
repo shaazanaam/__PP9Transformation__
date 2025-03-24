@@ -13,4 +13,5 @@ urlpatterns = [
     path('metopio_statewide/', views.metopio_statewide_view, name='metopio_statewide_layer_view'),
     path('metopio_zipcode/', views.metopio_zipcode_view, name='metopio_zipcode_layer_view'),
     path('city_town/', views.city_town_view, name='metopio_city_town_view'),
+    path('statewide_removal/', views.statewide_removal, name='statewide_removal'),
 ]

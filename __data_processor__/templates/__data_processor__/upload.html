@@ -43,6 +43,11 @@
         {% csrf_token %}
         <button type="submit" name="transformation_type" value="City-Town">Run City-Town Transformation</button>
     </form>
+    
+    <form method ="post">
+        {% csrf_token %}
+        <button type="submit" name="transformation_type" value="Statewide-Removal">Run Metopio StateWide Removal Transformation</button>
+
     <br>
     {% if message %}
         <div class="alert alert-info">{{ message }}</div>
