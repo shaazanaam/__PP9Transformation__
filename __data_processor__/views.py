@@ -96,7 +96,7 @@ def transformation_success(request):
         transformer = DataTransformer(request)
         transformer.transform_Statewide_Removal()
         data_list = MetopioStateWideRemovalDataTransformation.objects.all()
-    elif transformation_type == "Tri-County-Removal":
+    elif transformation_type == "Tricounty-Removal":
         transformer = DataTransformer(request)
         transformer.transform_Tri_County_Removal()
         data_list = MetopioTriCountyRemovalDataTransformation.objects.all()
@@ -752,7 +752,7 @@ def generate_transformed_csv(transformation_type):
         data = MetopioCityLayerTransformation.objects.all()
     elif transformation_type == "Statewide-Removal":
         data = MetopioStateWideRemovalDataTransformation.objects.all()
-    elif transformation_type == "Tri-County-Removal":
+    elif transformation_type == "Tricounty-Removal":
         data = MetopioTriCountyRemovalDataTransformation.objects.all()
     else:
         data = TransformedSchoolData.objects.filter(

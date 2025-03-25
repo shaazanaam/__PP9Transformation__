@@ -1503,9 +1503,9 @@ class DataTransformer:
             #Compute totals per GROUP_BY and track "All Students" total
 
             for record in school_data:
-                group_totals[record.group_by] += int(record.student_count)
+                group_totals[record.group_by] += int(record.removal_count)
                 if record.group_by == "All Students":
-                    all_students_totals += int(record.student_count)
+                    all_students_totals += int(record.removal_count)
 
             
             group_by_totals = {}
@@ -1553,7 +1553,7 @@ class DataTransformer:
 
             
             for record in new_unknown_records:
-                logger.info(f"New unknown record: {record.county:<{15}} {record.group_by:<{20}} {record.group_by_value:<{35}} {record.student_count}")
+                logger.info(f"New unknown record: {record.county:<{15}} {record.group_by:<{20}} {record.group_by_value:<{35}} {record.removal_count:<{15}}")
 
             # Create a combined dataset in memory
             combined_dataset = list(school_data)  # Convert QuerySet to list
@@ -1587,7 +1587,7 @@ class DataTransformer:
                 group_by, group_by_value = record.group_by, record.group_by_value
                 
                 # Convert student_count to integer if it is a digit, else default to 0
-                total_value = int(float(record.student_count)) if record.student_count.replace('.', '', 1).isdigit() else 0
+                total_value = int(float(record.removal_count)) if record.removal_count.replace('.', '', 1).isdigit() else 0
                 
                 # Group by stratification, period, group_by, and group_by_value    
                 strat_key = (strat_label)
