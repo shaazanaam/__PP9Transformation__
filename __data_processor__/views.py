@@ -15,7 +15,7 @@ from .models import (
     MetopioCityLayerTransformation,  # Add this line
 )
 from .forms import UploadFileForm
-from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation
+from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation, MetopioTriCountyRemovalDataTransformation
 from .models import SchoolAddressFile
 from .models import CountyGEOID
 from django.http import HttpResponse
@@ -96,6 +96,10 @@ def transformation_success(request):
         transformer = DataTransformer(request)
         transformer.transform_Statewide_Removal()
         data_list = MetopioStateWideRemovalDataTransformation.objects.all()
+    elif transformation_type == "Tri-County-Removal":
+        transformer = DataTransformer(request)
+        transformer.transform_Tri_County_Removal()
+        data_list = MetopioTriCountyRemovalDataTransformation.objects.all()
     else:
         # Handle unknown transformation types
         details = "Unknown transformation type. Please check your request."
@@ -291,6 +295,8 @@ def upload_file(request):
                 success = transformer.transform_Metopio_CityLayer()              # Apply Metopio City-Town transformation
             elif transformation_type =="Statewide-Removal":
                 success = transformer.transform_Statewide_Removal()             # Apply Statewide Removal transformation
+            elif transformation_type == "Tricounty-Removal":
+                success = transformer.transform_Tri_County_Removal()
             else:
                 success = transformer.apply_transformation(transformation_type ) # Apply the transformation
 
@@ -658,6 +664,33 @@ def statewide_removal(request):
         {"data": data, "transformation_type": transformation_type},
     )
 
+#Tri County REMOVAL View
+def tri_county_removal_view(request):
+    transformation_type = request.GET.get(
+        "type", "Tri-County"
+    )
+    print(f"Query Parameters: {request.GET}")  # Log query parameters
+
+    DataTransformer(request).transform_Tri_County_Removal()
+
+    data_list  = MetopioTriCountyRemovalDataTransformation.objects.all()
+
+    #Paginate the results
+    paginator = Paginator(data_list, 20)  # Show 20 records per page
+    page_number = request.GET.get("page")
+    data = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "__data_processor__/tricounty_removal.html",
+        {"data": data, "transformation_type": transformation_type},
+    )
+#County Layer REMOVAL View
+
+#Zip Code Layer REMOVAL View
+
+#City Town REMOVAL View
+
 def generate_transformed_excel(transformation_type):
     # Fetch the transformed data based on the transformation type
     if transformation_type == "Tri-County":
@@ -719,6 +752,8 @@ def generate_transformed_csv(transformation_type):
         data = MetopioCityLayerTransformation.objects.all()
     elif transformation_type == "Statewide-Removal":
         data = MetopioStateWideRemovalDataTransformation.objects.all()
+    elif transformation_type == "Tri-County-Removal":
+        data = MetopioTriCountyRemovalDataTransformation.objects.all()
     else:
         data = TransformedSchoolData.objects.filter(
             place="WI"

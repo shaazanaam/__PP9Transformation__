@@ -129,6 +129,21 @@ class MetopioTriCountyLayerTransformation(models.Model):
         verbose_name_plural = 'Metopio Data Transformations'
         ordering = ['period', 'stratification']  # Add this line
 
+class MetopioTriCountyRemovalDataTransformation(models.Model):
+    layer = models.CharField(max_length=50, default='Region')  # Constant value: 'Region'
+    geoid = models.CharField(max_length=50, default='fox-valley')  # Constant value: 'fox-valley'
+    topic = models.CharField(max_length=50, default='FVDEWVAR')  # Constant value: 'FVDEWVAR'
+    stratification = models.TextField(blank=True)  # To store stratification notes
+    period = models.CharField(max_length=20)  # Transformed SCHOOL_YEAR (e.g., 2023-24 → 2023-2024)
+    value = models.PositiveIntegerField()  # Derived from REMOVAL COUNT
+
+    class Meta:
+        verbose_name = 'Metopio Tri-County Removal Data Transformation'
+        verbose_name_plural = 'Metopio Tri-County Removal Data Transformations'
+        ordering = ['period', 'stratification']
+
+
+
 class CountyLayerTransformation(models.Model):
     layer = models.CharField(max_length=50, default='County')
     geoid = models.CharField(max_length=50)  # Change this to CharField
@@ -141,7 +156,23 @@ class CountyLayerTransformation(models.Model):
         verbose_name = 'County Layer Transformation'
         verbose_name_plural = 'County Layer Transformations'
         ordering = ['period', 'stratification']
-        
+
+class CountyLayerRemovalData(models.Model):
+    layer = models.CharField(max_length=50, default='County')
+    geoid = models.CharField(max_length=50)  # Change this to CharField
+    topic = models.CharField(max_length=50, default='FVDEWVAR')
+    stratification = models.TextField(blank=True)
+    period = models.CharField(max_length=20)
+    value = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name = 'County Layer Removal Data'
+        verbose_name_plural = 'County Layer Removal Data'
+        ordering = ['period', 'stratification']        
+
+
+
+
 class ZipCodeLayerTransformation(models.Model):
     layer = models.CharField(max_length=50, default='County')
     geoid = models.CharField(max_length=50)  # Change this to CharField
@@ -154,7 +185,21 @@ class ZipCodeLayerTransformation(models.Model):
         verbose_name = 'County Layer Transformation'
         verbose_name_plural = 'County Layer Transformations'
         ordering = ['period','geoid', 'stratification']
-        
+
+class ZipCodeLayerRemovalData(models.Model):
+    layer = models.CharField(max_length=50, default='County')
+    geoid = models.CharField(max_length=50)  # Change this to CharField
+    topic = models.CharField(max_length=50, default='FVDEWVAR')
+    stratification = models.TextField(blank=True)
+    period = models.CharField(max_length=20)
+    value = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name = 'County Layer Removal Data'
+        verbose_name_plural = 'County Layer Removal Data'
+        ordering = ['period','geoid', 'stratification']
+
+
 class MetopioCityLayerTransformation(models.Model):
     layer = models.CharField(max_length=50, default='City')
     geoid = models.CharField(max_length=50)  # Change this to CharField
@@ -166,6 +211,19 @@ class MetopioCityLayerTransformation(models.Model):
     class Meta:
         verbose_name = 'City Layer Transformation'
         verbose_name_plural = 'City Layer Transformations'
+        ordering = ['period']
+
+class MetopioCityRemovalData(models.Model):
+    layer = models.CharField(max_length=50, default='City')
+    geoid = models.CharField(max_length=50)  # Change this to CharField
+    topic = models.CharField(max_length=50, default='FVDEWVAR')
+    stratification = models.TextField(blank=True)
+    period = models.CharField(max_length=20)
+    value = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name = 'City Layer Removal Data'
+        verbose_name_plural = 'City Layer Removal Data'
         ordering = ['period']
 
 class SchoolRemovalData(models.Model):
