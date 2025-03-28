@@ -142,8 +142,6 @@ class MetopioTriCountyRemovalDataTransformation(models.Model):
         verbose_name_plural = 'Metopio Tri-County Removal Data Transformations'
         ordering = ['period', 'stratification']
 
-
-
 class CountyLayerTransformation(models.Model):
     layer = models.CharField(max_length=50, default='County')
     geoid = models.CharField(max_length=50)  # Change this to CharField
@@ -170,9 +168,6 @@ class CountyLayerRemovalData(models.Model):
         verbose_name_plural = 'County Layer Removal Data'
         ordering = ['period', 'stratification']        
 
-
-
-
 class ZipCodeLayerTransformation(models.Model):
     layer = models.CharField(max_length=50, default='County')
     geoid = models.CharField(max_length=50)  # Change this to CharField
@@ -198,7 +193,6 @@ class ZipCodeLayerRemovalData(models.Model):
         verbose_name = 'County Layer Removal Data'
         verbose_name_plural = 'County Layer Removal Data'
         ordering = ['period','geoid', 'stratification']
-
 
 class MetopioCityLayerTransformation(models.Model):
     layer = models.CharField(max_length=50, default='City')

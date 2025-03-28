@@ -15,7 +15,7 @@ from .models import (
     MetopioCityLayerTransformation,  # Add this line
 )
 from .forms import UploadFileForm
-from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation, MetopioTriCountyRemovalDataTransformation
+from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation, MetopioTriCountyRemovalDataTransformation, CountyLayerRemovalData, ZipCodeLayerRemovalData, MetopioCityRemovalData
 from .models import SchoolAddressFile
 from .models import CountyGEOID
 from django.http import HttpResponse
@@ -100,6 +100,20 @@ def transformation_success(request):
         transformer = DataTransformer(request)
         transformer.transform_Tri_County_Removal()
         data_list = MetopioTriCountyRemovalDataTransformation.objects.all()
+    elif transformation_type == "County-Removal":
+        transformer = DataTransformer(request)
+        transformer.transform_County_Layer_Removal()
+        data_list = CountyLayerRemovalData.objects.all()
+    elif transformation_type == "Zipcode-Removal":
+        transformer = DataTransformer(request)
+        transformer.transform_Zipcode_Layer_Removal()
+        data_list = ZipCodeLayerRemovalData.objects.all()
+    elif transformation_type == "City-Removal":
+        transformer = DataTransformer(request)
+        transformer.transform_City_Layer_Removal()
+        data_list = MetopioCityRemovalData.objects.all()
+    elif transformation_type == "combined":
+        data_list = generate_combined_csv()  # Assuming this function generates the combined CSV data
     else:
         # Handle unknown transformation types
         details = "Unknown transformation type. Please check your request."
@@ -144,14 +158,14 @@ def handle_uploaded_file(f, stratifications_file=None):
         file_path = os.path.join(upload_dir, f.name)
 
         # Check if the file has already been processed
-        if os.path.exists(file_path):
+        file_already_exists = os.path.exists(file_path)
+        if file_already_exists:
             logger.info(f"File {file_path} has already been processed. Skipping.")
-            return
-        
-        with open(file_path, "wb+") as destination:
-            for chunk in f.chunks():
-                destination.write(chunk)
-        logger.info(f"File uploaded successfully to {file_path}")
+        else:
+            with open(file_path, "wb+") as destination:
+                for chunk in f.chunks():
+                    destination.write(chunk)
+            logger.info(f"File uploaded successfully to {file_path}")
 
         # Process stratification file if provided
         strat_map = {}
@@ -230,7 +244,8 @@ def handle_uploaded_file(f, stratifications_file=None):
                     
                     # Insert new data into the database
                     SchoolData.objects.bulk_create(data)
-                    logger.info(f"{len(data)} records inserted into the database")
+                    logger.info(f"{len(data)} SCHOOL DATA records inserted into the database")
+                    break
             except OperationalError as e:
                 if "database is locked" in str(e):
                     retries -= 1
@@ -297,11 +312,21 @@ def upload_file(request):
                 success = transformer.transform_Statewide_Removal()             # Apply Statewide Removal transformation
             elif transformation_type == "Tricounty-Removal":
                 success = transformer.transform_Tri_County_Removal()
+            elif transformation_type == "County-Removal":
+                success = transformer.transform_County_Layer_Removal()
+            elif transformation_type =="Zipcode-Removal":
+                success = transformer.transform_Zipcode_Layer_Removal()
+            elif transformation_type == "City-Removal":
+                success = transformer.transform_City_Layer_Removal()
+            elif transformation_type == "Combined":
+                success = combined_removal_view()  # Generate the combined CSV file
             else:
                 success = transformer.apply_transformation(transformation_type ) # Apply the transformation
 
             # If transformation was successful, redirect to the success page
             if success:
+                combined_csv_file = generate_combined_csv()  # Generate the combined CSV file
+                logger.info(f"Combined CSV file generated: {combined_csv_file}")
                 return redirect(
                     f"{reverse('transformation_success')}?type={transformation_type}"
                 )
@@ -617,7 +642,26 @@ def metopio_zipcode_view(request):
     )
 
 #City or Town View
+def city_layer_removal_view(request):
+    transformation_type = request.GET.get(
+        "type", "City-Removal"
+    )  # Default to 'City-Removal' if not specified
+    print(f"Query Parameters: {request.GET}")  # Log query parameters
 
+    DataTransformer(request).transform_City_Layer_Removal()
+
+    data_list = MetopioCityRemovalData.objects.all()
+
+    # Paginate the Results
+    paginator = Paginator(data_list, 20)  # Show 20 records per page
+    page_number = request.GET.get("page")
+    data = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "__data_processor__/city_layer_removal.html",
+        {"data": data, "transformation_type": transformation_type},
+    )
 def city_town_view(request):
     transformation_type = request.GET.get(
         "type", "City-Town"
@@ -686,8 +730,79 @@ def tri_county_removal_view(request):
         {"data": data, "transformation_type": transformation_type},
     )
 #County Layer REMOVAL View
+def county_layer_removal_view(request):
+    transformation_type = request.GET.get(
+        "type", "County-Removal"
+    )
+    print(f"Query Parameters: {request.GET}")  # Log query parameters
 
+    DataTransformer(request).transform_County_Layer_Removal()
+
+    data_list  = CountyLayerRemovalData.objects.all()
+
+    #Paginate the results
+    paginator = Paginator(data_list, 20)  # Show 20 records per page
+    page_number = request.GET.get("page")
+    data = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "__data_processor__/county_layer_removal.html",
+        {"data": data, "transformation_type": transformation_type},
+    )
+    
 #Zip Code Layer REMOVAL View
+def zipcode_layer_removal_view(request):
+    transformation_type = request.GET.get(
+        "type", "Zipcode-Removal"
+    )
+    print(f"Query Parameters: {request.GET}")  # Log query parameters
+
+    DataTransformer(request).transform_Zipcode_Layer_Removal()
+
+    data_list  = ZipCodeLayerRemovalData.objects.all()
+
+    #Paginate the results
+    paginator = Paginator(data_list, 20)  # Show 20 records per page
+    page_number = request.GET.get("page")
+    data = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "__data_processor__/zipcode_layer_removal.html",
+        {"data": data, "transformation_type": transformation_type},
+    )
+
+#Combined View
+def combined_removal_view(request):
+    transformation_type = request.GET.get("type", "combined")  # Default to 'combined'
+    print(f"Query Parameters: {request.GET}")  # Log query parameters
+
+    # Generate the combined CSV data
+    combined_csv_file = generate_combined_csv()
+
+    # Read the combined CSV file into a list of dictionaries
+    combined_data = []
+    try:
+        with open(combined_csv_file, "r") as f:
+            reader = csv.DictReader(f)
+            combined_data = list(reader)
+    except Exception as e:
+        logger.error(f"Error reading combined CSV file: {e}")
+
+    # Paginate the results
+    paginator = Paginator(combined_data, 20)  # Show 20 records per page
+    page_number = request.GET.get("page")
+    data = paginator.get_page(page_number)
+
+    # Render the combined data in a template
+    return render(
+        request,
+        "__data_processor__/combined_removal.html",  # Create a new template for combined data
+        {"data": data, "transformation_type": transformation_type},
+    )
+
+    DataTransformer(request)
 
 #City Town REMOVAL View
 
@@ -754,6 +869,12 @@ def generate_transformed_csv(transformation_type):
         data = MetopioStateWideRemovalDataTransformation.objects.all()
     elif transformation_type == "Tricounty-Removal":
         data = MetopioTriCountyRemovalDataTransformation.objects.all()
+    elif transformation_type == "County-Removal":
+        data = CountyLayerRemovalData.objects.all()
+    elif transformation_type == "Zipcode-Removal":
+        data = ZipCodeLayerRemovalData.objects.all()
+    elif transformation_type =="City-Removal":
+        data= MetopioCityRemovalData.objects.all()
     else:
         data = TransformedSchoolData.objects.filter(
             place="WI"
@@ -777,6 +898,48 @@ def generate_transformed_csv(transformation_type):
 
     return csv_file
 
+def generate_combined_csv():
+    """ Generate a single CSV file containing data from all transformation types """
+    # Define all transformation types and their corresponding models
+    transformation_types = {
+        
+        "Statewide-Removal": MetopioStateWideRemovalDataTransformation,
+        "Tricounty-Removal": MetopioTriCountyRemovalDataTransformation,
+        "County-Removal": CountyLayerRemovalData,
+        "Zipcode-Removal": ZipCodeLayerRemovalData,
+        "City-Removal": MetopioCityRemovalData,
+        
+    }
+
+    # Initialize an empty list to hold all data
+    combined_data = []
+
+    # Iterate through each transformation type and fetch its data
+    for transformation_type, model in transformation_types.items():
+       
+        data = model.objects.all()
+
+        # Convert the QuerySet to a list of dictionaries and add a "type" field
+        data_list = [
+            {**{key.lower(): value for key, value in row.items() if key != "id"}, "type": transformation_type}
+            for row in data.values()
+        ]
+
+        # Append the data to the combined list
+        combined_data.extend(data_list)
+
+    # Get the field names (keys) from the first item, including the "type" field
+    fieldnames = combined_data[0].keys() if combined_data else []
+
+    # Generate the combined CSV file
+    csv_file = "combined_transformed_data.csv"
+    with open(csv_file, "w", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(combined_data)
+
+    return csv_file
+
 def download_csv(request):
     # Get the transformation type from the URL query parameter
     transformation_type = request.GET.get(
@@ -784,8 +947,11 @@ def download_csv(request):
     )  # Default to 'Statewide' if not specified
 
     # Generate the transformed CSV file
-    csv_file = generate_transformed_csv(transformation_type)
-
+    if transformation_type.lower() == "combined":
+        csv_file = generate_combined_csv()
+        new_file_name = "combined_transformed_data.csv"
+    else:
+        csv_file = generate_transformed_csv(transformation_type)
     # Extract the period from the CSV file
     period = "unknown"  # Default value in case period is not found
     try:

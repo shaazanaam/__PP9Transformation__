@@ -7,6 +7,7 @@ urlpatterns = [
     path('success/', views.transformation_success, name='transformation_success'),
     path('download/', views.download_excel, name='download_excel'),
     path('download_csv/', views.download_csv, name='download_csv'),
+    path('download_combined_csv/', views.download_csv, name='download_csv'),
     path('statewide/', views.statewide_view, name='statewide_view'),
     path('tricounty/', views.tri_county_view, name='tri_county_view'),
     path('county_layer/', views.county_layer_view, name='county_layer_view'),
@@ -15,4 +16,8 @@ urlpatterns = [
     path('city_town/', views.city_town_view, name='metopio_city_town_view'),
     path('statewide_removal/', views.statewide_removal, name='statewide_removal'),
     path('tricounty_removal/', views.tri_county_removal_view, name='tri_county_removal_view'),
+    path('county_layer_removal/', views.county_layer_removal_view, name='county_layer_removal_view'),
+    path('zipcode_layer_removal/', views.zipcode_layer_removal_view, name='zipcode_layer_removal_view'),
+    path('city_layer_removal/', views.city_layer_removal_view, name='city_layer_removal_view'),
+    path('combined_removal/', views.combined_removal_view, name='combined_removal_view'), 
 ]
