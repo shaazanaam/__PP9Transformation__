@@ -179,7 +179,7 @@ County,55139,FDEWVAR,X8T2,2023-2024,349,County-Removal
 County,55087,FDEWVAR,X9T3,2023-2024,214,County-Removal
 County,55015,FDEWVAR,X9T3,2023-2024,10,County-Removal
 County,55139,FDEWVAR,X9T3,2023-2024,261,County-Removal
-Zip code,53014,FDEWVAR,,2023-2024,570,Zipcode-Removal
+Zip code,53014,FDEWVAR,,2023-2024,10,Zipcode-Removal
 Zip code,53014,FDEWVAR,ECO1,2023-2024,8,Zipcode-Removal
 Zip code,53014,FDEWVAR,EL1,2023-2024,2,Zipcode-Removal
 Zip code,53014,FDEWVAR,ENG3,2023-2024,8,Zipcode-Removal
@@ -190,23 +190,27 @@ Zip code,53014,FDEWVAR,NOT3,2023-2024,2,Zipcode-Removal
 Zip code,53014,FDEWVAR,NOT4,2023-2024,10,Zipcode-Removal
 Zip code,53014,FDEWVAR,SWD1,2023-2024,2,Zipcode-Removal
 Zip code,53014,FDEWVAR,SWO1,2023-2024,8,Zipcode-Removal
-Zip code,53014,FDEWVAR,W,2023-2024,8,Zipcode-Removal
+Zip code,53014,FDEWVAR,UNK2,2023-2024,10,Zipcode-Removal
+Zip code,53014,FDEWVAR,UNK5,2023-2024,1,Zipcode-Removal
+Zip code,53014,FDEWVAR,W,2023-2024,7,Zipcode-Removal
 Zip code,53014,FDEWVAR,X1012,2023-2024,4,Zipcode-Removal
 Zip code,53014,FDEWVAR,X1210,2023-2024,1,Zipcode-Removal
 Zip code,53014,FDEWVAR,X7T2,2023-2024,2,Zipcode-Removal
 Zip code,53014,FDEWVAR,X8T2,2023-2024,3,Zipcode-Removal
-Zip code,53061,FDEWVAR,,2023-2024,855,Zipcode-Removal
+Zip code,53061,FDEWVAR,,2023-2024,15,Zipcode-Removal
 Zip code,53061,FDEWVAR,ECO1,2023-2024,11,Zipcode-Removal
 Zip code,53061,FDEWVAR,EL1,2023-2024,2,Zipcode-Removal
 Zip code,53061,FDEWVAR,ENG3,2023-2024,13,Zipcode-Removal
 Zip code,53061,FDEWVAR,FEM3,2023-2024,3,Zipcode-Removal
-Zip code,53061,FDEWVAR,H,2023-2024,3,Zipcode-Removal
+Zip code,53061,FDEWVAR,H,2023-2024,2,Zipcode-Removal
 Zip code,53061,FDEWVAR,MAL15,2023-2024,12,Zipcode-Removal
 Zip code,53061,FDEWVAR,NOT3,2023-2024,4,Zipcode-Removal
 Zip code,53061,FDEWVAR,NOT4,2023-2024,15,Zipcode-Removal
 Zip code,53061,FDEWVAR,Q,2023-2024,1,Zipcode-Removal
 Zip code,53061,FDEWVAR,SWD1,2023-2024,5,Zipcode-Removal
 Zip code,53061,FDEWVAR,SWO1,2023-2024,10,Zipcode-Removal
+Zip code,53061,FDEWVAR,UNK2,2023-2024,15,Zipcode-Removal
+Zip code,53061,FDEWVAR,UNK5,2023-2024,1,Zipcode-Removal
 Zip code,53061,FDEWVAR,W,2023-2024,11,Zipcode-Removal
 Zip code,53061,FDEWVAR,X1012,2023-2024,3,Zipcode-Removal
 Zip code,53061,FDEWVAR,X113,2023-2024,3,Zipcode-Removal
@@ -215,7 +219,7 @@ Zip code,53061,FDEWVAR,X2N2,2023-2024,1,Zipcode-Removal
 Zip code,53061,FDEWVAR,X4T2,2023-2024,1,Zipcode-Removal
 Zip code,53061,FDEWVAR,X8T2,2023-2024,2,Zipcode-Removal
 Zip code,53061,FDEWVAR,X9T3,2023-2024,4,Zipcode-Removal
-Zip code,53088,FDEWVAR,,2023-2024,114,Zipcode-Removal
+Zip code,53088,FDEWVAR,,2023-2024,2,Zipcode-Removal
 Zip code,53088,FDEWVAR,ECO1,2023-2024,1,Zipcode-Removal
 Zip code,53088,FDEWVAR,ENG3,2023-2024,1,Zipcode-Removal
 Zip code,53088,FDEWVAR,FEM3,2023-2024,1,Zipcode-Removal
@@ -223,17 +227,22 @@ Zip code,53088,FDEWVAR,MAL15,2023-2024,1,Zipcode-Removal
 Zip code,53088,FDEWVAR,NOT3,2023-2024,1,Zipcode-Removal
 Zip code,53088,FDEWVAR,NOT4,2023-2024,2,Zipcode-Removal
 Zip code,53088,FDEWVAR,SWO1,2023-2024,2,Zipcode-Removal
+Zip code,53088,FDEWVAR,UNK2,2023-2024,2,Zipcode-Removal
+Zip code,53088,FDEWVAR,UNK4,2023-2024,1,Zipcode-Removal
+Zip code,53088,FDEWVAR,UNK5,2023-2024,1,Zipcode-Removal
 Zip code,53088,FDEWVAR,W,2023-2024,1,Zipcode-Removal
 Zip code,53088,FDEWVAR,X113,2023-2024,1,Zipcode-Removal
 Zip code,53088,FDEWVAR,X3R2,2023-2024,1,Zipcode-Removal
-Zip code,54106,FDEWVAR,,2023-2024,114,Zipcode-Removal
+Zip code,54106,FDEWVAR,,2023-2024,2,Zipcode-Removal
 Zip code,54106,FDEWVAR,MAL15,2023-2024,2,Zipcode-Removal
 Zip code,54106,FDEWVAR,NOT3,2023-2024,2,Zipcode-Removal
 Zip code,54106,FDEWVAR,NOT4,2023-2024,2,Zipcode-Removal
 Zip code,54106,FDEWVAR,SWD1,2023-2024,2,Zipcode-Removal
+Zip code,54106,FDEWVAR,UNK2,2023-2024,2,Zipcode-Removal
+Zip code,54106,FDEWVAR,UNK4,2023-2024,2,Zipcode-Removal
 Zip code,54106,FDEWVAR,W,2023-2024,2,Zipcode-Removal
 Zip code,54106,FDEWVAR,X6T3,2023-2024,2,Zipcode-Removal
-Zip code,54110,FDEWVAR,,2023-2024,1197,Zipcode-Removal
+Zip code,54110,FDEWVAR,,2023-2024,21,Zipcode-Removal
 Zip code,54110,FDEWVAR,ECO1,2023-2024,16,Zipcode-Removal
 Zip code,54110,FDEWVAR,EL1,2023-2024,1,Zipcode-Removal
 Zip code,54110,FDEWVAR,ENG3,2023-2024,20,Zipcode-Removal
@@ -245,6 +254,8 @@ Zip code,54110,FDEWVAR,NOT4,2023-2024,21,Zipcode-Removal
 Zip code,54110,FDEWVAR,Q,2023-2024,1,Zipcode-Removal
 Zip code,54110,FDEWVAR,SWD1,2023-2024,12,Zipcode-Removal
 Zip code,54110,FDEWVAR,SWO1,2023-2024,9,Zipcode-Removal
+Zip code,54110,FDEWVAR,UNK2,2023-2024,21,Zipcode-Removal
+Zip code,54110,FDEWVAR,UNK5,2023-2024,3,Zipcode-Removal
 Zip code,54110,FDEWVAR,W,2023-2024,14,Zipcode-Removal
 Zip code,54110,FDEWVAR,X1012,2023-2024,3,Zipcode-Removal
 Zip code,54110,FDEWVAR,X113,2023-2024,5,Zipcode-Removal
@@ -252,16 +263,18 @@ Zip code,54110,FDEWVAR,X2N2,2023-2024,3,Zipcode-Removal
 Zip code,54110,FDEWVAR,X6T3,2023-2024,4,Zipcode-Removal
 Zip code,54110,FDEWVAR,X7T2,2023-2024,1,Zipcode-Removal
 Zip code,54110,FDEWVAR,X9T3,2023-2024,5,Zipcode-Removal
-Zip code,54113,FDEWVAR,,2023-2024,171,Zipcode-Removal
+Zip code,54113,FDEWVAR,,2023-2024,3,Zipcode-Removal
 Zip code,54113,FDEWVAR,ECO1,2023-2024,3,Zipcode-Removal
 Zip code,54113,FDEWVAR,ENG3,2023-2024,3,Zipcode-Removal
 Zip code,54113,FDEWVAR,NOT4,2023-2024,3,Zipcode-Removal
 Zip code,54113,FDEWVAR,Q,2023-2024,1,Zipcode-Removal
 Zip code,54113,FDEWVAR,SWD1,2023-2024,3,Zipcode-Removal
+Zip code,54113,FDEWVAR,UNK2,2023-2024,3,Zipcode-Removal
+Zip code,54113,FDEWVAR,UNK7,2023-2024,3,Zipcode-Removal
 Zip code,54113,FDEWVAR,W,2023-2024,2,Zipcode-Removal
 Zip code,54113,FDEWVAR,X1S2,2023-2024,2,Zipcode-Removal
 Zip code,54113,FDEWVAR,X2N2,2023-2024,1,Zipcode-Removal
-Zip code,54129,FDEWVAR,,2023-2024,399,Zipcode-Removal
+Zip code,54129,FDEWVAR,,2023-2024,7,Zipcode-Removal
 Zip code,54129,FDEWVAR,ECO1,2023-2024,1,Zipcode-Removal
 Zip code,54129,FDEWVAR,EL1,2023-2024,4,Zipcode-Removal
 Zip code,54129,FDEWVAR,ENG3,2023-2024,3,Zipcode-Removal
@@ -269,27 +282,33 @@ Zip code,54129,FDEWVAR,MAL15,2023-2024,7,Zipcode-Removal
 Zip code,54129,FDEWVAR,NOT3,2023-2024,6,Zipcode-Removal
 Zip code,54129,FDEWVAR,NOT4,2023-2024,7,Zipcode-Removal
 Zip code,54129,FDEWVAR,SWO1,2023-2024,7,Zipcode-Removal
-Zip code,54129,FDEWVAR,W,2023-2024,7,Zipcode-Removal
+Zip code,54129,FDEWVAR,UNK2,2023-2024,7,Zipcode-Removal
+Zip code,54129,FDEWVAR,UNK5,2023-2024,4,Zipcode-Removal
+Zip code,54129,FDEWVAR,W,2023-2024,3,Zipcode-Removal
 Zip code,54129,FDEWVAR,X5T3,2023-2024,1,Zipcode-Removal
 Zip code,54129,FDEWVAR,X7T2,2023-2024,2,Zipcode-Removal
 Zip code,54129,FDEWVAR,X8T2,2023-2024,3,Zipcode-Removal
 Zip code,54129,FDEWVAR,X9T3,2023-2024,1,Zipcode-Removal
-Zip code,54130,FDEWVAR,,2023-2024,20577,Zipcode-Removal
-Zip code,54130,FDEWVAR,A,2023-2024,16,Zipcode-Removal
+Zip code,54130,FDEWVAR,,2023-2024,361,Zipcode-Removal
+Zip code,54130,FDEWVAR,A,2023-2024,4,Zipcode-Removal
 Zip code,54130,FDEWVAR,ECO1,2023-2024,182,Zipcode-Removal
 Zip code,54130,FDEWVAR,EL1,2023-2024,19,Zipcode-Removal
 Zip code,54130,FDEWVAR,ENG3,2023-2024,272,Zipcode-Removal
 Zip code,54130,FDEWVAR,FEM3,2023-2024,49,Zipcode-Removal
-Zip code,54130,FDEWVAR,H,2023-2024,58,Zipcode-Removal
+Zip code,54130,FDEWVAR,H,2023-2024,41,Zipcode-Removal
 Zip code,54130,FDEWVAR,K41,2023-2024,1,Zipcode-Removal
 Zip code,54130,FDEWVAR,KIN2,2023-2024,33,Zipcode-Removal
-Zip code,54130,FDEWVAR,MAL15,2023-2024,312,Zipcode-Removal
+Zip code,54130,FDEWVAR,MAL15,2023-2024,283,Zipcode-Removal
 Zip code,54130,FDEWVAR,NOT3,2023-2024,179,Zipcode-Removal
 Zip code,54130,FDEWVAR,NOT4,2023-2024,361,Zipcode-Removal
 Zip code,54130,FDEWVAR,Q,2023-2024,34,Zipcode-Removal
 Zip code,54130,FDEWVAR,SWD1,2023-2024,205,Zipcode-Removal
 Zip code,54130,FDEWVAR,SWO1,2023-2024,156,Zipcode-Removal
-Zip code,54130,FDEWVAR,W,2023-2024,253,Zipcode-Removal
+Zip code,54130,FDEWVAR,UNK2,2023-2024,361,Zipcode-Removal
+Zip code,54130,FDEWVAR,UNK4,2023-2024,70,Zipcode-Removal
+Zip code,54130,FDEWVAR,UNK5,2023-2024,37,Zipcode-Removal
+Zip code,54130,FDEWVAR,UNK7,2023-2024,29,Zipcode-Removal
+Zip code,54130,FDEWVAR,W,2023-2024,245,Zipcode-Removal
 Zip code,54130,FDEWVAR,X1012,2023-2024,25,Zipcode-Removal
 Zip code,54130,FDEWVAR,X113,2023-2024,20,Zipcode-Removal
 Zip code,54130,FDEWVAR,X1210,2023-2024,5,Zipcode-Removal
@@ -302,20 +321,23 @@ Zip code,54130,FDEWVAR,X6T3,2023-2024,32,Zipcode-Removal
 Zip code,54130,FDEWVAR,X7T2,2023-2024,46,Zipcode-Removal
 Zip code,54130,FDEWVAR,X8T2,2023-2024,34,Zipcode-Removal
 Zip code,54130,FDEWVAR,X9T3,2023-2024,33,Zipcode-Removal
-Zip code,54136,FDEWVAR,,2023-2024,9519,Zipcode-Removal
-Zip code,54136,FDEWVAR,A,2023-2024,10,Zipcode-Removal
+Zip code,54136,FDEWVAR,,2023-2024,167,Zipcode-Removal
+Zip code,54136,FDEWVAR,A,2023-2024,6,Zipcode-Removal
 Zip code,54136,FDEWVAR,ECO1,2023-2024,70,Zipcode-Removal
 Zip code,54136,FDEWVAR,EL1,2023-2024,9,Zipcode-Removal
 Zip code,54136,FDEWVAR,ENG3,2023-2024,158,Zipcode-Removal
 Zip code,54136,FDEWVAR,FEM3,2023-2024,23,Zipcode-Removal
 Zip code,54136,FDEWVAR,H,2023-2024,18,Zipcode-Removal
 Zip code,54136,FDEWVAR,KIN2,2023-2024,1,Zipcode-Removal
-Zip code,54136,FDEWVAR,MAL15,2023-2024,144,Zipcode-Removal
+Zip code,54136,FDEWVAR,MAL15,2023-2024,130,Zipcode-Removal
 Zip code,54136,FDEWVAR,NOT3,2023-2024,97,Zipcode-Removal
 Zip code,54136,FDEWVAR,NOT4,2023-2024,167,Zipcode-Removal
 Zip code,54136,FDEWVAR,Q,2023-2024,8,Zipcode-Removal
 Zip code,54136,FDEWVAR,SWD1,2023-2024,82,Zipcode-Removal
 Zip code,54136,FDEWVAR,SWO1,2023-2024,85,Zipcode-Removal
+Zip code,54136,FDEWVAR,UNK2,2023-2024,167,Zipcode-Removal
+Zip code,54136,FDEWVAR,UNK5,2023-2024,4,Zipcode-Removal
+Zip code,54136,FDEWVAR,UNK7,2023-2024,14,Zipcode-Removal
 Zip code,54136,FDEWVAR,W,2023-2024,131,Zipcode-Removal
 Zip code,54136,FDEWVAR,X1012,2023-2024,19,Zipcode-Removal
 Zip code,54136,FDEWVAR,X113,2023-2024,18,Zipcode-Removal
@@ -328,20 +350,24 @@ Zip code,54136,FDEWVAR,X6T3,2023-2024,4,Zipcode-Removal
 Zip code,54136,FDEWVAR,X7T2,2023-2024,23,Zipcode-Removal
 Zip code,54136,FDEWVAR,X8T2,2023-2024,36,Zipcode-Removal
 Zip code,54136,FDEWVAR,X9T3,2023-2024,36,Zipcode-Removal
-Zip code,54140,FDEWVAR,,2023-2024,4161,Zipcode-Removal
+Zip code,54140,FDEWVAR,,2023-2024,73,Zipcode-Removal
 Zip code,54140,FDEWVAR,B,2023-2024,4,Zipcode-Removal
 Zip code,54140,FDEWVAR,ECO1,2023-2024,38,Zipcode-Removal
 Zip code,54140,FDEWVAR,EL1,2023-2024,3,Zipcode-Removal
 Zip code,54140,FDEWVAR,ENG3,2023-2024,54,Zipcode-Removal
 Zip code,54140,FDEWVAR,FEM3,2023-2024,8,Zipcode-Removal
-Zip code,54140,FDEWVAR,H,2023-2024,9,Zipcode-Removal
+Zip code,54140,FDEWVAR,H,2023-2024,7,Zipcode-Removal
 Zip code,54140,FDEWVAR,KIN2,2023-2024,1,Zipcode-Removal
-Zip code,54140,FDEWVAR,MAL15,2023-2024,65,Zipcode-Removal
+Zip code,54140,FDEWVAR,MAL15,2023-2024,60,Zipcode-Removal
 Zip code,54140,FDEWVAR,NOT3,2023-2024,35,Zipcode-Removal
 Zip code,54140,FDEWVAR,NOT4,2023-2024,73,Zipcode-Removal
 Zip code,54140,FDEWVAR,Q,2023-2024,7,Zipcode-Removal
 Zip code,54140,FDEWVAR,SWD1,2023-2024,33,Zipcode-Removal
 Zip code,54140,FDEWVAR,SWO1,2023-2024,40,Zipcode-Removal
+Zip code,54140,FDEWVAR,UNK2,2023-2024,73,Zipcode-Removal
+Zip code,54140,FDEWVAR,UNK4,2023-2024,16,Zipcode-Removal
+Zip code,54140,FDEWVAR,UNK5,2023-2024,2,Zipcode-Removal
+Zip code,54140,FDEWVAR,UNK7,2023-2024,5,Zipcode-Removal
 Zip code,54140,FDEWVAR,W,2023-2024,53,Zipcode-Removal
 Zip code,54140,FDEWVAR,X1012,2023-2024,6,Zipcode-Removal
 Zip code,54140,FDEWVAR,X113,2023-2024,6,Zipcode-Removal
@@ -355,7 +381,7 @@ Zip code,54140,FDEWVAR,X6T3,2023-2024,12,Zipcode-Removal
 Zip code,54140,FDEWVAR,X7T2,2023-2024,15,Zipcode-Removal
 Zip code,54140,FDEWVAR,X8T2,2023-2024,11,Zipcode-Removal
 Zip code,54140,FDEWVAR,X9T3,2023-2024,8,Zipcode-Removal
-Zip code,54165,FDEWVAR,,2023-2024,6441,Zipcode-Removal
+Zip code,54165,FDEWVAR,,2023-2024,113,Zipcode-Removal
 Zip code,54165,FDEWVAR,ECO1,2023-2024,88,Zipcode-Removal
 Zip code,54165,FDEWVAR,FEM3,2023-2024,19,Zipcode-Removal
 Zip code,54165,FDEWVAR,H,2023-2024,16,Zipcode-Removal
@@ -363,10 +389,13 @@ Zip code,54165,FDEWVAR,KIN2,2023-2024,1,Zipcode-Removal
 Zip code,54165,FDEWVAR,MAL15,2023-2024,94,Zipcode-Removal
 Zip code,54165,FDEWVAR,NOT3,2023-2024,25,Zipcode-Removal
 Zip code,54165,FDEWVAR,NOT4,2023-2024,113,Zipcode-Removal
-Zip code,54165,FDEWVAR,P,2023-2024,29,Zipcode-Removal
+Zip code,54165,FDEWVAR,P,2023-2024,24,Zipcode-Removal
 Zip code,54165,FDEWVAR,Q,2023-2024,8,Zipcode-Removal
 Zip code,54165,FDEWVAR,SWD1,2023-2024,56,Zipcode-Removal
 Zip code,54165,FDEWVAR,SWO1,2023-2024,57,Zipcode-Removal
+Zip code,54165,FDEWVAR,UNK2,2023-2024,113,Zipcode-Removal
+Zip code,54165,FDEWVAR,UNK4,2023-2024,113,Zipcode-Removal
+Zip code,54165,FDEWVAR,UNK5,2023-2024,5,Zipcode-Removal
 Zip code,54165,FDEWVAR,W,2023-2024,60,Zipcode-Removal
 Zip code,54165,FDEWVAR,X1012,2023-2024,15,Zipcode-Removal
 Zip code,54165,FDEWVAR,X113,2023-2024,10,Zipcode-Removal
@@ -380,7 +409,7 @@ Zip code,54165,FDEWVAR,X6T3,2023-2024,13,Zipcode-Removal
 Zip code,54165,FDEWVAR,X7T2,2023-2024,27,Zipcode-Removal
 Zip code,54165,FDEWVAR,X8T2,2023-2024,11,Zipcode-Removal
 Zip code,54165,FDEWVAR,X9T3,2023-2024,8,Zipcode-Removal
-Zip code,54170,FDEWVAR,,2023-2024,1254,Zipcode-Removal
+Zip code,54170,FDEWVAR,,2023-2024,22,Zipcode-Removal
 Zip code,54170,FDEWVAR,ECO1,2023-2024,9,Zipcode-Removal
 Zip code,54170,FDEWVAR,ENG3,2023-2024,22,Zipcode-Removal
 Zip code,54170,FDEWVAR,FEM3,2023-2024,9,Zipcode-Removal
@@ -390,21 +419,24 @@ Zip code,54170,FDEWVAR,NOT3,2023-2024,13,Zipcode-Removal
 Zip code,54170,FDEWVAR,NOT4,2023-2024,22,Zipcode-Removal
 Zip code,54170,FDEWVAR,SWD1,2023-2024,8,Zipcode-Removal
 Zip code,54170,FDEWVAR,SWO1,2023-2024,14,Zipcode-Removal
-Zip code,54170,FDEWVAR,W,2023-2024,22,Zipcode-Removal
+Zip code,54170,FDEWVAR,UNK2,2023-2024,22,Zipcode-Removal
+Zip code,54170,FDEWVAR,UNK5,2023-2024,3,Zipcode-Removal
+Zip code,54170,FDEWVAR,UNK8,2023-2024,3,Zipcode-Removal
+Zip code,54170,FDEWVAR,W,2023-2024,19,Zipcode-Removal
 Zip code,54170,FDEWVAR,X1012,2023-2024,1,Zipcode-Removal
 Zip code,54170,FDEWVAR,X113,2023-2024,9,Zipcode-Removal
-Zip code,54170,FDEWVAR,X2N2,2023-2024,5,Zipcode-Removal
+Zip code,54170,FDEWVAR,X2N2,2023-2024,2,Zipcode-Removal
 Zip code,54170,FDEWVAR,X3R2,2023-2024,4,Zipcode-Removal
 Zip code,54170,FDEWVAR,X8T2,2023-2024,1,Zipcode-Removal
 Zip code,54170,FDEWVAR,X9T3,2023-2024,1,Zipcode-Removal
-Zip code,54901,FDEWVAR,,2023-2024,39843,Zipcode-Removal
-Zip code,54901,FDEWVAR,A,2023-2024,43,Zipcode-Removal
+Zip code,54901,FDEWVAR,,2023-2024,699,Zipcode-Removal
+Zip code,54901,FDEWVAR,A,2023-2024,11,Zipcode-Removal
 Zip code,54901,FDEWVAR,B,2023-2024,201,Zipcode-Removal
 Zip code,54901,FDEWVAR,ECO1,2023-2024,615,Zipcode-Removal
 Zip code,54901,FDEWVAR,EL1,2023-2024,19,Zipcode-Removal
 Zip code,54901,FDEWVAR,ENG3,2023-2024,643,Zipcode-Removal
 Zip code,54901,FDEWVAR,FEM3,2023-2024,241,Zipcode-Removal
-Zip code,54901,FDEWVAR,H,2023-2024,85,Zipcode-Removal
+Zip code,54901,FDEWVAR,H,2023-2024,83,Zipcode-Removal
 Zip code,54901,FDEWVAR,KIN2,2023-2024,27,Zipcode-Removal
 Zip code,54901,FDEWVAR,MAL15,2023-2024,458,Zipcode-Removal
 Zip code,54901,FDEWVAR,NOT3,2023-2024,84,Zipcode-Removal
@@ -413,6 +445,9 @@ Zip code,54901,FDEWVAR,P,2023-2024,1,Zipcode-Removal
 Zip code,54901,FDEWVAR,Q,2023-2024,125,Zipcode-Removal
 Zip code,54901,FDEWVAR,SWD1,2023-2024,287,Zipcode-Removal
 Zip code,54901,FDEWVAR,SWO1,2023-2024,412,Zipcode-Removal
+Zip code,54901,FDEWVAR,UNK2,2023-2024,699,Zipcode-Removal
+Zip code,54901,FDEWVAR,UNK4,2023-2024,37,Zipcode-Removal
+Zip code,54901,FDEWVAR,UNK5,2023-2024,34,Zipcode-Removal
 Zip code,54901,FDEWVAR,W,2023-2024,244,Zipcode-Removal
 Zip code,54901,FDEWVAR,X1012,2023-2024,76,Zipcode-Removal
 Zip code,54901,FDEWVAR,X113,2023-2024,51,Zipcode-Removal
@@ -426,21 +461,24 @@ Zip code,54901,FDEWVAR,X6T3,2023-2024,74,Zipcode-Removal
 Zip code,54901,FDEWVAR,X7T2,2023-2024,103,Zipcode-Removal
 Zip code,54901,FDEWVAR,X8T2,2023-2024,65,Zipcode-Removal
 Zip code,54901,FDEWVAR,X9T3,2023-2024,65,Zipcode-Removal
-Zip code,54902,FDEWVAR,,2023-2024,27189,Zipcode-Removal
-Zip code,54902,FDEWVAR,A,2023-2024,27,Zipcode-Removal
-Zip code,54902,FDEWVAR,B,2023-2024,47,Zipcode-Removal
+Zip code,54902,FDEWVAR,,2023-2024,477,Zipcode-Removal
+Zip code,54902,FDEWVAR,A,2023-2024,2,Zipcode-Removal
+Zip code,54902,FDEWVAR,B,2023-2024,46,Zipcode-Removal
 Zip code,54902,FDEWVAR,ECO1,2023-2024,334,Zipcode-Removal
 Zip code,54902,FDEWVAR,EL1,2023-2024,6,Zipcode-Removal
 Zip code,54902,FDEWVAR,ENG3,2023-2024,471,Zipcode-Removal
-Zip code,54902,FDEWVAR,FEM3,2023-2024,305,Zipcode-Removal
+Zip code,54902,FDEWVAR,FEM3,2023-2024,166,Zipcode-Removal
 Zip code,54902,FDEWVAR,H,2023-2024,27,Zipcode-Removal
 Zip code,54902,FDEWVAR,KIN2,2023-2024,1,Zipcode-Removal
 Zip code,54902,FDEWVAR,MAL15,2023-2024,172,Zipcode-Removal
 Zip code,54902,FDEWVAR,NOT3,2023-2024,143,Zipcode-Removal
 Zip code,54902,FDEWVAR,NOT4,2023-2024,477,Zipcode-Removal
-Zip code,54902,FDEWVAR,Q,2023-2024,62,Zipcode-Removal
+Zip code,54902,FDEWVAR,Q,2023-2024,61,Zipcode-Removal
 Zip code,54902,FDEWVAR,SWD1,2023-2024,190,Zipcode-Removal
 Zip code,54902,FDEWVAR,SWO1,2023-2024,287,Zipcode-Removal
+Zip code,54902,FDEWVAR,UNK2,2023-2024,477,Zipcode-Removal
+Zip code,54902,FDEWVAR,UNK5,2023-2024,27,Zipcode-Removal
+Zip code,54902,FDEWVAR,UNK7,2023-2024,139,Zipcode-Removal
 Zip code,54902,FDEWVAR,W,2023-2024,314,Zipcode-Removal
 Zip code,54902,FDEWVAR,X1012,2023-2024,54,Zipcode-Removal
 Zip code,54902,FDEWVAR,X113,2023-2024,46,Zipcode-Removal
@@ -454,7 +492,7 @@ Zip code,54902,FDEWVAR,X6T3,2023-2024,49,Zipcode-Removal
 Zip code,54902,FDEWVAR,X7T2,2023-2024,49,Zipcode-Removal
 Zip code,54902,FDEWVAR,X8T2,2023-2024,108,Zipcode-Removal
 Zip code,54902,FDEWVAR,X9T3,2023-2024,74,Zipcode-Removal
-Zip code,54904,FDEWVAR,,2023-2024,3990,Zipcode-Removal
+Zip code,54904,FDEWVAR,,2023-2024,70,Zipcode-Removal
 Zip code,54904,FDEWVAR,A,2023-2024,1,Zipcode-Removal
 Zip code,54904,FDEWVAR,B,2023-2024,8,Zipcode-Removal
 Zip code,54904,FDEWVAR,ECO1,2023-2024,49,Zipcode-Removal
@@ -469,6 +507,7 @@ Zip code,54904,FDEWVAR,NOT4,2023-2024,70,Zipcode-Removal
 Zip code,54904,FDEWVAR,Q,2023-2024,17,Zipcode-Removal
 Zip code,54904,FDEWVAR,SWD1,2023-2024,26,Zipcode-Removal
 Zip code,54904,FDEWVAR,SWO1,2023-2024,44,Zipcode-Removal
+Zip code,54904,FDEWVAR,UNK2,2023-2024,70,Zipcode-Removal
 Zip code,54904,FDEWVAR,W,2023-2024,42,Zipcode-Removal
 Zip code,54904,FDEWVAR,X1S2,2023-2024,9,Zipcode-Removal
 Zip code,54904,FDEWVAR,X2N2,2023-2024,1,Zipcode-Removal
@@ -478,24 +517,28 @@ Zip code,54904,FDEWVAR,X5T3,2023-2024,7,Zipcode-Removal
 Zip code,54904,FDEWVAR,X6T3,2023-2024,2,Zipcode-Removal
 Zip code,54904,FDEWVAR,X7T2,2023-2024,6,Zipcode-Removal
 Zip code,54904,FDEWVAR,X8T2,2023-2024,20,Zipcode-Removal
-Zip code,54911,FDEWVAR,,2023-2024,13737,Zipcode-Removal
+Zip code,54911,FDEWVAR,,2023-2024,241,Zipcode-Removal
 Zip code,54911,FDEWVAR,A,2023-2024,4,Zipcode-Removal
-Zip code,54911,FDEWVAR,B,2023-2024,31,Zipcode-Removal
+Zip code,54911,FDEWVAR,B,2023-2024,23,Zipcode-Removal
 Zip code,54911,FDEWVAR,ECO1,2023-2024,202,Zipcode-Removal
 Zip code,54911,FDEWVAR,EL1,2023-2024,14,Zipcode-Removal
 Zip code,54911,FDEWVAR,ENG3,2023-2024,217,Zipcode-Removal
 Zip code,54911,FDEWVAR,FEM3,2023-2024,81,Zipcode-Removal
-Zip code,54911,FDEWVAR,H,2023-2024,32,Zipcode-Removal
+Zip code,54911,FDEWVAR,H,2023-2024,30,Zipcode-Removal
 Zip code,54911,FDEWVAR,K41,2023-2024,3,Zipcode-Removal
 Zip code,54911,FDEWVAR,KIN2,2023-2024,8,Zipcode-Removal
 Zip code,54911,FDEWVAR,MAL15,2023-2024,160,Zipcode-Removal
 Zip code,54911,FDEWVAR,NOT3,2023-2024,39,Zipcode-Removal
 Zip code,54911,FDEWVAR,NOT4,2023-2024,241,Zipcode-Removal
 Zip code,54911,FDEWVAR,P,2023-2024,4,Zipcode-Removal
-Zip code,54911,FDEWVAR,Q,2023-2024,36,Zipcode-Removal
+Zip code,54911,FDEWVAR,Q,2023-2024,34,Zipcode-Removal
 Zip code,54911,FDEWVAR,SWD1,2023-2024,151,Zipcode-Removal
 Zip code,54911,FDEWVAR,SWO1,2023-2024,80,Zipcode-Removal
-Zip code,54911,FDEWVAR,W,2023-2024,134,Zipcode-Removal
+Zip code,54911,FDEWVAR,UNK2,2023-2024,241,Zipcode-Removal
+Zip code,54911,FDEWVAR,UNK4,2023-2024,10,Zipcode-Removal
+Zip code,54911,FDEWVAR,UNK5,2023-2024,16,Zipcode-Removal
+Zip code,54911,FDEWVAR,UNK6,2023-2024,10,Zipcode-Removal
+Zip code,54911,FDEWVAR,W,2023-2024,130,Zipcode-Removal
 Zip code,54911,FDEWVAR,X1012,2023-2024,6,Zipcode-Removal
 Zip code,54911,FDEWVAR,X113,2023-2024,1,Zipcode-Removal
 Zip code,54911,FDEWVAR,X1S2,2023-2024,7,Zipcode-Removal
@@ -506,8 +549,8 @@ Zip code,54911,FDEWVAR,X5T3,2023-2024,21,Zipcode-Removal
 Zip code,54911,FDEWVAR,X6T3,2023-2024,32,Zipcode-Removal
 Zip code,54911,FDEWVAR,X7T2,2023-2024,54,Zipcode-Removal
 Zip code,54911,FDEWVAR,X8T2,2023-2024,79,Zipcode-Removal
-Zip code,54913,FDEWVAR,,2023-2024,5757,Zipcode-Removal
-Zip code,54913,FDEWVAR,A,2023-2024,4,Zipcode-Removal
+Zip code,54913,FDEWVAR,,2023-2024,101,Zipcode-Removal
+Zip code,54913,FDEWVAR,A,2023-2024,3,Zipcode-Removal
 Zip code,54913,FDEWVAR,B,2023-2024,14,Zipcode-Removal
 Zip code,54913,FDEWVAR,ECO1,2023-2024,60,Zipcode-Removal
 Zip code,54913,FDEWVAR,EL1,2023-2024,6,Zipcode-Removal
@@ -520,16 +563,18 @@ Zip code,54913,FDEWVAR,NOT4,2023-2024,101,Zipcode-Removal
 Zip code,54913,FDEWVAR,Q,2023-2024,5,Zipcode-Removal
 Zip code,54913,FDEWVAR,SWD1,2023-2024,33,Zipcode-Removal
 Zip code,54913,FDEWVAR,SWO1,2023-2024,68,Zipcode-Removal
-Zip code,54913,FDEWVAR,W,2023-2024,54,Zipcode-Removal
+Zip code,54913,FDEWVAR,UNK2,2023-2024,101,Zipcode-Removal
+Zip code,54913,FDEWVAR,UNK5,2023-2024,2,Zipcode-Removal
+Zip code,54913,FDEWVAR,W,2023-2024,53,Zipcode-Removal
 Zip code,54913,FDEWVAR,X1012,2023-2024,32,Zipcode-Removal
 Zip code,54913,FDEWVAR,X113,2023-2024,21,Zipcode-Removal
 Zip code,54913,FDEWVAR,X1210,2023-2024,15,Zipcode-Removal
 Zip code,54913,FDEWVAR,X4T2,2023-2024,2,Zipcode-Removal
 Zip code,54913,FDEWVAR,X5T3,2023-2024,1,Zipcode-Removal
 Zip code,54913,FDEWVAR,X9T3,2023-2024,30,Zipcode-Removal
-Zip code,54914,FDEWVAR,,2023-2024,17670,Zipcode-Removal
-Zip code,54914,FDEWVAR,A,2023-2024,10,Zipcode-Removal
-Zip code,54914,FDEWVAR,B,2023-2024,73,Zipcode-Removal
+Zip code,54914,FDEWVAR,,2023-2024,310,Zipcode-Removal
+Zip code,54914,FDEWVAR,A,2023-2024,7,Zipcode-Removal
+Zip code,54914,FDEWVAR,B,2023-2024,70,Zipcode-Removal
 Zip code,54914,FDEWVAR,ECO1,2023-2024,265,Zipcode-Removal
 Zip code,54914,FDEWVAR,EL1,2023-2024,17,Zipcode-Removal
 Zip code,54914,FDEWVAR,ENG3,2023-2024,290,Zipcode-Removal
@@ -542,6 +587,10 @@ Zip code,54914,FDEWVAR,NOT4,2023-2024,310,Zipcode-Removal
 Zip code,54914,FDEWVAR,Q,2023-2024,62,Zipcode-Removal
 Zip code,54914,FDEWVAR,SWD1,2023-2024,134,Zipcode-Removal
 Zip code,54914,FDEWVAR,SWO1,2023-2024,176,Zipcode-Removal
+Zip code,54914,FDEWVAR,UNK2,2023-2024,310,Zipcode-Removal
+Zip code,54914,FDEWVAR,UNK4,2023-2024,3,Zipcode-Removal
+Zip code,54914,FDEWVAR,UNK5,2023-2024,6,Zipcode-Removal
+Zip code,54914,FDEWVAR,UNK8,2023-2024,2,Zipcode-Removal
 Zip code,54914,FDEWVAR,W,2023-2024,133,Zipcode-Removal
 Zip code,54914,FDEWVAR,X1012,2023-2024,37,Zipcode-Removal
 Zip code,54914,FDEWVAR,X113,2023-2024,20,Zipcode-Removal
@@ -555,22 +604,25 @@ Zip code,54914,FDEWVAR,X6T3,2023-2024,29,Zipcode-Removal
 Zip code,54914,FDEWVAR,X7T2,2023-2024,30,Zipcode-Removal
 Zip code,54914,FDEWVAR,X8T2,2023-2024,54,Zipcode-Removal
 Zip code,54914,FDEWVAR,X9T3,2023-2024,38,Zipcode-Removal
-Zip code,54915,FDEWVAR,,2023-2024,13281,Zipcode-Removal
-Zip code,54915,FDEWVAR,A,2023-2024,16,Zipcode-Removal
+Zip code,54915,FDEWVAR,,2023-2024,233,Zipcode-Removal
+Zip code,54915,FDEWVAR,A,2023-2024,7,Zipcode-Removal
 Zip code,54915,FDEWVAR,B,2023-2024,24,Zipcode-Removal
 Zip code,54915,FDEWVAR,ECO1,2023-2024,180,Zipcode-Removal
 Zip code,54915,FDEWVAR,EL1,2023-2024,25,Zipcode-Removal
 Zip code,54915,FDEWVAR,ENG3,2023-2024,204,Zipcode-Removal
 Zip code,54915,FDEWVAR,FEM3,2023-2024,75,Zipcode-Removal
-Zip code,54915,FDEWVAR,H,2023-2024,46,Zipcode-Removal
+Zip code,54915,FDEWVAR,H,2023-2024,44,Zipcode-Removal
 Zip code,54915,FDEWVAR,KIN2,2023-2024,6,Zipcode-Removal
 Zip code,54915,FDEWVAR,MAL15,2023-2024,158,Zipcode-Removal
 Zip code,54915,FDEWVAR,NOT3,2023-2024,53,Zipcode-Removal
 Zip code,54915,FDEWVAR,NOT4,2023-2024,233,Zipcode-Removal
-Zip code,54915,FDEWVAR,Q,2023-2024,49,Zipcode-Removal
+Zip code,54915,FDEWVAR,Q,2023-2024,46,Zipcode-Removal
 Zip code,54915,FDEWVAR,SWD1,2023-2024,128,Zipcode-Removal
 Zip code,54915,FDEWVAR,SWO1,2023-2024,105,Zipcode-Removal
-Zip code,54915,FDEWVAR,W,2023-2024,98,Zipcode-Removal
+Zip code,54915,FDEWVAR,UNK2,2023-2024,233,Zipcode-Removal
+Zip code,54915,FDEWVAR,UNK4,2023-2024,4,Zipcode-Removal
+Zip code,54915,FDEWVAR,UNK5,2023-2024,18,Zipcode-Removal
+Zip code,54915,FDEWVAR,W,2023-2024,94,Zipcode-Removal
 Zip code,54915,FDEWVAR,X1012,2023-2024,23,Zipcode-Removal
 Zip code,54915,FDEWVAR,X113,2023-2024,26,Zipcode-Removal
 Zip code,54915,FDEWVAR,X1210,2023-2024,17,Zipcode-Removal
@@ -583,7 +635,7 @@ Zip code,54915,FDEWVAR,X6T3,2023-2024,22,Zipcode-Removal
 Zip code,54915,FDEWVAR,X7T2,2023-2024,26,Zipcode-Removal
 Zip code,54915,FDEWVAR,X8T2,2023-2024,28,Zipcode-Removal
 Zip code,54915,FDEWVAR,X9T3,2023-2024,56,Zipcode-Removal
-Zip code,54942,FDEWVAR,,2023-2024,1596,Zipcode-Removal
+Zip code,54942,FDEWVAR,,2023-2024,28,Zipcode-Removal
 Zip code,54942,FDEWVAR,ECO1,2023-2024,7,Zipcode-Removal
 Zip code,54942,FDEWVAR,EL1,2023-2024,2,Zipcode-Removal
 Zip code,54942,FDEWVAR,ENG3,2023-2024,19,Zipcode-Removal
@@ -596,6 +648,8 @@ Zip code,54942,FDEWVAR,NOT3,2023-2024,21,Zipcode-Removal
 Zip code,54942,FDEWVAR,NOT4,2023-2024,28,Zipcode-Removal
 Zip code,54942,FDEWVAR,SWD1,2023-2024,6,Zipcode-Removal
 Zip code,54942,FDEWVAR,SWO1,2023-2024,22,Zipcode-Removal
+Zip code,54942,FDEWVAR,UNK2,2023-2024,28,Zipcode-Removal
+Zip code,54942,FDEWVAR,UNK4,2023-2024,7,Zipcode-Removal
 Zip code,54942,FDEWVAR,W,2023-2024,26,Zipcode-Removal
 Zip code,54942,FDEWVAR,X1S2,2023-2024,3,Zipcode-Removal
 Zip code,54942,FDEWVAR,X2N2,2023-2024,2,Zipcode-Removal
@@ -603,7 +657,7 @@ Zip code,54942,FDEWVAR,X3R2,2023-2024,2,Zipcode-Removal
 Zip code,54942,FDEWVAR,X5T3,2023-2024,4,Zipcode-Removal
 Zip code,54942,FDEWVAR,X7T2,2023-2024,1,Zipcode-Removal
 Zip code,54942,FDEWVAR,X8T2,2023-2024,7,Zipcode-Removal
-Zip code,54944,FDEWVAR,,2023-2024,5415,Zipcode-Removal
+Zip code,54944,FDEWVAR,,2023-2024,95,Zipcode-Removal
 Zip code,54944,FDEWVAR,B,2023-2024,2,Zipcode-Removal
 Zip code,54944,FDEWVAR,ECO1,2023-2024,31,Zipcode-Removal
 Zip code,54944,FDEWVAR,ENG3,2023-2024,20,Zipcode-Removal
@@ -612,14 +666,18 @@ Zip code,54944,FDEWVAR,KIN2,2023-2024,1,Zipcode-Removal
 Zip code,54944,FDEWVAR,MAL15,2023-2024,76,Zipcode-Removal
 Zip code,54944,FDEWVAR,NOT3,2023-2024,64,Zipcode-Removal
 Zip code,54944,FDEWVAR,NOT4,2023-2024,95,Zipcode-Removal
-Zip code,54944,FDEWVAR,Q,2023-2024,3,Zipcode-Removal
+Zip code,54944,FDEWVAR,Q,2023-2024,1,Zipcode-Removal
 Zip code,54944,FDEWVAR,SWD1,2023-2024,30,Zipcode-Removal
 Zip code,54944,FDEWVAR,SWO1,2023-2024,65,Zipcode-Removal
-Zip code,54944,FDEWVAR,W,2023-2024,90,Zipcode-Removal
+Zip code,54944,FDEWVAR,UNK2,2023-2024,95,Zipcode-Removal
+Zip code,54944,FDEWVAR,UNK4,2023-2024,75,Zipcode-Removal
+Zip code,54944,FDEWVAR,UNK5,2023-2024,3,Zipcode-Removal
+Zip code,54944,FDEWVAR,UNK8,2023-2024,7,Zipcode-Removal
+Zip code,54944,FDEWVAR,W,2023-2024,89,Zipcode-Removal
 Zip code,54944,FDEWVAR,X1012,2023-2024,9,Zipcode-Removal
 Zip code,54944,FDEWVAR,X113,2023-2024,4,Zipcode-Removal
 Zip code,54944,FDEWVAR,X1210,2023-2024,3,Zipcode-Removal
-Zip code,54944,FDEWVAR,X2N2,2023-2024,9,Zipcode-Removal
+Zip code,54944,FDEWVAR,X2N2,2023-2024,2,Zipcode-Removal
 Zip code,54944,FDEWVAR,X3R2,2023-2024,6,Zipcode-Removal
 Zip code,54944,FDEWVAR,X4T2,2023-2024,2,Zipcode-Removal
 Zip code,54944,FDEWVAR,X5T3,2023-2024,11,Zipcode-Removal
@@ -627,22 +685,24 @@ Zip code,54944,FDEWVAR,X6T3,2023-2024,20,Zipcode-Removal
 Zip code,54944,FDEWVAR,X7T2,2023-2024,12,Zipcode-Removal
 Zip code,54944,FDEWVAR,X8T2,2023-2024,14,Zipcode-Removal
 Zip code,54944,FDEWVAR,X9T3,2023-2024,4,Zipcode-Removal
-Zip code,54952,FDEWVAR,,2023-2024,28215,Zipcode-Removal
-Zip code,54952,FDEWVAR,A,2023-2024,5,Zipcode-Removal
-Zip code,54952,FDEWVAR,B,2023-2024,97,Zipcode-Removal
+Zip code,54952,FDEWVAR,,2023-2024,495,Zipcode-Removal
+Zip code,54952,FDEWVAR,A,2023-2024,2,Zipcode-Removal
+Zip code,54952,FDEWVAR,B,2023-2024,94,Zipcode-Removal
 Zip code,54952,FDEWVAR,ECO1,2023-2024,418,Zipcode-Removal
 Zip code,54952,FDEWVAR,EL1,2023-2024,28,Zipcode-Removal
 Zip code,54952,FDEWVAR,ENG3,2023-2024,467,Zipcode-Removal
 Zip code,54952,FDEWVAR,FEM3,2023-2024,189,Zipcode-Removal
-Zip code,54952,FDEWVAR,H,2023-2024,83,Zipcode-Removal
+Zip code,54952,FDEWVAR,H,2023-2024,82,Zipcode-Removal
 Zip code,54952,FDEWVAR,KIN2,2023-2024,17,Zipcode-Removal
 Zip code,54952,FDEWVAR,MAL15,2023-2024,305,Zipcode-Removal
 Zip code,54952,FDEWVAR,NOT3,2023-2024,76,Zipcode-Removal
 Zip code,54952,FDEWVAR,NOT4,2023-2024,495,Zipcode-Removal
-Zip code,54952,FDEWVAR,Q,2023-2024,77,Zipcode-Removal
+Zip code,54952,FDEWVAR,Q,2023-2024,72,Zipcode-Removal
 Zip code,54952,FDEWVAR,SWD1,2023-2024,185,Zipcode-Removal
 Zip code,54952,FDEWVAR,SWO1,2023-2024,310,Zipcode-Removal
+Zip code,54952,FDEWVAR,UNK2,2023-2024,495,Zipcode-Removal
 Zip code,54952,FDEWVAR,UNK3,2023-2024,1,Zipcode-Removal
+Zip code,54952,FDEWVAR,UNK5,2023-2024,12,Zipcode-Removal
 Zip code,54952,FDEWVAR,UNK7,2023-2024,1,Zipcode-Removal
 Zip code,54952,FDEWVAR,W,2023-2024,233,Zipcode-Removal
 Zip code,54952,FDEWVAR,X1012,2023-2024,37,Zipcode-Removal
@@ -657,14 +717,14 @@ Zip code,54952,FDEWVAR,X6T3,2023-2024,69,Zipcode-Removal
 Zip code,54952,FDEWVAR,X7T2,2023-2024,54,Zipcode-Removal
 Zip code,54952,FDEWVAR,X8T2,2023-2024,68,Zipcode-Removal
 Zip code,54952,FDEWVAR,X9T3,2023-2024,64,Zipcode-Removal
-Zip code,54956,FDEWVAR,,2023-2024,29868,Zipcode-Removal
-Zip code,54956,FDEWVAR,A,2023-2024,11,Zipcode-Removal
-Zip code,54956,FDEWVAR,B,2023-2024,45,Zipcode-Removal
+Zip code,54956,FDEWVAR,,2023-2024,524,Zipcode-Removal
+Zip code,54956,FDEWVAR,A,2023-2024,7,Zipcode-Removal
+Zip code,54956,FDEWVAR,B,2023-2024,44,Zipcode-Removal
 Zip code,54956,FDEWVAR,ECO1,2023-2024,402,Zipcode-Removal
 Zip code,54956,FDEWVAR,EL1,2023-2024,27,Zipcode-Removal
 Zip code,54956,FDEWVAR,ENG3,2023-2024,491,Zipcode-Removal
 Zip code,54956,FDEWVAR,FEM3,2023-2024,148,Zipcode-Removal
-Zip code,54956,FDEWVAR,H,2023-2024,80,Zipcode-Removal
+Zip code,54956,FDEWVAR,H,2023-2024,77,Zipcode-Removal
 Zip code,54956,FDEWVAR,KIN2,2023-2024,18,Zipcode-Removal
 Zip code,54956,FDEWVAR,MAL15,2023-2024,376,Zipcode-Removal
 Zip code,54956,FDEWVAR,NOT3,2023-2024,122,Zipcode-Removal
@@ -672,6 +732,9 @@ Zip code,54956,FDEWVAR,NOT4,2023-2024,524,Zipcode-Removal
 Zip code,54956,FDEWVAR,Q,2023-2024,74,Zipcode-Removal
 Zip code,54956,FDEWVAR,SWD1,2023-2024,238,Zipcode-Removal
 Zip code,54956,FDEWVAR,SWO1,2023-2024,286,Zipcode-Removal
+Zip code,54956,FDEWVAR,UNK2,2023-2024,524,Zipcode-Removal
+Zip code,54956,FDEWVAR,UNK4,2023-2024,6,Zipcode-Removal
+Zip code,54956,FDEWVAR,UNK5,2023-2024,8,Zipcode-Removal
 Zip code,54956,FDEWVAR,W,2023-2024,314,Zipcode-Removal
 Zip code,54956,FDEWVAR,X1012,2023-2024,78,Zipcode-Removal
 Zip code,54956,FDEWVAR,X113,2023-2024,45,Zipcode-Removal
@@ -685,7 +748,7 @@ Zip code,54956,FDEWVAR,X6T3,2023-2024,33,Zipcode-Removal
 Zip code,54956,FDEWVAR,X7T2,2023-2024,83,Zipcode-Removal
 Zip code,54956,FDEWVAR,X8T2,2023-2024,76,Zipcode-Removal
 Zip code,54956,FDEWVAR,X9T3,2023-2024,50,Zipcode-Removal
-Zip code,54963,FDEWVAR,,2023-2024,4731,Zipcode-Removal
+Zip code,54963,FDEWVAR,,2023-2024,83,Zipcode-Removal
 Zip code,54963,FDEWVAR,ECO1,2023-2024,38,Zipcode-Removal
 Zip code,54963,FDEWVAR,ENG3,2023-2024,11,Zipcode-Removal
 Zip code,54963,FDEWVAR,FEM3,2023-2024,23,Zipcode-Removal
@@ -694,10 +757,13 @@ Zip code,54963,FDEWVAR,KIN2,2023-2024,8,Zipcode-Removal
 Zip code,54963,FDEWVAR,MAL15,2023-2024,60,Zipcode-Removal
 Zip code,54963,FDEWVAR,NOT3,2023-2024,45,Zipcode-Removal
 Zip code,54963,FDEWVAR,NOT4,2023-2024,83,Zipcode-Removal
-Zip code,54963,FDEWVAR,Q,2023-2024,5,Zipcode-Removal
+Zip code,54963,FDEWVAR,Q,2023-2024,3,Zipcode-Removal
 Zip code,54963,FDEWVAR,SWD1,2023-2024,43,Zipcode-Removal
 Zip code,54963,FDEWVAR,SWO1,2023-2024,40,Zipcode-Removal
-Zip code,54963,FDEWVAR,W,2023-2024,75,Zipcode-Removal
+Zip code,54963,FDEWVAR,UNK2,2023-2024,83,Zipcode-Removal
+Zip code,54963,FDEWVAR,UNK4,2023-2024,72,Zipcode-Removal
+Zip code,54963,FDEWVAR,UNK5,2023-2024,6,Zipcode-Removal
+Zip code,54963,FDEWVAR,W,2023-2024,71,Zipcode-Removal
 Zip code,54963,FDEWVAR,X1012,2023-2024,5,Zipcode-Removal
 Zip code,54963,FDEWVAR,X113,2023-2024,5,Zipcode-Removal
 Zip code,54963,FDEWVAR,X1210,2023-2024,10,Zipcode-Removal
@@ -708,7 +774,7 @@ Zip code,54963,FDEWVAR,X6T3,2023-2024,10,Zipcode-Removal
 Zip code,54963,FDEWVAR,X7T2,2023-2024,8,Zipcode-Removal
 Zip code,54963,FDEWVAR,X8T2,2023-2024,9,Zipcode-Removal
 Zip code,54963,FDEWVAR,X9T3,2023-2024,5,Zipcode-Removal
-Zip code,54986,FDEWVAR,,2023-2024,684,Zipcode-Removal
+Zip code,54986,FDEWVAR,,2023-2024,12,Zipcode-Removal
 Zip code,54986,FDEWVAR,ECO1,2023-2024,10,Zipcode-Removal
 Zip code,54986,FDEWVAR,FEM3,2023-2024,3,Zipcode-Removal
 Zip code,54986,FDEWVAR,H,2023-2024,1,Zipcode-Removal
@@ -717,6 +783,8 @@ Zip code,54986,FDEWVAR,NOT3,2023-2024,2,Zipcode-Removal
 Zip code,54986,FDEWVAR,NOT4,2023-2024,12,Zipcode-Removal
 Zip code,54986,FDEWVAR,SWD1,2023-2024,5,Zipcode-Removal
 Zip code,54986,FDEWVAR,SWO1,2023-2024,7,Zipcode-Removal
+Zip code,54986,FDEWVAR,UNK2,2023-2024,12,Zipcode-Removal
+Zip code,54986,FDEWVAR,UNK4,2023-2024,12,Zipcode-Removal
 Zip code,54986,FDEWVAR,W,2023-2024,11,Zipcode-Removal
 Zip code,54986,FDEWVAR,X1012,2023-2024,4,Zipcode-Removal
 Zip code,54986,FDEWVAR,X6T3,2023-2024,1,Zipcode-Removal
@@ -724,7 +792,7 @@ Zip code,54986,FDEWVAR,X7T2,2023-2024,1,Zipcode-Removal
 Zip code,54986,FDEWVAR,X8T2,2023-2024,3,Zipcode-Removal
 Zip code,54986,FDEWVAR,X9T3,2023-2024,3,Zipcode-Removal
 City or town,5514475,FDEWVAR,,2023-2024,10,City-Removal
-City or town,5514475,FDEWVAR,Error,2023-2024,560,City-Removal
+City or town,5514475,FDEWVAR,UNK2,2023-2024,10,City-Removal
 City or town,5514475,FDEWVAR,SWD1,2023-2024,2,City-Removal
 City or town,5514475,FDEWVAR,SWO1,2023-2024,8,City-Removal
 City or town,5514475,FDEWVAR,EL1,2023-2024,2,City-Removal
@@ -742,7 +810,7 @@ City or town,5514475,FDEWVAR,X1012,2023-2024,4,City-Removal
 City or town,5514475,FDEWVAR,X1210,2023-2024,1,City-Removal
 City or town,5514475,FDEWVAR,UNK5,2023-2024,1,City-Removal
 City or town,5502375,FDEWVAR,,2023-2024,882,City-Removal
-City or town,5502375,FDEWVAR,Error,2023-2024,49392,City-Removal
+City or town,5502375,FDEWVAR,UNK2,2023-2024,882,City-Removal
 City or town,5502375,FDEWVAR,SWD1,2023-2024,445,City-Removal
 City or town,5502375,FDEWVAR,SWO1,2023-2024,427,City-Removal
 City or town,5502375,FDEWVAR,ENG3,2023-2024,803,City-Removal
@@ -766,6 +834,8 @@ City or town,5502375,FDEWVAR,X7T2,2023-2024,110,City-Removal
 City or town,5502375,FDEWVAR,KIN2,2023-2024,32,City-Removal
 City or town,5502375,FDEWVAR,A,2023-2024,21,City-Removal
 City or town,5502375,FDEWVAR,X8T2,2023-2024,161,City-Removal
+City or town,5502375,FDEWVAR,UNK4,2023-2024,17,City-Removal
+City or town,5502375,FDEWVAR,UNK8,2023-2024,2,City-Removal
 City or town,5502375,FDEWVAR,K41,2023-2024,3,City-Removal
 City or town,5502375,FDEWVAR,B,2023-2024,131,City-Removal
 City or town,5502375,FDEWVAR,X1012,2023-2024,98,City-Removal
@@ -773,8 +843,9 @@ City or town,5502375,FDEWVAR,X113,2023-2024,68,City-Removal
 City or town,5502375,FDEWVAR,X1210,2023-2024,46,City-Removal
 City or town,5502375,FDEWVAR,X9T3,2023-2024,124,City-Removal
 City or town,5502375,FDEWVAR,P,2023-2024,4,City-Removal
+City or town,5502375,FDEWVAR,UNK6,2023-2024,10,City-Removal
 City or town,5534575,FDEWVAR,,2023-2024,7,City-Removal
-City or town,5534575,FDEWVAR,Error,2023-2024,392,City-Removal
+City or town,5534575,FDEWVAR,UNK2,2023-2024,7,City-Removal
 City or town,5534575,FDEWVAR,SWO1,2023-2024,7,City-Removal
 City or town,5534575,FDEWVAR,EL1,2023-2024,4,City-Removal
 City or town,5534575,FDEWVAR,ENG3,2023-2024,3,City-Removal
@@ -789,9 +860,10 @@ City or town,5534575,FDEWVAR,W,2023-2024,3,City-Removal
 City or town,5534575,FDEWVAR,UNK5,2023-2024,4,City-Removal
 City or town,5534575,FDEWVAR,X9T3,2023-2024,1,City-Removal
 City or town,5535850,FDEWVAR,,2023-2024,95,City-Removal
-City or town,5535850,FDEWVAR,Error,2023-2024,5320,City-Removal
+City or town,5535850,FDEWVAR,UNK2,2023-2024,95,City-Removal
 City or town,5535850,FDEWVAR,SWD1,2023-2024,30,City-Removal
 City or town,5535850,FDEWVAR,SWO1,2023-2024,65,City-Removal
+City or town,5535850,FDEWVAR,UNK4,2023-2024,75,City-Removal
 City or town,5535850,FDEWVAR,ECO1,2023-2024,31,City-Removal
 City or town,5535850,FDEWVAR,NOT3,2023-2024,64,City-Removal
 City or town,5535850,FDEWVAR,FEM3,2023-2024,19,City-Removal
@@ -816,7 +888,7 @@ City or town,5535850,FDEWVAR,X1210,2023-2024,3,City-Removal
 City or town,5535850,FDEWVAR,X9T3,2023-2024,4,City-Removal
 City or town,5535850,FDEWVAR,Q,2023-2024,1,City-Removal
 City or town,5538800,FDEWVAR,,2023-2024,341,City-Removal
-City or town,5538800,FDEWVAR,Error,2023-2024,19096,City-Removal
+City or town,5538800,FDEWVAR,UNK2,2023-2024,341,City-Removal
 City or town,5538800,FDEWVAR,SWD1,2023-2024,198,City-Removal
 City or town,5538800,FDEWVAR,SWO1,2023-2024,143,City-Removal
 City or town,5538800,FDEWVAR,EL1,2023-2024,19,City-Removal
@@ -833,6 +905,7 @@ City or town,5538800,FDEWVAR,H,2023-2024,39,City-Removal
 City or town,5538800,FDEWVAR,Q,2023-2024,34,City-Removal
 City or town,5538800,FDEWVAR,W,2023-2024,232,City-Removal
 City or town,5538800,FDEWVAR,UNK5,2023-2024,32,City-Removal
+City or town,5538800,FDEWVAR,UNK4,2023-2024,50,City-Removal
 City or town,5538800,FDEWVAR,K41,2023-2024,1,City-Removal
 City or town,5538800,FDEWVAR,X1S2,2023-2024,27,City-Removal
 City or town,5538800,FDEWVAR,A,2023-2024,4,City-Removal
@@ -847,7 +920,7 @@ City or town,5538800,FDEWVAR,X1210,2023-2024,5,City-Removal
 City or town,5538800,FDEWVAR,X9T3,2023-2024,29,City-Removal
 City or town,5538800,FDEWVAR,KIN2,2023-2024,33,City-Removal
 City or town,5539650,FDEWVAR,,2023-2024,167,City-Removal
-City or town,5539650,FDEWVAR,Error,2023-2024,9352,City-Removal
+City or town,5539650,FDEWVAR,UNK2,2023-2024,167,City-Removal
 City or town,5539650,FDEWVAR,SWD1,2023-2024,82,City-Removal
 City or town,5539650,FDEWVAR,SWO1,2023-2024,85,City-Removal
 City or town,5539650,FDEWVAR,ENG3,2023-2024,158,City-Removal
@@ -865,10 +938,11 @@ City or town,5539650,FDEWVAR,W,2023-2024,131,City-Removal
 City or town,5539650,FDEWVAR,X5T3,2023-2024,6,City-Removal
 City or town,5539650,FDEWVAR,X6T3,2023-2024,4,City-Removal
 City or town,5516500,FDEWVAR,,2023-2024,3,City-Removal
-City or town,5516500,FDEWVAR,Error,2023-2024,168,City-Removal
+City or town,5516500,FDEWVAR,UNK2,2023-2024,3,City-Removal
 City or town,5516500,FDEWVAR,SWD1,2023-2024,3,City-Removal
 City or town,5516500,FDEWVAR,ENG3,2023-2024,3,City-Removal
 City or town,5516500,FDEWVAR,ECO1,2023-2024,3,City-Removal
+City or town,5516500,FDEWVAR,UNK7,2023-2024,3,City-Removal
 City or town,5516500,FDEWVAR,X1S2,2023-2024,2,City-Removal
 City or town,5516500,FDEWVAR,X2N2,2023-2024,1,City-Removal
 City or town,5516500,FDEWVAR,NOT4,2023-2024,3,City-Removal
@@ -886,9 +960,10 @@ City or town,5539650,FDEWVAR,X113,2023-2024,18,City-Removal
 City or town,5539650,FDEWVAR,X1210,2023-2024,13,City-Removal
 City or town,5539650,FDEWVAR,X9T3,2023-2024,36,City-Removal
 City or town,5544950,FDEWVAR,,2023-2024,73,City-Removal
-City or town,5544950,FDEWVAR,Error,2023-2024,4088,City-Removal
+City or town,5544950,FDEWVAR,UNK2,2023-2024,73,City-Removal
 City or town,5544950,FDEWVAR,SWD1,2023-2024,33,City-Removal
 City or town,5544950,FDEWVAR,SWO1,2023-2024,40,City-Removal
+City or town,5544950,FDEWVAR,UNK4,2023-2024,16,City-Removal
 City or town,5544950,FDEWVAR,ECO1,2023-2024,38,City-Removal
 City or town,5544950,FDEWVAR,NOT3,2023-2024,35,City-Removal
 City or town,5544950,FDEWVAR,MAL15,2023-2024,60,City-Removal
@@ -916,7 +991,7 @@ City or town,5544950,FDEWVAR,UNK5,2023-2024,2,City-Removal
 City or town,5544950,FDEWVAR,X7T2,2023-2024,15,City-Removal
 City or town,5544950,FDEWVAR,X8T2,2023-2024,11,City-Removal
 City or town,5550825,FDEWVAR,,2023-2024,495,City-Removal
-City or town,5550825,FDEWVAR,Error,2023-2024,27720,City-Removal
+City or town,5550825,FDEWVAR,UNK2,2023-2024,495,City-Removal
 City or town,5550825,FDEWVAR,SWD1,2023-2024,185,City-Removal
 City or town,5550825,FDEWVAR,SWO1,2023-2024,310,City-Removal
 City or town,5550825,FDEWVAR,EL1,2023-2024,28,City-Removal
@@ -948,7 +1023,7 @@ City or town,5550825,FDEWVAR,X7T2,2023-2024,54,City-Removal
 City or town,5550825,FDEWVAR,X8T2,2023-2024,68,City-Removal
 City or town,5550825,FDEWVAR,A,2023-2024,2,City-Removal
 City or town,5555750,FDEWVAR,,2023-2024,524,City-Removal
-City or town,5555750,FDEWVAR,Error,2023-2024,29344,City-Removal
+City or town,5555750,FDEWVAR,UNK2,2023-2024,524,City-Removal
 City or town,5555750,FDEWVAR,SWD1,2023-2024,238,City-Removal
 City or town,5555750,FDEWVAR,SWO1,2023-2024,286,City-Removal
 City or town,5555750,FDEWVAR,ENG3,2023-2024,491,City-Removal
@@ -967,6 +1042,7 @@ City or town,5555750,FDEWVAR,X3R2,2023-2024,12,City-Removal
 City or town,5555750,FDEWVAR,X4T2,2023-2024,27,City-Removal
 City or town,5555750,FDEWVAR,H,2023-2024,77,City-Removal
 City or town,5555750,FDEWVAR,UNK5,2023-2024,8,City-Removal
+City or town,5555750,FDEWVAR,UNK4,2023-2024,6,City-Removal
 City or town,5555750,FDEWVAR,X1012,2023-2024,78,City-Removal
 City or town,5555750,FDEWVAR,X113,2023-2024,45,City-Removal
 City or town,5555750,FDEWVAR,X1210,2023-2024,16,City-Removal
@@ -978,7 +1054,7 @@ City or town,5555750,FDEWVAR,X6T3,2023-2024,33,City-Removal
 City or town,5555750,FDEWVAR,X7T2,2023-2024,83,City-Removal
 City or town,5555750,FDEWVAR,X8T2,2023-2024,76,City-Removal
 City or town,5556800,FDEWVAR,,2023-2024,15,City-Removal
-City or town,5556800,FDEWVAR,Error,2023-2024,840,City-Removal
+City or town,5556800,FDEWVAR,UNK2,2023-2024,15,City-Removal
 City or town,5556800,FDEWVAR,SWD1,2023-2024,5,City-Removal
 City or town,5556800,FDEWVAR,SWO1,2023-2024,10,City-Removal
 City or town,5556800,FDEWVAR,ENG3,2023-2024,13,City-Removal
@@ -1000,7 +1076,7 @@ City or town,5556800,FDEWVAR,X9T3,2023-2024,4,City-Removal
 City or town,5556800,FDEWVAR,H,2023-2024,2,City-Removal
 City or town,5556800,FDEWVAR,UNK5,2023-2024,1,City-Removal
 City or town,5559875,FDEWVAR,,2023-2024,83,City-Removal
-City or town,5559875,FDEWVAR,Error,2023-2024,4648,City-Removal
+City or town,5559875,FDEWVAR,UNK2,2023-2024,83,City-Removal
 City or town,5559875,FDEWVAR,SWD1,2023-2024,43,City-Removal
 City or town,5559875,FDEWVAR,ENG3,2023-2024,11,City-Removal
 City or town,5559875,FDEWVAR,ECO1,2023-2024,38,City-Removal
@@ -1013,6 +1089,7 @@ City or town,5559875,FDEWVAR,NOT4,2023-2024,83,City-Removal
 City or town,5559875,FDEWVAR,H,2023-2024,3,City-Removal
 City or town,5559875,FDEWVAR,W,2023-2024,71,City-Removal
 City or town,5559875,FDEWVAR,SWO1,2023-2024,40,City-Removal
+City or town,5559875,FDEWVAR,UNK4,2023-2024,72,City-Removal
 City or town,5559875,FDEWVAR,X1S2,2023-2024,12,City-Removal
 City or town,5559875,FDEWVAR,KIN2,2023-2024,8,City-Removal
 City or town,5559875,FDEWVAR,Q,2023-2024,3,City-Removal
@@ -1025,7 +1102,7 @@ City or town,5559875,FDEWVAR,X6T3,2023-2024,10,City-Removal
 City or town,5559875,FDEWVAR,X7T2,2023-2024,8,City-Removal
 City or town,5559875,FDEWVAR,X8T2,2023-2024,9,City-Removal
 City or town,5560500,FDEWVAR,,2023-2024,1246,City-Removal
-City or town,5560500,FDEWVAR,Error,2023-2024,69776,City-Removal
+City or town,5560500,FDEWVAR,UNK2,2023-2024,1246,City-Removal
 City or town,5560500,FDEWVAR,SWD1,2023-2024,503,City-Removal
 City or town,5560500,FDEWVAR,SWO1,2023-2024,743,City-Removal
 City or town,5560500,FDEWVAR,ENG3,2023-2024,1183,City-Removal
@@ -1056,10 +1133,12 @@ City or town,5560500,FDEWVAR,X1210,2023-2024,63,City-Removal
 City or town,5560500,FDEWVAR,X9T3,2023-2024,139,City-Removal
 City or town,5560500,FDEWVAR,P,2023-2024,1,City-Removal
 City or town,5560500,FDEWVAR,UNK7,2023-2024,139,City-Removal
+City or town,5560500,FDEWVAR,UNK4,2023-2024,37,City-Removal
 City or town,5572725,FDEWVAR,,2023-2024,113,City-Removal
-City or town,5572725,FDEWVAR,Error,2023-2024,6328,City-Removal
+City or town,5572725,FDEWVAR,UNK2,2023-2024,113,City-Removal
 City or town,5572725,FDEWVAR,SWD1,2023-2024,56,City-Removal
 City or town,5572725,FDEWVAR,SWO1,2023-2024,57,City-Removal
+City or town,5572725,FDEWVAR,UNK4,2023-2024,113,City-Removal
 City or town,5572725,FDEWVAR,ECO1,2023-2024,88,City-Removal
 City or town,5572725,FDEWVAR,NOT3,2023-2024,25,City-Removal
 City or town,5572725,FDEWVAR,FEM3,2023-2024,19,City-Removal
@@ -1074,8 +1153,9 @@ City or town,5572725,FDEWVAR,H,2023-2024,16,City-Removal
 City or town,5572725,FDEWVAR,Q,2023-2024,8,City-Removal
 City or town,5572725,FDEWVAR,W,2023-2024,60,City-Removal
 City or town,5507725,FDEWVAR,,2023-2024,2,City-Removal
-City or town,5507725,FDEWVAR,Error,2023-2024,112,City-Removal
+City or town,5507725,FDEWVAR,UNK2,2023-2024,2,City-Removal
 City or town,5507725,FDEWVAR,SWD1,2023-2024,2,City-Removal
+City or town,5507725,FDEWVAR,UNK4,2023-2024,2,City-Removal
 City or town,5507725,FDEWVAR,NOT3,2023-2024,2,City-Removal
 City or town,5507725,FDEWVAR,MAL15,2023-2024,2,City-Removal
 City or town,5507725,FDEWVAR,X6T3,2023-2024,2,City-Removal
@@ -1092,7 +1172,7 @@ City or town,5572725,FDEWVAR,X6T3,2023-2024,13,City-Removal
 City or town,5572725,FDEWVAR,X7T2,2023-2024,27,City-Removal
 City or town,5572725,FDEWVAR,X8T2,2023-2024,11,City-Removal
 City or town,5573625,FDEWVAR,,2023-2024,22,City-Removal
-City or town,5573625,FDEWVAR,Error,2023-2024,1232,City-Removal
+City or town,5573625,FDEWVAR,UNK2,2023-2024,22,City-Removal
 City or town,5573625,FDEWVAR,SWD1,2023-2024,8,City-Removal
 City or town,5573625,FDEWVAR,SWO1,2023-2024,14,City-Removal
 City or town,5573625,FDEWVAR,ENG3,2023-2024,22,City-Removal
@@ -1112,7 +1192,7 @@ City or town,5573625,FDEWVAR,X1012,2023-2024,1,City-Removal
 City or town,5573625,FDEWVAR,X113,2023-2024,9,City-Removal
 City or town,5573625,FDEWVAR,X9T3,2023-2024,1,City-Removal
 City or town,5577400,FDEWVAR,,2023-2024,2,City-Removal
-City or town,5577400,FDEWVAR,Error,2023-2024,112,City-Removal
+City or town,5577400,FDEWVAR,UNK2,2023-2024,2,City-Removal
 City or town,5577400,FDEWVAR,SWO1,2023-2024,2,City-Removal
 City or town,5577400,FDEWVAR,ENG3,2023-2024,1,City-Removal
 City or town,5577400,FDEWVAR,NOT3,2023-2024,1,City-Removal
@@ -1120,17 +1200,20 @@ City or town,5577400,FDEWVAR,MAL15,2023-2024,1,City-Removal
 City or town,5577400,FDEWVAR,X3R2,2023-2024,1,City-Removal
 City or town,5577400,FDEWVAR,NOT4,2023-2024,2,City-Removal
 City or town,5577400,FDEWVAR,W,2023-2024,1,City-Removal
+City or town,5577400,FDEWVAR,UNK4,2023-2024,1,City-Removal
 City or town,5577400,FDEWVAR,ECO1,2023-2024,1,City-Removal
 City or town,5577400,FDEWVAR,FEM3,2023-2024,1,City-Removal
 City or town,5577400,FDEWVAR,X113,2023-2024,1,City-Removal
+City or town,5577400,FDEWVAR,UNK5,2023-2024,1,City-Removal
 City or town,5509725,FDEWVAR,,2023-2024,21,City-Removal
-City or town,5509725,FDEWVAR,Error,2023-2024,1176,City-Removal
+City or town,5509725,FDEWVAR,UNK2,2023-2024,21,City-Removal
 City or town,5509725,FDEWVAR,SWD1,2023-2024,12,City-Removal
 City or town,5509725,FDEWVAR,ENG3,2023-2024,20,City-Removal
 City or town,5509725,FDEWVAR,ECO1,2023-2024,16,City-Removal
 City or town,5509725,FDEWVAR,MAL15,2023-2024,18,City-Removal
 City or town,5509725,FDEWVAR,X2N2,2023-2024,3,City-Removal
 City or town,5509725,FDEWVAR,NOT4,2023-2024,21,City-Removal
+City or town,5509725,FDEWVAR,UNK5,2023-2024,3,City-Removal
 City or town,5509725,FDEWVAR,SWO1,2023-2024,9,City-Removal
 City or town,5509725,FDEWVAR,NOT3,2023-2024,5,City-Removal
 City or town,5509725,FDEWVAR,FEM3,2023-2024,3,City-Removal
@@ -1144,9 +1227,10 @@ City or town,5509725,FDEWVAR,X9T3,2023-2024,5,City-Removal
 City or town,5509725,FDEWVAR,H,2023-2024,3,City-Removal
 City or town,5509725,FDEWVAR,Q,2023-2024,1,City-Removal
 City or town,5587900,FDEWVAR,,2023-2024,12,City-Removal
-City or town,5587900,FDEWVAR,Error,2023-2024,672,City-Removal
+City or town,5587900,FDEWVAR,UNK2,2023-2024,12,City-Removal
 City or town,5587900,FDEWVAR,SWD1,2023-2024,5,City-Removal
 City or town,5587900,FDEWVAR,SWO1,2023-2024,7,City-Removal
+City or town,5587900,FDEWVAR,UNK4,2023-2024,12,City-Removal
 City or town,5587900,FDEWVAR,ECO1,2023-2024,10,City-Removal
 City or town,5587900,FDEWVAR,NOT3,2023-2024,2,City-Removal
 City or town,5587900,FDEWVAR,MAL15,2023-2024,9,City-Removal

@@ -1864,7 +1864,7 @@ class DataTransformer:
                     difference = all_students_totals[(district_code, school_code)] - total
                     unique_key = (county, district_code, school_code, group_by, "Unknown")
 
-                    if key[4] =="Unknown":
+                    if group_by_value =="Unknown":
                         group_by_totals[key] += difference
                         continue
 
@@ -1906,10 +1906,10 @@ class DataTransformer:
             logger.info(f"#3 Normalized the school_code and district_code for {len(combined_dataset)} records")  ##3560
             
             group_by_map= {
-                f"{strat.group_by}{strat.group_by_value}": strat
+                f"{strat.group_by}": strat
                 for strat in Stratification.objects.all()
             }
-            logger.info(f"Stratification Mapping: {group_by_map}")
+            #logger.info(f"Stratification Mapping: {group_by_map}")
 
             
             #Create a dictionary to group records by school code and district code 
@@ -1946,6 +1946,20 @@ class DataTransformer:
                     combined_dataset.append(new_record)
                     logger.info(f"Added new record for missing group_by_key: {missing_group_by_key}")
 
+            #REALIGNING STRATIFICATIONS SINCE WE RE ADDED THE UNKNOWNS
+            strat_map = {
+                f"{strat.group_by}{strat.group_by_value}": strat
+                for strat in Stratification.objects.all()
+            }
+           
+            for record in combined_dataset:
+                combined_key = record.group_by + record.group_by_value
+                record.stratification = strat_map.get(combined_key)   #assigning the stratification for the data
+            #logger.info(f"Stratification for {combined_key} is {record.stratification.label_name}")
+            
+            
+            
+            
             zip_Code_Map = {
                 (d.lea_code.lstrip("0"), d.school_code.lstrip("0")): d.zip_code
                 for d in SchoolAddressFile.objects.all()
@@ -2127,7 +2141,6 @@ class DataTransformer:
             logger.error(f"Traceback: {traceback.format_exc()}")
             return False
         
-
     def transform_City_Layer_Removal(self):
         try:
             logger.info("Starting City Layer Transformation...")
@@ -2174,14 +2187,15 @@ class DataTransformer:
             group_by_totals = {}
 
             for record in combined_dataset:
-                key = (record.county, record.district_code, record.school_code, record.group_by, record.group_by_value,record.stratification, record.removal_count)
+                key = (record.county, record.district_code, record.school_code, record.group_by, record.group_by_value,record.stratification)
                 group_by_totals[key] = group_totals[(record.district_code,record.school_code,record.group_by)]
 
+            #Handling the Unknown Records
             new_unknown_records = []
             unique_records = set()
 
             for key,total in group_by_totals.items():
-                county, district_code, school_code, group_by, group_by_value, stratification, student_count = key
+                county, district_code, school_code, group_by, group_by_value, stratification = key
                 if total <all_students_totals[(district_code, school_code)]:
                     difference = all_students_totals[(district_code, school_code)] - total
                     unique_key = (county, district_code, school_code, group_by, "Unknown")
@@ -2223,12 +2237,13 @@ class DataTransformer:
                         logger.info(f"Duplicate unknown record for {unique_key}")
             logger.info(f"New unknown records count: {len(new_unknown_records)}")
 
+            #UPDATE THE COMBINED DATASET
 
             combined_dataset.extend(new_unknown_records)  # Convert QuerySet to list
-            logger.info(f"#3 Normalized the school_code and district_code for {len(combined_dataset)} records")  ##3560
+            
             
             group_by_map= {
-                f"{strat.group_by}{strat.group_by_value}": strat
+                f"{strat.group_by}": strat
                 for strat in Stratification.objects.all()
             }
             logger.info(f"Stratification Mapping: {group_by_map}")
@@ -2311,7 +2326,7 @@ class DataTransformer:
             for record in combined_dataset:
                 combined_key = record.group_by + record.group_by_value
                 record.stratification = strat_map.get(combined_key) #assigning the stratification for the data
-                #logger.info(f"Stratification for {combined_key} is {record.stratification.label_name}")
+                #logger.info(f"Stratification for {combined_key} is {record.stratification}")
 
             logger.info(f"Combined dataset count: {len(combined_dataset)}")
             
@@ -2350,7 +2365,7 @@ class DataTransformer:
                     "school_name": record.school_name,
                     "group_by": record.group_by,
                     "group_by_value": record.group_by_value,
-                    "Stratification": record.stratification,
+                    "Stratification": record.stratification.label_name,
                     "removal_count": int(record.removal_count),
                     "city": record.city
                 })
@@ -2370,7 +2385,7 @@ class DataTransformer:
             for record in combined_dataset:
             
                 period = f"{record.school_year.split('-')[0]}-20{record.school_year.split('-')[1]}" if "-" in record.school_year else record.school_year
-                strat_label = record.stratification.label_name if record.stratification else "Error"
+                strat_label = record.stratification.label_name if record.stratification else "Strat_Error"
 
                 # Extract the city
                 city = record.city + ", WI"  # Adding ", WI" to match the format in the CountyGEOID file
@@ -2425,8 +2440,7 @@ class DataTransformer:
             logger.error(f"Error during Metopio City Layer Transformation: {e} at line number {line_number}")
             logger.error(f"Traceback: {traceback.format_exc()}")
             return False
-            
-    
+                
     def transform_combined_removal(self):
         """Apply Combined Removal Transformation by calling individual removal transformations and saving the results."""
         try:
