@@ -31,7 +31,6 @@
     <a href="/data_processor/download/?type={{ transformation_type }}">Download Transformed {{ transformation_type }} Data (Excel)</a>
     <br />
     <a href="/data_processor/download_csv/?type={{ transformation_type }}">Download Transformed {{ transformation_type }} Data (CSV)</a>
-    <a href="/data_processor/download_combined_csv/">Download Combined Transformed Data (CSV)</a> <!-- New link for combined CSV -->
     <br />
     <br />
 
@@ -56,7 +55,7 @@
     {% elif transformation_type == "City-Removal" %}
     <h2>Metopio City Removal Transformation Data</h2>
     {% elif transformation_type == "combined" %}
-    <h2>Metopio City Removal Transformation Data</h2>
+    <h2>Metopio Combined Removal Transformation Data</h2>
 
     {% else %}
         <h2>Statewide Transformation Data</h2>

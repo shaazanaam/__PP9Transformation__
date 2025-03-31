@@ -220,6 +220,18 @@ class MetopioCityRemovalData(models.Model):
         verbose_name_plural = 'City Layer Removal Data'
         ordering = ['period']
 
+class CombinedRemovalData(models.Model):
+    layer = models.CharField(max_length=50, default='Combined')
+    geoid = models.CharField(max_length=50)  # Change this to CharField
+    topic = models.CharField(max_length=50, default='FVDEWVAR')
+    stratification = models.TextField(blank=True)
+    period = models.CharField(max_length=20)
+    value = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name = 'Combined Removal Data'
+        verbose_name_plural = 'Combined Removal Data'
+        ordering = ['period']
 class SchoolRemovalData(models.Model):
     school_year = models.CharField(max_length=7)
     agency_type = models.CharField(max_length=50)

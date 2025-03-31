@@ -7,7 +7,6 @@ urlpatterns = [
     path('success/', views.transformation_success, name='transformation_success'),
     path('download/', views.download_excel, name='download_excel'),
     path('download_csv/', views.download_csv, name='download_csv'),
-    path('download_combined_csv/', views.download_csv, name='download_csv'),
     path('statewide/', views.statewide_view, name='statewide_view'),
     path('tricounty/', views.tri_county_view, name='tri_county_view'),
     path('county_layer/', views.county_layer_view, name='county_layer_view'),

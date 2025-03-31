@@ -15,7 +15,7 @@ from .models import (
     MetopioCityLayerTransformation,  # Add this line
 )
 from .forms import UploadFileForm
-from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation, MetopioTriCountyRemovalDataTransformation, CountyLayerRemovalData, ZipCodeLayerRemovalData, MetopioCityRemovalData
+from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation, MetopioTriCountyRemovalDataTransformation, CountyLayerRemovalData, ZipCodeLayerRemovalData, MetopioCityRemovalData, CombinedRemovalData
 from .models import SchoolAddressFile
 from .models import CountyGEOID
 from django.http import HttpResponse
@@ -113,7 +113,9 @@ def transformation_success(request):
         transformer.transform_City_Layer_Removal()
         data_list = MetopioCityRemovalData.objects.all()
     elif transformation_type == "combined":
-        data_list = generate_combined_csv()  # Assuming this function generates the combined CSV data
+        transformer = DataTransformer(request) # Assuming this function generates the combined CSV data
+        transformer.transform_combined_removal()
+        data_list = CombinedRemovalData.objects.all()
     else:
         # Handle unknown transformation types
         details = "Unknown transformation type. Please check your request."
@@ -318,15 +320,14 @@ def upload_file(request):
                 success = transformer.transform_Zipcode_Layer_Removal()
             elif transformation_type == "City-Removal":
                 success = transformer.transform_City_Layer_Removal()
-            elif transformation_type == "Combined":
-                success = combined_removal_view()  # Generate the combined CSV file
+            elif transformation_type == "combined":
+                success = transformer.transform_combined_removal()  # Generate the combined CSV file
             else:
                 success = transformer.apply_transformation(transformation_type ) # Apply the transformation
 
             # If transformation was successful, redirect to the success page
             if success:
-                combined_csv_file = generate_combined_csv()  # Generate the combined CSV file
-                logger.info(f"Combined CSV file generated: {combined_csv_file}")
+                # Redirect to the transformation success page with the transformation type
                 return redirect(
                     f"{reverse('transformation_success')}?type={transformation_type}"
                 )
@@ -775,34 +776,26 @@ def zipcode_layer_removal_view(request):
 
 #Combined View
 def combined_removal_view(request):
-    transformation_type = request.GET.get("type", "combined")  # Default to 'combined'
+    transformation_type = request.GET.get(
+        "type", "combined"
+    )  # Default to 'Combined' if not specified
     print(f"Query Parameters: {request.GET}")  # Log query parameters
 
-    # Generate the combined CSV data
-    combined_csv_file = generate_combined_csv()
+    DataTransformer(request).transform_combined_removal()
+    data_list = CombinedRemovalData.objects.all()
 
-    # Read the combined CSV file into a list of dictionaries
-    combined_data = []
-    try:
-        with open(combined_csv_file, "r") as f:
-            reader = csv.DictReader(f)
-            combined_data = list(reader)
-    except Exception as e:
-        logger.error(f"Error reading combined CSV file: {e}")
+  
 
     # Paginate the results
-    paginator = Paginator(combined_data, 20)  # Show 20 records per page
+    paginator = Paginator(data_list, 20)  # Show 20 records per page
     page_number = request.GET.get("page")
     data = paginator.get_page(page_number)
 
-    # Render the combined data in a template
     return render(
         request,
-        "__data_processor__/combined_removal.html",  # Create a new template for combined data
+        "__data_processor__/combined_removal.html",
         {"data": data, "transformation_type": transformation_type},
     )
-
-    DataTransformer(request)
 
 #City Town REMOVAL View
 
@@ -875,6 +868,8 @@ def generate_transformed_csv(transformation_type):
         data = ZipCodeLayerRemovalData.objects.all()
     elif transformation_type =="City-Removal":
         data= MetopioCityRemovalData.objects.all()
+    elif transformation_type == "combined":
+        data = CombinedRemovalData.objects.all()
     else:
         data = TransformedSchoolData.objects.filter(
             place="WI"

@@ -18,6 +18,7 @@ from .models import (
     CountyLayerRemovalData,  # Added missing import
     ZipCodeLayerRemovalData,  # Added missing import
     MetopioCityRemovalData,  # Added missing import
+    CombinedRemovalData,  # Added missing import
     
 )
 
@@ -2425,4 +2426,84 @@ class DataTransformer:
             logger.error(f"Traceback: {traceback.format_exc()}")
             return False
             
-            
+    
+    def transform_combined_removal(self):
+        """Apply Combined Removal Transformation by calling individual removal transformations and saving the results."""
+        try:
+            logger.info("Starting Combined Removal Transformation...")
+
+            # Clear existing data in CombinedRemovalData
+            CombinedRemovalData.objects.all().delete()
+
+            # Initialize a list to hold all combined data
+            combined_data = []
+
+            # Call each individual removal transformation function and collect data
+            if not self.transform_Statewide_Removal():
+                logger.error("Statewide Removal Transformation failed.")
+                return False
+            combined_data.extend(
+                MetopioStateWideRemovalDataTransformation.objects.values(
+                    "layer", "geoid", "topic", "stratification", "period", "value"
+                )
+            )
+
+            if not self.transform_Tri_County_Removal():
+                logger.error("Tri-County Removal Transformation failed.")
+                return False
+            combined_data.extend(
+                MetopioTriCountyRemovalDataTransformation.objects.values(
+                    "layer", "geoid", "topic", "stratification", "period", "value"
+                )
+            )
+
+            if not self.transform_County_Layer_Removal():
+                logger.error("County Layer Removal Transformation failed.")
+                return False
+            combined_data.extend(
+                CountyLayerRemovalData.objects.values(
+                    "layer", "geoid", "topic", "stratification", "period", "value"
+                )
+            )
+
+            if not self.transform_Zipcode_Layer_Removal():
+                logger.error("Zipcode Layer Removal Transformation failed.")
+                return False
+            combined_data.extend(
+                ZipCodeLayerRemovalData.objects.values(
+                    "layer", "geoid", "topic", "stratification", "period", "value"
+                )
+            )
+
+            if not self.transform_City_Layer_Removal():
+                logger.error("City Layer Removal Transformation failed.")
+                return False
+            combined_data.extend(
+                MetopioCityRemovalData.objects.values(
+                    "layer", "geoid", "topic", "stratification", "period", "value"
+                )
+            )
+
+            # Bulk insert the combined data into CombinedRemovalData
+            combined_instances = [
+                CombinedRemovalData(
+                    layer=row["layer"],
+                    geoid=row["geoid"],
+                    topic=row["topic"],
+                    stratification=row["stratification"],
+                    period=row["period"],
+                    value=row["value"],
+                )
+                for row in combined_data
+            ]
+            CombinedRemovalData.objects.bulk_create(combined_instances)
+
+            logger.info("Combined Removal Transformation completed successfully.")
+            return True
+
+        except Exception as e:
+            tb = traceback.extract_tb(e.__traceback__)
+            line_number = tb[-1][1]
+            logger.error(f"Error during Combined Removal Transformation: {e} at line number {line_number}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            return False
