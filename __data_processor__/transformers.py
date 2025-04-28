@@ -1357,10 +1357,12 @@ class DataTransformer:
 
             #Define filter conditions
             district_name_filter ='[Statewide]'
+            removal_type_description_filter = 'Out of School Suspension'
 
             #fetch filtered school data
             school_removal_data = []
-            school_removal_data = SchoolRemovalData.objects.filter(district_name=district_name_filter)
+            school_removal_data = SchoolRemovalData.objects.filter(district_name=district_name_filter,
+                removal_type_description=removal_type_description_filter)
             logger.info(f"Filtered School Removal Data count: {school_removal_data.count()}")
 
 
@@ -1445,6 +1447,7 @@ class DataTransformer:
                     "removal_count": record.removal_count,
                 })
             df = pd.DataFrame(log_data_statewide)
+            df= df.sort_values(by="Stratification")
             df.to_excel("statewide_data.xlsx", index=False)
             logger.info("Statewide data exported to statewide_data.xlsx")
 
@@ -1513,6 +1516,7 @@ class DataTransformer:
             # Fetch filtered school data, including 'Unknown' county and school_name
             school_data = SchoolRemovalData.objects.filter(
                 county__in=['Outagamie', 'Winnebago', 'Calumet'],
+                removal_type_description__in =['Out of School Suspension']
              ).exclude(school_name='[Districtwide]')
             logger.info(f"Filtered school data count: {school_data.count()}")
 
@@ -1613,6 +1617,7 @@ class DataTransformer:
                     "removal_count": record.removal_count,
                 })
             df = pd.DataFrame(log_data_tri_county)
+            df= df.sort_values(by="Stratification")
             df.to_excel("tri_county_data.xlsx", index=False)
             logger.info("Tri-County data exported to tri_county_data.xlsx")
 
@@ -1681,6 +1686,7 @@ class DataTransformer:
             # Fetch filtered school data, including 'Unknown' county and school_name
             school_data = SchoolRemovalData.objects.filter(
                 county__in=['Outagamie', 'Winnebago', 'Calumet'],
+                removal_type_description__in=['Out of School Suspension']
             ).exclude(school_name='[Districtwide]')
             logger.info(f"Filtered school data count: {school_data.count()}")
 
@@ -1786,7 +1792,8 @@ class DataTransformer:
 
             # Create a DataFrame from the log data
             df = pd.DataFrame(log_data)
-            df.to_excel("before_grouping_county.xlsx", index=False)
+            df = df.sort_values(by="Stratification")
+            df.to_excel("log_data_county.xlsx", index=False)
             
             # STEP 3: Group Data
             grouped_data = {}
@@ -1855,7 +1862,8 @@ class DataTransformer:
             zip_code_geoid_map = {entry.name: entry.geoid for entry in county_geoid_entries}
 
             school_removal_data = SchoolRemovalData.objects.filter(
-                county__in=["Outagamie", "Winnebago", "Calumet"]
+                county__in=["Outagamie", "Winnebago", "Calumet"],
+                removal_type_description__in=["Out of School Suspension"]
             ).exclude(school_name="[Districtwide]").distinct()
 
             #HANDLE UNKNOWN VALUES
@@ -2056,6 +2064,7 @@ class DataTransformer:
                 # )
                         # Create a DataFrame from the log data
             df = pd.DataFrame(log_data)
+            df = df.sort_values(by="Stratification")
 
             # Export the DataFrame to an Excel file
             df.to_excel("log_data_zip_code_Removal.xlsx", index=False)
@@ -2190,7 +2199,8 @@ class DataTransformer:
 
             school_removal_data = SchoolRemovalData.objects.filter(
                 ~Q(school_name__startswith='['),
-                county__in=["Outagamie", "Winnebago", "Calumet"]
+                county__in=["Outagamie", "Winnebago", "Calumet"],
+                removal_type_description__in=["Out of School Suspension"]
             ).distinct()
                 
             #HANDLE UNKNOWN VALUES
@@ -2410,6 +2420,7 @@ class DataTransformer:
                 # )
                         # Create a DataFrame from the log data
             df = pd.DataFrame(log_data)
+            df = df.sort_values(by="Stratification")
 
             # Export the DataFrame to an Excel file
             df.to_excel("log_data_city.xlsx", index=False)
