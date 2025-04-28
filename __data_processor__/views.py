@@ -942,11 +942,8 @@ def download_csv(request):
     )  # Default to 'Statewide' if not specified
 
     # Generate the transformed CSV file
-    if transformation_type.lower() == "combined":
-        csv_file = generate_combined_csv()
-        new_file_name = "combined_transformed_data.csv"
-    else:
-        csv_file = generate_transformed_csv(transformation_type)
+  
+    csv_file = generate_transformed_csv(transformation_type)
     # Extract the period from the CSV file
     period = "unknown"  # Default value in case period is not found
     try:

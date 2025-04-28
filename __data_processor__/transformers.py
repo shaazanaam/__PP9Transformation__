@@ -1433,6 +1433,22 @@ class DataTransformer:
                     combined_dataset.append(record)
 
 
+            log_data_statewide = []
+            for record in combined_dataset:
+                
+                log_data_statewide.append({
+                    "school_name": record.school_name,
+                    "county": record.county,
+                    "group_by": record.group_by,
+                    "group_by_value": record.group_by_value,
+                    "Stratification": record.stratification.label_name,
+                    "removal_count": record.removal_count,
+                })
+            df = pd.DataFrame(log_data_statewide)
+            df.to_excel("statewide_data.xlsx", index=False)
+            logger.info("Statewide data exported to statewide_data.xlsx")
+
+
             #Group data by stratification and period
             grouped_data = {}
             for record in combined_dataset:
@@ -1584,6 +1600,22 @@ class DataTransformer:
                     combined_dataset.append(record)
                 logger.info(f"Combined dataset count: {len(combined_dataset)}")
 
+            #logging the Try Country Data
+            log_data_tri_county = []
+            for record in combined_dataset:
+                
+                log_data_tri_county.append({
+                    "school_name": record.school_name,
+                    "county": record.county,
+                    "group_by": record.group_by,
+                    "group_by_value": record.group_by_value,
+                    "Stratification": record.stratification.label_name,
+                    "removal_count": record.removal_count,
+                })
+            df = pd.DataFrame(log_data_tri_county)
+            df.to_excel("tri_county_data.xlsx", index=False)
+            logger.info("Tri-County data exported to tri_county_data.xlsx")
+
 
             # Group Data
             grouped_data = {}
@@ -1664,7 +1696,8 @@ class DataTransformer:
                key = (record.county, record.group_by)
                group_totals[key] += int(record.removal_count)
                if record.group_by == "All Students":
-                    all_students_totals[record.county] += int(record.removal_count)    
+                    all_students_totals[record.county] += int(record.removal_count) 
+           
 
 
             group_by_totals = {}
@@ -1672,8 +1705,10 @@ class DataTransformer:
 
             for record in combined_dataset:
                 key = (record.county, record.group_by, record.group_by_value, record.stratification)
-                group_by_totals[key] = group_totals[record.group_by]
-
+                group_by_totals[key] = group_totals[(record.county, record.group_by)]
+            logger.info(f"Group  totals : {group_totals}")
+            logger.info(f"All students totals : {all_students_totals}")
+            logger.info(f"Group by totals : {group_by_totals}")
 
             new_unknown_records = []
             unique_records = set()
@@ -1835,7 +1870,7 @@ class DataTransformer:
                 record.district_code = str(record.district_code).strip().lstrip("0")
                 record.school_code = str(record.school_code).strip().lstrip("0")
             
-            logger.info(f"# Normalized the school_code district_code for {len(combined_dataset)} records.")
+            #logger.info(f"# Normalized the school_code district_code for {len(combined_dataset)} records.")
 
             # Compute totals per GROUP_BY and track "All Students" total
             #We have to do this group by total for each school which is not null
@@ -2023,8 +2058,8 @@ class DataTransformer:
             df = pd.DataFrame(log_data)
 
             # Export the DataFrame to an Excel file
-            df.to_excel("log_data.xlsx", index=False)
-            logger.info("Log data exported to log_data.xlsx")
+            df.to_excel("log_data_zip_code_Removal.xlsx", index=False)
+            logger.info("Log data exported to log_data_zip_code_Removal.xlsx")
 
             
             
@@ -2513,6 +2548,7 @@ class DataTransformer:
             CombinedRemovalData.objects.bulk_create(combined_instances)
 
             logger.info("Combined Removal Transformation completed successfully.")
+                
             return True
 
         except Exception as e:
