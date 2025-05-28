@@ -1532,7 +1532,7 @@ class DataTransformer:
                 group_totals[record.group_by] += int(record.removal_count)
                 if record.group_by == "All Students":
                     all_students_totals += int(record.removal_count)
-
+            logger.info(f"All students totals: {all_students_totals}")
             
             group_by_totals = {}
 
@@ -1540,7 +1540,7 @@ class DataTransformer:
             for record in school_data:
                 key = (record.county, record.group_by, record.group_by_value)
                 group_by_totals[key] = group_totals[record.group_by]
-
+            logger.info(f"Group totals: {group_totals}, group by totals: {group_by_totals}")
 
             new_unknown_records = []
             unique_records = set()
@@ -1550,7 +1550,7 @@ class DataTransformer:
                     continue
                 if total < all_students_totals:
                     difference = all_students_totals - total
-                    unique_key = ("Unknown", difference)
+                    unique_key = ("Unknown",difference,record.group_by)
 
                     if unique_key not in unique_records:
                         unique_records.add(unique_key)
@@ -1573,9 +1573,9 @@ class DataTransformer:
                                 stratification=record.stratification,
                                 removal_count=str(difference),)
                             )
-                        logger.info(f"Added new unique unknown record for {unique_key}")
+                        logger.info(f"Added new unique unknown record for {unique_key[1]} for {record.group_by}")
                     else:
-                        logger.info(f"Duplicate unknown record for {unique_key}")
+                        logger.info(f"Duplicate unknown record for {unique_key[1]} for {record.group_by}")
 
             
             for record in new_unknown_records:
@@ -1864,7 +1864,7 @@ class DataTransformer:
             school_removal_data = SchoolRemovalData.objects.filter(
                 county__in=["Outagamie", "Winnebago", "Calumet"],
                 removal_type_description__in=["Out of School Suspension"]
-            ).exclude(school_name="[Districtwide]").distinct()
+            ).exclude(school_name="[Districtwide]")
 
             #HANDLE UNKNOWN VALUES
 
@@ -1902,10 +1902,10 @@ class DataTransformer:
             unique_records = set()
 
             for key,total in group_by_totals.items():
-                county, district_code, school_code, group_by, group_by_value, stratification, student_count = key
+                county, district_code, school_code, group_by, group_by_value, stratification, removal_count = key
                 if total <all_students_totals[(district_code, school_code)]:
                     difference = all_students_totals[(district_code, school_code)] - total
-                    unique_key = (county, district_code, school_code, group_by, "Unknown")
+                    unique_key = (county, district_code, school_code, group_by, "Unknown",difference)
 
                     if group_by_value =="Unknown":
                         group_by_totals[key] += difference
@@ -1916,24 +1916,24 @@ class DataTransformer:
                     if unique_key not in unique_records:
                         unique_records.add(unique_key)
                         #create new Unknown record
-                        record = next((r for r in combined_dataset if r.district_code == district_code and r.school_code == school_code and r.group_by == group_by), None)
+                        record = next((r for r in combined_dataset if r.district_code == district_code and r.school_code == school_code and r.group_by == group_by and r.removal_count==removal_count), None)
                         if record:
                             new_record =  SchoolRemovalData(
                                     school_year=record.school_year,
                                     agency_type=record.agency_type or "Unknown",
                                     cesa=record.cesa,
-                                    county=county,
-                                    district_code=str(district_code).lstrip("0"),
-                                    school_code=str(school_code).lstrip("0"),
+                                    county=record.county,
+                                    district_code=str(record.district_code).lstrip("0"),
+                                    school_code=str(record.school_code).lstrip("0"),
                                     grade_group=record.grade_group or "Unknown",
                                     charter_ind=record.charter_ind or "Unknown",
                                     district_name=record.district_name or "Unknown",
                                     school_name=record.school_name or "Unknown",
-                                    group_by=group_by,
+                                    group_by=record.group_by,
                                     group_by_value="Unknown",
                                     removal_type_description = record.removal_type_description,
                                     tfs_enrollment_count = record.tfs_enrollment_count,
-                                    stratification=stratification,
+                                    stratification=record.stratification,
                                     removal_count=str(difference),
                                 )
                             
@@ -1955,39 +1955,39 @@ class DataTransformer:
             #logger.info(f"Stratification Mapping: {group_by_map}")
 
             
-            #Create a dictionary to group records by school code and district code 
-            school_code_groups = defaultdict(list)
-            for record in combined_dataset:
-                school_code_groups[record.school_code,record.district_code].append(record) 
+            # #Create a dictionary to group records by school code and district code 
+            # school_code_groups = defaultdict(list)
+            # for record in combined_dataset:
+            #     school_code_groups[record.school_code,record.district_code].append(record) 
 
-            for (school_code, district_code), records in school_code_groups.items():
-                existing_group_by_keys = {record.group_by for record in records}
-                missing_group_by_keys = set(group_by_map.keys()) - existing_group_by_keys
+            # for (school_code, district_code), records in school_code_groups.items():
+            #     existing_group_by_keys = {record.group_by for record in records}
+            #     missing_group_by_keys = set(group_by_map.keys()) - existing_group_by_keys
 
-                for missing_group_by_key in missing_group_by_keys:
-                    reference_record = next((r for r in records if r.group_by == "All Students"), None)
-                    #Create a new record for themissing group_by_key
-                    new_record = SchoolRemovalData(
-                        school_year=reference_record.school_year,
-                        agency_type=reference_record.agency_type or "Unknown",
-                        cesa=reference_record.cesa,
-                        county=reference_record.county,
-                        district_code=str(district_code).lstrip("0"),
-                        school_code=str(school_code).lstrip("0"),
-                        grade_group=reference_record.grade_group or "Unknown",
-                        charter_ind=reference_record.charter_ind or "Unknown",
-                        district_name=reference_record.district_name or "Unknown",
-                        school_name=reference_record.school_name or "Unknown",
-                        group_by=missing_group_by_key,
-                        group_by_value="Unknown",
-                        removal_type_description = reference_record.removal_type_description,
-                        tfs_enrollment_count = reference_record.tfs_enrollment_count,
-                        stratification=reference_record.stratification,
-                        removal_count=str(all_students_totals[reference_record.district_code, reference_record.school_code]),  # Default value for missing records
-                    )
+            #     for missing_group_by_key in missing_group_by_keys:
+            #         reference_record = next((r for r in records if r.group_by == "All Students"), None)
+            #         #Create a new record for themissing group_by_key
+            #         new_record = SchoolRemovalData(
+            #             school_year=reference_record.school_year,
+            #             agency_type=reference_record.agency_type or "Unknown",
+            #             cesa=reference_record.cesa,
+            #             county=reference_record.county,
+            #             district_code=str(district_code).lstrip("0"),
+            #             school_code=str(school_code).lstrip("0"),
+            #             grade_group=reference_record.grade_group or "Unknown",
+            #             charter_ind=reference_record.charter_ind or "Unknown",
+            #             district_name=reference_record.district_name or "Unknown",
+            #             school_name=reference_record.school_name or "Unknown",
+            #             group_by=missing_group_by_key,
+            #             group_by_value="Unknown",
+            #             removal_type_description = reference_record.removal_type_description,
+            #             tfs_enrollment_count = reference_record.tfs_enrollment_count,
+            #             stratification=reference_record.stratification,
+            #             removal_count=str(all_students_totals[reference_record.district_code, reference_record.school_code]),  # Default value for missing records
+            #         )
 
-                    combined_dataset.append(new_record)
-                    logger.info(f"Added new record for missing group_by_key: {missing_group_by_key}")
+            #         combined_dataset.append(new_record)
+            #         logger.info(f"Added new record for missing group_by_key: {missing_group_by_key}")
 
             #REALIGNING STRATIFICATIONS SINCE WE RE ADDED THE UNKNOWNS
             strat_map = {
@@ -2294,39 +2294,39 @@ class DataTransformer:
             logger.info(f"Stratification Mapping: {group_by_map}")
 
             
-            #Create a dictionary to group records by school code and district code 
-            school_code_groups = defaultdict(list)
-            for record in combined_dataset:
-                school_code_groups[record.school_code,record.district_code].append(record) 
+            # #Create a dictionary to group records by school code and district code 
+            # school_code_groups = defaultdict(list)
+            # for record in combined_dataset:
+            #     school_code_groups[record.school_code,record.district_code].append(record) 
 
-            for (school_code, district_code), records in school_code_groups.items():
-                existing_group_by_keys = {record.group_by for record in records}
-                missing_group_by_keys = set(group_by_map.keys()) - existing_group_by_keys
+            # for (school_code, district_code), records in school_code_groups.items():
+            #     existing_group_by_keys = {record.group_by for record in records}
+            #     missing_group_by_keys = set(group_by_map.keys()) - existing_group_by_keys
 
-                for missing_group_by_key in missing_group_by_keys:
-                    reference_record = next((r for r in records if r.group_by == "All Students"), None)
-                    #Create a new record for themissing group_by_key
-                    new_record = SchoolRemovalData(
-                        school_year=reference_record.school_year,
-                        agency_type=reference_record.agency_type or "Unknown",
-                        cesa=reference_record.cesa,
-                        county=reference_record.county,
-                        district_code=str(district_code).lstrip("0"),
-                        school_code=str(school_code).lstrip("0"),
-                        grade_group=reference_record.grade_group or "Unknown",
-                        charter_ind=reference_record.charter_ind or "Unknown",
-                        district_name=reference_record.district_name or "Unknown",
-                        school_name=reference_record.school_name or "Unknown",
-                        group_by=missing_group_by_key,
-                        group_by_value="Unknown",
-                        removal_type_description = reference_record.removal_type_description,
-                        tfs_enrollment_count = reference_record.tfs_enrollment_count,
-                        stratification=reference_record.stratification,
-                        removal_count=str(all_students_totals[reference_record.district_code, reference_record.school_code]),  # Default value for missing records
-                    )
+            #     for missing_group_by_key in missing_group_by_keys:
+            #         reference_record = next((r for r in records if r.group_by == "All Students"), None)
+            #         #Create a new record for themissing group_by_key
+            #         new_record = SchoolRemovalData(
+            #             school_year=reference_record.school_year,
+            #             agency_type=reference_record.agency_type or "Unknown",
+            #             cesa=reference_record.cesa,
+            #             county=reference_record.county,
+            #             district_code=str(district_code).lstrip("0"),
+            #             school_code=str(school_code).lstrip("0"),
+            #             grade_group=reference_record.grade_group or "Unknown",
+            #             charter_ind=reference_record.charter_ind or "Unknown",
+            #             district_name=reference_record.district_name or "Unknown",
+            #             school_name=reference_record.school_name or "Unknown",
+            #             group_by=missing_group_by_key,
+            #             group_by_value="Unknown",
+            #             removal_type_description = reference_record.removal_type_description,
+            #             tfs_enrollment_count = reference_record.tfs_enrollment_count,
+            #             stratification=reference_record.stratification,
+            #             removal_count=str(all_students_totals[reference_record.district_code, reference_record.school_code]),  # Default value for missing records
+            #         )
 
-                    combined_dataset.append(new_record)
-                    logger.info(f"Added new record for missing group_by_key: {missing_group_by_key}")
+            #         combined_dataset.append(new_record)
+            #         logger.info(f"Added new record for missing group_by_key: {missing_group_by_key}")
             #Create a dictionary to grup records by school code
             school_code_groups_xlx_log = defaultdict(list)
             for record in combined_dataset:
