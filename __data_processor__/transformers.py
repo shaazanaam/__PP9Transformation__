@@ -1443,7 +1443,7 @@ class DataTransformer:
                     "county": record.county,
                     "group_by": record.group_by,
                     "group_by_value": record.group_by_value,
-                    "Stratification": record.stratification.label_name,
+                    "Stratification": record.stratification.label_name if record.stratification else "",
                     "removal_count": record.removal_count,
                 })
             df = pd.DataFrame(log_data_statewide)
@@ -1532,7 +1532,7 @@ class DataTransformer:
                 group_totals[record.group_by] += int(record.removal_count)
                 if record.group_by == "All Students":
                     all_students_totals += int(record.removal_count)
-            logger.info(f"All students totals: {all_students_totals}")
+            #logger.info(f"All students totals: {all_students_totals}")
             
             group_by_totals = {}
 
@@ -1540,7 +1540,7 @@ class DataTransformer:
             for record in school_data:
                 key = (record.county, record.group_by, record.group_by_value)
                 group_by_totals[key] = group_totals[record.group_by]
-            logger.info(f"Group totals: {group_totals}, group by totals: {group_by_totals}")
+            #logger.info(f"Group totals: {group_totals}, group by totals: {group_by_totals}")
 
             new_unknown_records = []
             unique_records = set()
@@ -1712,9 +1712,9 @@ class DataTransformer:
             for record in combined_dataset:
                 key = (record.county, record.group_by, record.group_by_value, record.stratification)
                 group_by_totals[key] = group_totals[(record.county, record.group_by)]
-            logger.info(f"Group  totals : {group_totals}")
-            logger.info(f"All students totals : {all_students_totals}")
-            logger.info(f"Group by totals : {group_by_totals}")
+            # logger.info(f"Group  totals : {group_totals}")
+            # logger.info(f"All students totals : {all_students_totals}")
+            # logger.info(f"Group by totals : {group_by_totals}")
 
             new_unknown_records = []
             unique_records = set()
@@ -1795,7 +1795,7 @@ class DataTransformer:
             df = df.sort_values(by="Stratification")
             df.to_excel("log_data_county.xlsx", index=False)
             
-            # STEP 3: Group Data
+            #STEP 3: Group Data
             grouped_data = {}
 
             for record in combined_dataset:
@@ -1813,7 +1813,7 @@ class DataTransformer:
                     grouped_data[strat_key] = {
                         "layer": "County",
                         "geoid": geoid,
-                        "topic": "FDEWVAR",
+                        "topic": "FVDEWVAR",
                         "period": period,
                         "stratification": strat_label,
                         "value": int(record.removal_count) if record.removal_count.isdigit() else 0,
@@ -1952,7 +1952,7 @@ class DataTransformer:
                 f"{strat.group_by}": strat
                 for strat in Stratification.objects.all()
             }
-            logger.info(f"Stratification Mapping: {group_by_map}")
+            #logger.info(f"Stratification Mapping: {group_by_map}")
 
             
             #Create a dictionary to group records by school code and district code 
@@ -2096,7 +2096,7 @@ class DataTransformer:
                         grouped_data[strat_key] = {
                             "layer": "Zip code",
                             "geoid": geoid,
-                            "topic": "FDEWVAR",
+                            "topic": "FVDEWVAR",
                             "stratification": strat_label,
                             "period": period,
                             "value": int(record.removal_count) if record.removal_count.isdigit() else 0,
@@ -2291,7 +2291,7 @@ class DataTransformer:
                 f"{strat.group_by}": strat
                 for strat in Stratification.objects.all()
             }
-            logger.info(f"Stratification Mapping: {group_by_map}")
+            #logger.info(f"Stratification Mapping: {group_by_map}")
 
             
             #Create a dictionary to group records by school code and district code 
@@ -2449,7 +2449,7 @@ class DataTransformer:
                     grouped_data[strat_key] = {
                         "layer": "City or town",
                         "geoid": geoid,
-                        "topic": "FDEWVAR",
+                        "topic": "FVDEWVAR",
                         "stratification": strat_label,
                         "period": period,
                         "value": int(record.removal_count) if record.removal_count.isdigit() else 0,

@@ -485,6 +485,9 @@ def load_school_removal_data(file):
                 if row["REMOVAL_COUNT"] == "*" or row["REMOVAL_COUNT"] == "0":
                     continue
                 group_by = "Grade Level" if row["GROUP_BY"] == "Grade" else row["GROUP_BY"]
+                #----IGNORE rows with GROUP_BY ="Migrant Status"------
+                if group_by=="Migrant Status":
+                    continue
                 combined_key = group_by + row["GROUP_BY_VALUE"]
                 stratification = strat_map.get(combined_key)
                 unknown_key = (group_by, "Unknown")
