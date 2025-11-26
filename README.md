@@ -1,50 +1,216 @@
-# DataProcessorWES
+# Wisconsin School Data Processor (PP9 Transformation)
 
-DataProcessorWES is a Django application designed to process and transform school data. The application supports multiple transformation types and provides an interface for uploading data files and viewing transformed data.
+A Django-based web application for processing, transforming, and analyzing Wisconsin school enrollment and disciplinary removal data. This application supports multiple geographic layers and stratifications for detailed educational data analysis.
 
-## Features
+## 🎯 Overview
 
-- Upload and process main data files and optional stratification files.
-- Supports multiple transformation types including Tri-County, County-Layer, Metopio Statewide, Zipcode, and City-Town.
-- Provides views to display transformed data with pagination.
-- Allows downloading transformed data in Excel and CSV formats.
+The Wisconsin School Data Processor handles complex transformations of school data across multiple geographic layers:
+- **Statewide** - Wisconsin-level aggregations
+- **Tri-County** - Calumet, Outagamie, and Winnebago counties
+- **County Layer** - All Wisconsin counties
+- **ZIP Code Layer** - ZIP code-based geographic analysis
+- **City/Town Layer** - Municipality-level data
 
-## Requirements
+The application processes both **enrollment data** and **disciplinary removal data** with support for various stratifications (demographics, grade levels, disability status, etc.).
+
+## ✨ Key Features
+
+- 📊 **Multiple Transformation Types**: Support for 10+ data transformation types
+- 📁 **Bulk Data Processing**: Efficient CSV upload and processing with validation
+- 🗺️ **Geographic Mapping**: GEOID-based geographic data linkage
+- 📈 **Stratification Support**: Demographics, disabilities, economic status, EL status, gender, and grade levels
+- 📥 **Export Capabilities**: Download transformed data in CSV and Excel formats
+- 🔍 **Data Validation**: Automatic handling of suppressed (*) and zero values
+- 📋 **Pagination**: Easy navigation through large datasets
+- 🎨 **Web Interface**: User-friendly upload and transformation interface
+
+## 📋 Requirements
 
 - Python 3.8+
 - Django 3.2+
-- PostgreSQL (or any other supported database)
-- Heroku CLI (for deployment)
+- PostgreSQL (recommended) or SQLite (development)
+- pandas
+- openpyxl
+- xlsxwriter
 
-## Setup
+## 🚀 Quick Start
 
 ### 1. Clone the Repository
+```bash
+git clone https://github.com/shaazanaam/__PP9Transformation__.git
+cd __PP9Transformation__
+```
 
-```sh
-git clone https://github.com/your-username/DataProcessorWES.git
-cd DataProcessorWES
+### 2. Set Up Virtual Environment
+```bash
+# On Windows with bash
 python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+source venv/Scripts/activate
+
+# On macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+```bash
 pip install -r requirements.txt
-SECRET_KEY=your-secret-key
+```
+
+### 4. Configure Environment
+Create a `.env` file in the project root:
+```env
+SECRET_KEY=your-secret-key-here
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
-DATABASE_URL=your-database-url
+DATABASE_URL=sqlite:///db.sqlite3
+```
 
-Apply Migrations
-
+### 5. Run Migrations
+```bash
 python manage.py migrate
+```
 
-
-Create a super user
-
+### 6. Create Superuser
+```bash
 python manage.py createsuperuser
+```
 
-
-RUN THE SERVER
-
+### 7. Run Development Server
+```bash
 python manage.py runserver
+```
 
+Visit `http://127.0.0.1:8000` in your browser.
 
+## 📚 Documentation
 
-YOU CAN THE DEPLOY TO HEROKU OR AWS or whatever platoform you like
+Detailed documentation is available in the `docs/` folder:
+
+- **[Project Structure](docs/PROJECT_STRUCTURE.md)** - Complete folder and file organization
+- **[Project Roadmap](docs/ROADMAP.md)** - Development phases and future enhancements
+- **[User Guide](docs/USER_GUIDE.md)** - How to use the application
+- **[API Documentation](docs/API.md)** - Technical API reference
+
+## 🔄 Data Processing Workflow
+
+1. **Upload Files**
+   - Main enrollment/removal data (CSV)
+   - Stratification mappings (CSV)
+   - County GEOID reference (CSV)
+   - School address file (CSV)
+
+2. **Select Transformation Type**
+   - Choose from 10+ transformation options
+   - System validates and processes data
+
+3. **View Results**
+   - Browse transformed data with pagination
+   - Download as CSV or Excel
+
+4. **Export**
+   - Individual transformation exports
+   - Combined multi-layer exports
+
+## 🗃️ Supported Data Files
+
+### Input Files
+- **Enrollment Data**: `enrollment_certified_YYYY-YY.csv`
+- **Removal Data**: `discipline_actions_certified_YYYY-YY.csv`
+- **Stratifications**: `PP10 Normalized Stratifications.csv`
+- **County GEOIDs**: `Fox Valley Data Exchange Places GEIODs.csv`
+- **School Addresses**: `sd-export-public-schools-YYYYMMDD.csv`
+
+### Output Files
+- **Statewide**: `transformed_statewide-removal_data.csv`
+- **Tri-County**: `transformed_tricounty-removal_data.csv`
+- **County**: `transformed_county-layer_data.csv`
+- **ZIP Code**: `transformed_zipcode_data.csv`
+- **City**: `transformed_city-removal_data.csv`
+- **Combined**: `combined_transformed_data.csv`
+
+## 🛠️ Technology Stack
+
+- **Backend**: Django 3.2+
+- **Database**: SQLite (dev), PostgreSQL (production)
+- **Data Processing**: pandas, openpyxl
+- **Frontend**: Django Templates, Bootstrap (via static files)
+- **Deployment**: Heroku-ready
+
+## 📦 Deployment
+
+### Heroku Deployment
+
+1. **Install Heroku CLI**
+```bash
+# Windows (using Chocolatey)
+choco install heroku-cli
+
+# macOS
+brew tap heroku/brew && brew install heroku
+```
+
+2. **Login and Create App**
+```bash
+heroku login
+heroku create your-app-name
+```
+
+3. **Configure for Deployment**
+Ensure you have:
+- `Procfile`
+- `runtime.txt`
+- `requirements.txt` with `gunicorn`, `whitenoise`, `dj-database-url`, `psycopg2-binary`
+
+4. **Deploy**
+```bash
+git push heroku main
+heroku run python manage.py migrate
+heroku run python manage.py createsuperuser
+```
+
+See [docs/ROADMAP.md](docs/ROADMAP.md) for detailed deployment instructions.
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+python manage.py test
+
+# Run specific app tests
+python manage.py test __data_processor__
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is proprietary. All rights reserved.
+
+## 👥 Authors
+
+- **Shaazanaam** - [shaazanaam](https://github.com/shaazanaam)
+
+## 🙏 Acknowledgments
+
+- Wisconsin Department of Public Instruction for data standards
+- Fox Valley community partners for geographic data requirements
+
+## 📞 Support
+
+For issues or questions:
+- Open an issue on GitHub
+- Contact the development team
+
+## 📈 Project Status
+
+**Current Version**: 1.0.0  
+**Status**: Active Development
+
+See [ROADMAP.md](docs/ROADMAP.md) for planned features and improvements.
