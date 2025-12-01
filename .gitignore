@@ -17,4 +17,5 @@ my_DEC12_ENV/
 
 # IDEs
 .idea/
-.vscode/
+.vscode/uploads/ForwardReport/**/*.csv
+uploads/*.csv

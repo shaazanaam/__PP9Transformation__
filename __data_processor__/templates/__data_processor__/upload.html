@@ -73,6 +73,11 @@
         {% csrf_token %}
         <button type="submit" name="transformation_type" value="combined">Run combined Removal Transformation</button>
     </form>
+
+    <form method ="post">
+        {% csrf_token %}
+        <button type="submit" name="transformation_type" value="ForwardExam-Statewide">Run Forward Exam Statewide Transformation</button>
+    </form>
     
     <br>
     {% if message %}

@@ -15,7 +15,7 @@ from .models import (
     MetopioCityLayerTransformation,  # Add this line
 )
 from .forms import UploadFileForm
-from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation, MetopioTriCountyRemovalDataTransformation, CountyLayerRemovalData, ZipCodeLayerRemovalData, MetopioCityRemovalData, CombinedRemovalData
+from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation, MetopioTriCountyRemovalDataTransformation, CountyLayerRemovalData, ZipCodeLayerRemovalData, MetopioCityRemovalData, CombinedRemovalData, ForwardExamData, ForwardExamStateWideTransformation, ForwardExamTriCountyTransformation, ForwardExamCountyLayerTransformation, ForwardExamZipCodeLayerTransformation, ForwardExamCityLayerTransformation
 from .models import SchoolAddressFile
 from .models import CountyGEOID
 from django.http import HttpResponse
@@ -116,6 +116,10 @@ def transformation_success(request):
         transformer = DataTransformer(request) # Assuming this function generates the combined CSV data
         transformer.transform_combined_removal()
         data_list = CombinedRemovalData.objects.all()
+    elif transformation_type == "ForwardExam-Statewide":
+        transformer = DataTransformer(request)
+        transformer.transform_ForwardExam_Statewide()
+        data_list = ForwardExamStateWideTransformation.objects.all()
     else:
         # Handle unknown transformation types
         details = "Unknown transformation type. Please check your request."
@@ -266,39 +270,11 @@ def upload_file(request):
     form = UploadFileForm()  # Initialize the form
 
     if request.method == "POST":
-        # Handle file upload
-        file = request.FILES.get("file")
-        stratifications_file = request.FILES.get("stratifications_file")  
-        county_geoid_file = request.FILES.get("county_geoid_file") #New County GEOID file
-        school_address_file = request.FILES.get("school_address_file")  #New School Address file
-        school_removal_file = request.FILES.get("school_removal_file")  #New School Removal file
-        
-        #Get the stratification file if provided
-
-        if file:  # Check if a file is uploaded
-            form = UploadFileForm(request.POST, request.FILES)
-            if form.is_valid():
-                handle_uploaded_file(
-                    file, 
-                    stratifications_file=stratifications_file,
-                    )   # Process the main file and the stratification uploaded file
-            
-        #Process the COunty GEOID file if provided
-        if county_geoid_file:
-            load_county_geoid_file(county_geoid_file)
-        if school_address_file:
-            load_school_address_file(school_address_file)
-        if school_removal_file:
-            load_school_removal_data(school_removal_file)
-            return redirect(
-                f"{reverse('upload')}?message=File uploaded successfully. Now you can run the transformation."
-            )
-        # After this step in the rendered page we have the transformation forms from where we can get the tranformation type
-        # since we called the handle_uploaded_file function to process the file and save it to the database
-        # we are already prepared to handle the transformation actions after the page as above has been rendered
-        # Handle transformation actions
+        # Check if this is a transformation request (not a file upload)
         transformation_type = request.POST.get("transformation_type")
+        
         if transformation_type:
+            # Handle transformation actions (user clicked a transformation button)
             transformer = DataTransformer(request)  # Create an instance of the DataTransformer class
             if transformation_type == "Tri-County":
                 success = (transformer.apply_tri_county_layer_transformation())  # Apply the Tri-County Layer transformation
@@ -322,6 +298,8 @@ def upload_file(request):
                 success = transformer.transform_City_Layer_Removal()
             elif transformation_type == "combined":
                 success = transformer.transform_combined_removal()  # Generate the combined CSV file
+            elif transformation_type == "ForwardExam-Statewide":
+                success = transformer.transform_ForwardExam_Statewide()  # Forward Exam Statewide transformation
             else:
                 success = transformer.apply_transformation(transformation_type ) # Apply the transformation
 
@@ -334,6 +312,50 @@ def upload_file(request):
             else:
                 # If transformation failed, display an error message
                 message = "Transformation failed. Please try again."
+        
+        else:
+            # Handle file uploads (user uploaded files via the form)
+            file = request.FILES.get("file")  # Main enrollment file
+            stratifications_file = request.FILES.get("stratifications_file")  
+            county_geoid_file = request.FILES.get("county_geoid_file")
+            school_address_file = request.FILES.get("school_address_file")
+            school_removal_file = request.FILES.get("school_removal_file")
+            forward_exam_file = request.FILES.get("forward_exam_file")
+            
+            # Track what was uploaded
+            uploaded_files = []
+            
+            # Process each file type independently - each is optional
+            if file:
+                form = UploadFileForm(request.POST, request.FILES)
+                if form.is_valid():
+                    handle_uploaded_file(file, stratifications_file=stratifications_file)
+                    uploaded_files.append("Enrollment data")
+            
+            if county_geoid_file:
+                load_county_geoid_file(county_geoid_file)
+                uploaded_files.append("County GEOID data")
+            
+            if school_address_file:
+                load_school_address_file(school_address_file)
+                uploaded_files.append("School Address data")
+            
+            if school_removal_file:
+                load_school_removal_data(school_removal_file)
+                uploaded_files.append("School Removal data")
+            
+            if forward_exam_file:
+                records_loaded = load_forward_exam_data(forward_exam_file)
+                uploaded_files.append(f"Forward Exam data ({records_loaded} records)")
+            
+            # Redirect with success message showing what was uploaded
+            if uploaded_files:
+                files_msg = ", ".join(uploaded_files)
+                return redirect(
+                    f"{reverse('upload')}?message=Successfully uploaded: {files_msg}. You can now run transformations."
+                )
+            else:
+                message = "No files were uploaded. Please select at least one file."
 
     else:
         form = UploadFileForm()  # Initialize the form if it's a GET request
@@ -519,6 +541,93 @@ def load_school_removal_data(file):
     except Exception as e:
         logger.error(f"Error processing School Removal file: {e}")
         raise
+
+# handle the forward exam data
+def load_forward_exam_data(file):
+    """Load Forward Exam data from CSV file (ELA or MTH)"""
+    # Save the file to the uploads directory
+    upload_dir = os.path.join(settings.BASE_DIR, "uploads")
+    os.makedirs(upload_dir, exist_ok=True)
+    file_path = os.path.join(upload_dir, file.name)
+
+    with open(file_path, "wb+") as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
+    logger.info(f"Forward Exam file uploaded successfully to {file_path}")
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as csvfile:
+            reader = csv.DictReader(csvfile)
+            # Note: We don't delete all records - user can upload ELA and MTH separately
+            # ForwardExamData.objects.all().delete()  # Clear existing records
+            data = []
+
+            strat_map = {
+                f"{strat.group_by}{strat.group_by_value}": strat
+                for strat in Stratification.objects.all()
+            }
+            
+            # Build geoid map for county lookup
+            geoid_map = {geoid.name: geoid for geoid in CountyGEOID.objects.all()}
+            
+            # Process each row
+            for row in reader:
+                # Skip suppressed values
+                if row["STUDENT_COUNT"] in ["*", "0", ""]:
+                    continue
+                    
+                # Map GROUP_BY to match stratification file
+                group_by = "Grade Level" if row["GROUP_BY"] == "Grade" else row["GROUP_BY"]
+                
+                # Skip Migrant Status (same as removal data)
+                if group_by == "Migrant Status":
+                    continue
+                    
+                combined_key = group_by + row["GROUP_BY_VALUE"]
+                stratification = strat_map.get(combined_key)
+                
+                # Lookup GEOID if county exists
+                geoid = None
+                if row.get("COUNTY"):
+                    geoid = geoid_map.get(row["COUNTY"])
+                
+                data.append(
+                    ForwardExamData(
+                        school_year=row["SCHOOL_YEAR"],
+                        agency_type=row.get("AGENCY_TYPE", ""),
+                        cesa=row.get("CESA", ""),
+                        county=row.get("COUNTY", ""),
+                        district_code=row["DISTRICT_CODE"],
+                        school_code=row.get("SCHOOL_CODE", ""),
+                        grade_group=row.get("GRADE_GROUP", ""),
+                        charter_ind=row.get("CHARTER_IND", ""),
+                        district_name=row["DISTRICT_NAME"],
+                        school_name=row.get("SCHOOL_NAME", ""),
+                        test_subject=row["TEST_SUBJECT"],
+                        grade_level=row["GRADE_LEVEL"],
+                        test_result=row["TEST_RESULT"],
+                        test_result_code=row.get("TEST_RESULT_CODE", ""),
+                        test_group=row["TEST_GROUP"],
+                        group_by=group_by,
+                        group_by_value=row["GROUP_BY_VALUE"],
+                        student_count=row.get("STUDENT_COUNT", "0"),
+                        percent_of_group=row.get("PERCENT_OF_GROUP", ""),
+                        group_count=row.get("GROUP_COUNT", "0"),
+                        forward_average_scale_score=row.get("FORWARD_AVERAGE_SCALE_SCORE", ""),
+                        stratification=stratification,
+                        geoid=geoid,
+                    )
+                )
+
+            # Bulk insert data
+            ForwardExamData.objects.bulk_create(data)
+            logger.info(f"{len(data)} Forward Exam records inserted into the database")
+            return len(data)
+            
+    except Exception as e:
+        logger.error(f"Error processing Forward Exam file: {e}")
+        raise
+
 def statewide_view(request):
     transformation_type = request.GET.get(
         "type"
@@ -802,10 +911,87 @@ def combined_removal_view(request):
 
 #City Town REMOVAL View
 
+# Forward Exam View
+def forward_exam_view(request):
+    """View to display Forward Exam data"""
+    transformation_type = request.GET.get(
+        "type", "Forward-Exam"
+    )  # Default to 'Forward-Exam' if not specified
+    print(f"Query Parameters: {request.GET}")  # Log query parameters
+
+    # Fetch all Forward Exam data
+    data_list = ForwardExamData.objects.all()
+
+    # Optional: Add filtering by test subject
+    test_subject = request.GET.get("test_subject")
+    if test_subject:
+        data_list = data_list.filter(test_subject=test_subject)
+
+    # Optional: Add filtering by grade level
+    grade_level = request.GET.get("grade_level")
+    if grade_level:
+        data_list = data_list.filter(grade_level=grade_level)
+
+    # Optional: Add filtering by test result
+    test_result = request.GET.get("test_result")
+    if test_result:
+        data_list = data_list.filter(test_result=test_result)
+
+    # Paginate the results
+    paginator = Paginator(data_list, 20)  # Show 20 records per page
+    page_number = request.GET.get("page")
+    data = paginator.get_page(page_number)
+
+    # Get unique values for filter dropdowns
+    test_subjects = ForwardExamData.objects.values_list('test_subject', flat=True).distinct()
+    grade_levels = ForwardExamData.objects.values_list('grade_level', flat=True).distinct().order_by('grade_level')
+    test_results = ForwardExamData.objects.values_list('test_result', flat=True).distinct()
+
+    return render(
+        request,
+        "__data_processor__/forward_exam.html",
+        {
+            "data": data,
+            "transformation_type": transformation_type,
+            "test_subjects": test_subjects,
+            "grade_levels": grade_levels,
+            "test_results": test_results,
+            "selected_subject": test_subject,
+            "selected_grade": grade_level,
+            "selected_result": test_result,
+        },
+    )
+
+def forward_exam_statewide_transformation_view(request):
+    """View to display Forward Exam Statewide Transformation results"""
+    transformation_type = request.GET.get(
+        "type", "ForwardExam-Statewide"
+    )
+    print(f"Query Parameters: {request.GET}")  # Log query parameters
+
+    # Run transformation if requested
+    DataTransformer(request).transform_ForwardExam_Statewide()
+
+    # Fetch transformed data
+    data_list = ForwardExamStateWideTransformation.objects.all()
+
+    # Paginate the results
+    paginator = Paginator(data_list, 20)  # Show 20 records per page
+    page_number = request.GET.get("page")
+    data = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "__data_processor__/forward_exam_statewide_transformation.html",
+        {"data": data, "transformation_type": transformation_type},
+    )
+
 def generate_transformed_excel(transformation_type):
     # Fetch the transformed data based on the transformation type
     if transformation_type == "Tri-County":
         data = MetopioTriCountyLayerTransformation.objects.all()
+    elif transformation_type == "ForwardExam-Statewide":
+        data = ForwardExamStateWideTransformation.objects.all()
     else:
         data = TransformedSchoolData.objects.filter(
             place="WI"
@@ -873,6 +1059,8 @@ def generate_transformed_csv(transformation_type):
         data= MetopioCityRemovalData.objects.all()
     elif transformation_type == "combined":
         data = CombinedRemovalData.objects.all()
+    elif transformation_type == "ForwardExam-Statewide":
+        data = ForwardExamStateWideTransformation.objects.all()
     else:
         data = TransformedSchoolData.objects.filter(
             place="WI"

@@ -6,4 +6,5 @@ class UploadFileForm(forms.Form):
     county_geoid_file = forms.FileField(label="County GEOID File (Optional)", required=False)
     school_address_file = forms.FileField(label="School Address File (Optional)", required=False)
     school_removal_file = forms.FileField(label="School Removal File (Optional)", required=False)
+    forward_exam_file = forms.FileField(label="Forward Exam File (ELA/MTH) (Optional)", required=False)
     

@@ -18,5 +18,7 @@ urlpatterns = [
     path('county_layer_removal/', views.county_layer_removal_view, name='county_layer_removal_view'),
     path('zipcode_layer_removal/', views.zipcode_layer_removal_view, name='zipcode_layer_removal_view'),
     path('city_layer_removal/', views.city_layer_removal_view, name='city_layer_removal_view'),
-    path('combined_removal/', views.combined_removal_view, name='combined_removal_view'), 
+    path('combined_removal/', views.combined_removal_view, name='combined_removal_view'),
+    path('forward_exam/', views.forward_exam_view, name='forward_exam_view'),
+    path('forward_exam_statewide_transformation/', views.forward_exam_statewide_transformation_view, name='forward_exam_statewide_transformation_view'),
 ]

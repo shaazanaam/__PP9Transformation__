@@ -19,7 +19,12 @@ from .models import (
     ZipCodeLayerRemovalData,  # Added missing import
     MetopioCityRemovalData,  # Added missing import
     CombinedRemovalData,  # Added missing import
-    
+    ForwardExamData,  # Forward Exam data
+    ForwardExamStateWideTransformation,  # Forward Exam transformations
+    ForwardExamTriCountyTransformation,
+    ForwardExamCountyLayerTransformation,
+    ForwardExamZipCodeLayerTransformation,
+    ForwardExamCityLayerTransformation,
 )
 
 
@@ -2567,4 +2572,105 @@ class DataTransformer:
             line_number = tb[-1][1]
             logger.error(f"Error during Combined Removal Transformation: {e} at line number {line_number}")
             logger.error(f"Traceback: {traceback.format_exc()}")
+            return False
+
+    # ============================================
+    # FORWARD EXAM TRANSFORMATIONS (PP-10a)
+    # ============================================
+    
+    def transform_ForwardExam_Statewide(self):
+        """
+        Apply Statewide Layer Transformation for Forward Exam Data (PP-10a)
+        
+        Requirements from spec:
+        - Filter: DISTRICT_NAME = '[Statewide]', GRADE_LEVEL = '3', TEST_GROUP = 'Forward'
+        - Filter: TEST_RESULT = 'Meeting' or 'Advanced'
+        - Value: Sum of STUDENT_COUNT (aggregated count, not percentage)
+        - Topic: FVDEHAAP
+        """
+        if not ForwardExamData.objects.exists():
+            logger.warning("No Forward Exam records found for Statewide Layer.")
+            messages.error(self.request, "No Forward Exam records found. Please upload Forward Exam files first.")
+            return False
+        
+        try:
+            logger.info("Starting Forward Exam Statewide Layer Transformation...")
+            ForwardExamStateWideTransformation.objects.all().delete()
+            
+            # Filter criteria from PP-10a spec
+            district_name_filter = '[Statewide]'
+            grade_level_filter = '3'
+            test_group_filter = 'Forward'
+            # Per spec: TEST_RESULT = 'Meeting' or 'Advanced' (proficient students only)
+            proficient_results = ['Meeting', 'Advanced']
+            
+            # Fetch filtered Forward Exam data - only proficient students
+            forward_exam_data = ForwardExamData.objects.filter(
+                district_name=district_name_filter,
+                grade_level=grade_level_filter,
+                test_group=test_group_filter,
+                test_result__in=proficient_results
+            ).exclude(group_by='Migrant Status')
+            
+            logger.info(f"Filtered Forward Exam Data count: {forward_exam_data.count()}")
+            
+            # Group data by stratification and period (same pattern as removal)
+            grouped_data = {}
+            
+            for record in forward_exam_data:
+                # Transform period: 2024-25 → 2024-2025
+                school_year = record.school_year
+                if '-' in school_year:
+                    start_year, end_year = school_year.split('-')
+                    period = f"{start_year}-20{end_year}"
+                else:
+                    period = school_year
+                
+                # Get stratification
+                stratification = record.stratification.label_name if record.stratification else "Error"
+                
+                # Group key
+                strat_key = (stratification, period)
+                
+                # Initialize or aggregate
+                if strat_key not in grouped_data:
+                    grouped_data[strat_key] = {
+                        "layer": "State",
+                        "geoid": "WI",
+                        "topic": "FVDEHAAP",
+                        "stratification": stratification,
+                        "period": period,
+                        "value": int(record.student_count) if record.student_count.isdigit() else 0,
+                    }
+                else:
+                    # Aggregate student counts (same as removal_count aggregation)
+                    grouped_data[strat_key]["value"] += int(record.student_count) if record.student_count.isdigit() else 0
+            
+            # Prepare transformed data for bulk insertion
+            transformed_data = [
+                ForwardExamStateWideTransformation(
+                    layer=data["layer"],
+                    geoid=data["geoid"],
+                    topic=data["topic"],
+                    stratification=data["stratification"],
+                    period=data["period"],
+                    value=data["value"],
+                )
+                for data in grouped_data.values()
+            ]
+            
+            # Bulk insert
+            with transaction.atomic():
+                ForwardExamStateWideTransformation.objects.bulk_create(transformed_data)
+            
+            logger.info(f"Successfully transformed {len(transformed_data)} Forward Exam Statewide records.")
+            messages.success(self.request, f"Forward Exam Statewide transformation completed. {len(transformed_data)} records created.")
+            return True
+            
+        except Exception as e:
+            tb = traceback.extract_tb(e.__traceback__)
+            line_number = tb[-1][1]
+            logger.error(f"Error during Forward Exam Statewide Transformation: {e} at line {line_number}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            messages.error(self.request, f"Forward Exam Statewide transformation failed: {e}")
             return False

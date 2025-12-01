@@ -261,3 +261,134 @@ class SchoolRemovalData(models.Model):
         self.school_code = self.school_code.lstrip("0")
         self.district_code = self.district_code.lstrip("0")
         super(SchoolRemovalData, self).save(*args, **kwargs)
+
+
+# Forward Exam Report Data Model (for ELA and MTH test results)
+class ForwardExamData(models.Model):
+    # Base school/district information (same as enrollment/removal)
+    school_year = models.CharField(max_length=7, verbose_name="School Year")
+    agency_type = models.CharField(max_length=50, blank=True, verbose_name="Agency Type")
+    cesa = models.CharField(max_length=10, blank=True, verbose_name="CESA")
+    county = models.CharField(max_length=50, blank=True, verbose_name="County")
+    district_code = models.CharField(max_length=10, verbose_name="District Code")
+    school_code = models.CharField(max_length=10, blank=True, verbose_name="School Code")
+    grade_group = models.CharField(max_length=50, blank=True, verbose_name="Grade Group")
+    charter_ind = models.CharField(max_length=4, blank=True, verbose_name="Charter Indicator")
+    district_name = models.CharField(max_length=100, verbose_name="District Name")
+    school_name = models.CharField(max_length=100, verbose_name="School Name")
+    
+    # Test-specific fields (unique to Forward Exam)
+    test_subject = models.CharField(max_length=50, verbose_name="Test Subject")  # ELA, Math, Science, Social Studies
+    grade_level = models.CharField(max_length=50, verbose_name="Grade Level")  # 3, 4, 5, 6, 7, 8, etc.
+    test_result = models.CharField(max_length=50, verbose_name="Test Result")  # Below Basic, Basic, Proficient, Advanced
+    test_result_code = models.CharField(max_length=50, verbose_name="Test Result Code")  # 1, 2, 3, 4
+    test_group = models.CharField(max_length=100, verbose_name="Test Group")  # WKCE/WAA-SwD, DLM, etc.
+    
+    # Demographic grouping (same as enrollment/removal)
+    group_by = models.CharField(max_length=50, verbose_name="Group By")  # Gender, Ethnicity, Disability, etc.
+    group_by_value = models.CharField(max_length=200, verbose_name="Group By Value")  # Male, Female, Hispanic, etc.
+    
+    # Count and percentage fields
+    student_count = models.CharField(max_length=20, verbose_name="Student Count")  # Number of students in this performance level
+    percent_of_group = models.CharField(max_length=20, verbose_name="Percent of Group")  # Percentage of subgroup
+    group_count = models.CharField(max_length=20, verbose_name="Group Count")  # Total count in the data group
+    
+    # Test performance metric
+    forward_average_scale_score = models.CharField(max_length=10, blank=True, null=True, verbose_name="Forward Average Scale Score")
+    
+    # Additional fields for linking (same as enrollment/removal)
+    place = models.CharField(max_length=100, null=True, blank=True, verbose_name="Place")
+    stratification = models.ForeignKey(Stratification, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Stratification")
+    geoid = models.ForeignKey(CountyGEOID, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="GEOID")
+    
+    class Meta:
+        verbose_name = 'Forward Exam Data'
+        verbose_name_plural = 'Forward Exam Data'
+        ordering = ['school_year', 'test_subject', 'grade_level', 'test_result']
+        indexes = [
+            models.Index(fields=['school_year', 'test_subject']),
+            models.Index(fields=['district_code', 'school_code']),
+            models.Index(fields=['group_by', 'group_by_value']),
+        ]
+    
+    def __str__(self):
+        return f"{self.school_year} - {self.test_subject} - Grade {self.grade_level} - {self.school_name}"
+    
+    def save(self, *args, **kwargs):
+        # Strip leading zeros from codes (same pattern as other models)
+        if self.school_code:
+            self.school_code = self.school_code.lstrip("0")
+        if self.district_code:
+            self.district_code = self.district_code.lstrip("0")
+        super(ForwardExamData, self).save(*args, **kwargs)
+
+
+# Forward Exam Transformation Models (PP-10a)
+class ForwardExamStateWideTransformation(models.Model):
+    layer = models.CharField(max_length=50, default='State')
+    geoid = models.CharField(max_length=50, default='WI')
+    topic = models.CharField(max_length=50, default='FVDEHAAP')  # Topic code from PP-10a spec
+    stratification = models.TextField(blank=True)
+    period = models.CharField(max_length=20)  # Format: 2023-2024
+    value = models.DecimalField(max_digits=10, decimal_places=2)  # Proficiency rate as percentage
+
+    class Meta:
+        verbose_name = 'Forward Exam Statewide Transformation'
+        verbose_name_plural = 'Forward Exam Statewide Transformations'
+        ordering = ['period', 'stratification']
+
+
+class ForwardExamTriCountyTransformation(models.Model):
+    layer = models.CharField(max_length=50, default='Region')
+    geoid = models.CharField(max_length=50, default='fox-valley')
+    topic = models.CharField(max_length=50, default='FVDEHAAP')
+    stratification = models.TextField(blank=True)
+    period = models.CharField(max_length=20)
+    value = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        verbose_name = 'Forward Exam Tri-County Transformation'
+        verbose_name_plural = 'Forward Exam Tri-County Transformations'
+        ordering = ['period', 'stratification']
+
+
+class ForwardExamCountyLayerTransformation(models.Model):
+    layer = models.CharField(max_length=50, default='County')
+    geoid = models.CharField(max_length=50)
+    topic = models.CharField(max_length=50, default='FVDEHAAP')
+    stratification = models.TextField(blank=True)
+    period = models.CharField(max_length=20)
+    value = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        verbose_name = 'Forward Exam County Layer Transformation'
+        verbose_name_plural = 'Forward Exam County Layer Transformations'
+        ordering = ['period', 'geoid', 'stratification']
+
+
+class ForwardExamZipCodeLayerTransformation(models.Model):
+    layer = models.CharField(max_length=50, default='Zip Code')
+    geoid = models.CharField(max_length=50)
+    topic = models.CharField(max_length=50, default='FVDEHAAP')
+    stratification = models.TextField(blank=True)
+    period = models.CharField(max_length=20)
+    value = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        verbose_name = 'Forward Exam Zip Code Layer Transformation'
+        verbose_name_plural = 'Forward Exam Zip Code Layer Transformations'
+        ordering = ['period', 'geoid', 'stratification']
+
+
+class ForwardExamCityLayerTransformation(models.Model):
+    layer = models.CharField(max_length=50, default='City or town')
+    geoid = models.CharField(max_length=50)
+    topic = models.CharField(max_length=50, default='FVDEHAAP')
+    stratification = models.TextField(blank=True)
+    period = models.CharField(max_length=20)
+    value = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        verbose_name = 'Forward Exam City Layer Transformation'
+        verbose_name_plural = 'Forward Exam City Layer Transformations'
+        ordering = ['period', 'geoid', 'stratification']

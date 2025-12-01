@@ -1,0 +1,105 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Forward Exam Data</h1>
+
+<!-- Filter Form -->
+<div style="margin-bottom: 20px; padding: 15px; background-color: #f0f0f0; border-radius: 5px;">
+    <h3>Filter Data</h3>
+    <form method="GET" action="{% url 'forward_exam_view' %}">
+        <label for="test_subject">Test Subject:</label>
+        <select name="test_subject" id="test_subject">
+            <option value="">All Subjects</option>
+            {% for subject in test_subjects %}
+            <option value="{{ subject }}" {% if selected_subject == subject %}selected{% endif %}>{{ subject }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="grade_level">Grade Level:</label>
+        <select name="grade_level" id="grade_level">
+            <option value="">All Grades</option>
+            {% for grade in grade_levels %}
+            <option value="{{ grade }}" {% if selected_grade == grade %}selected{% endif %}>{{ grade }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="test_result">Test Result:</label>
+        <select name="test_result" id="test_result">
+            <option value="">All Results</option>
+            {% for result in test_results %}
+            <option value="{{ result }}" {% if selected_result == result %}selected{% endif %}>{{ result }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" style="padding: 5px 15px; background-color: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">Apply Filters</button>
+        <a href="{% url 'forward_exam_view' %}" style="padding: 5px 15px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 3px;">Clear Filters</a>
+    </form>
+</div>
+
+<!-- Display paginated data -->
+<div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #007bff; color: white;">
+                <th style="padding: 10px; border: 1px solid #ddd;">School Year</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Test Subject</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Grade Level</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">District Name</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">School Name</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Test Result</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Test Group</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Group By</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Group By Value</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Student Count</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Avg Scale Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr style="{% cycle 'background-color: #f9f9f9;' 'background-color: #ffffff;' %}">
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.school_year }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.test_subject }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.grade_level }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.district_name }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.school_name }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;"><strong>{{ item.test_result }}</strong></td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.test_group }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.group_by }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">{{ item.group_by_value }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">{{ item.student_count }}</td>
+                <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">{{ item.forward_average_scale_score|default:"N/A" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="11" style="padding: 20px; text-align: center; color: #666;">No Forward Exam data found. Please upload Forward Exam files (ELA or MTH).</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Record Count -->
+<div style="margin-top: 10px; color: #666;">
+    <strong>Total Records:</strong> {{ data.paginator.count }}
+</div>
+
+<!-- Pagination Controls -->
+<div class="pagination" style="margin-top: 20px; text-align: center;">
+    {% if data.has_previous %}
+    <a href="?page={{ data.previous_page_number }}&type={{ transformation_type }}{% if selected_subject %}&test_subject={{ selected_subject }}{% endif %}{% if selected_grade %}&grade_level={{ selected_grade }}{% endif %}{% if selected_result %}&test_result={{ selected_result }}{% endif %}" 
+       style="padding: 8px 12px; margin: 0 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 3px;">Previous</a>
+    {% endif %}
+    
+    <span style="padding: 8px 12px; margin: 0 5px;">Page {{ data.number }} of {{ data.paginator.num_pages }}</span>
+    
+    {% if data.has_next %}
+    <a href="?page={{ data.next_page_number }}&type={{ transformation_type }}{% if selected_subject %}&test_subject={{ selected_subject }}{% endif %}{% if selected_grade %}&grade_level={{ selected_grade }}{% endif %}{% if selected_result %}&test_result={{ selected_result }}{% endif %}" 
+       style="padding: 8px 12px; margin: 0 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 3px;">Next</a>
+    {% endif %}
+</div>
+
+<!-- Back to Home -->
+<div style="margin-top: 30px;">
+    <a href="{% url 'data_processor_home' %}" style="padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 3px;">← Back to Home</a>
+</div>
+{% endblock %}
