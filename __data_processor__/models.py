@@ -330,7 +330,7 @@ class ForwardExamStateWideTransformation(models.Model):
     topic = models.CharField(max_length=50, default='FVDEHAAP')  # Topic code from PP-10a spec
     stratification = models.TextField(blank=True)
     period = models.CharField(max_length=20)  # Format: 2023-2024
-    value = models.DecimalField(max_digits=10, decimal_places=2)  # Proficiency rate as percentage
+    value = models.IntegerField()  # Student count (raw aggregated counts)
 
     class Meta:
         verbose_name = 'Forward Exam Statewide Transformation'
@@ -344,7 +344,7 @@ class ForwardExamTriCountyTransformation(models.Model):
     topic = models.CharField(max_length=50, default='FVDEHAAP')
     stratification = models.TextField(blank=True)
     period = models.CharField(max_length=20)
-    value = models.DecimalField(max_digits=10, decimal_places=2)
+    value = models.IntegerField()
 
     class Meta:
         verbose_name = 'Forward Exam Tri-County Transformation'
@@ -358,7 +358,7 @@ class ForwardExamCountyLayerTransformation(models.Model):
     topic = models.CharField(max_length=50, default='FVDEHAAP')
     stratification = models.TextField(blank=True)
     period = models.CharField(max_length=20)
-    value = models.DecimalField(max_digits=10, decimal_places=2)
+    value = models.IntegerField()
 
     class Meta:
         verbose_name = 'Forward Exam County Layer Transformation'
@@ -372,7 +372,7 @@ class ForwardExamZipCodeLayerTransformation(models.Model):
     topic = models.CharField(max_length=50, default='FVDEHAAP')
     stratification = models.TextField(blank=True)
     period = models.CharField(max_length=20)
-    value = models.DecimalField(max_digits=10, decimal_places=2)
+    value = models.IntegerField()
 
     class Meta:
         verbose_name = 'Forward Exam Zip Code Layer Transformation'
@@ -386,7 +386,7 @@ class ForwardExamCityLayerTransformation(models.Model):
     topic = models.CharField(max_length=50, default='FVDEHAAP')
     stratification = models.TextField(blank=True)
     period = models.CharField(max_length=20)
-    value = models.DecimalField(max_digits=10, decimal_places=2)
+    value = models.IntegerField()
 
     class Meta:
         verbose_name = 'Forward Exam City Layer Transformation'

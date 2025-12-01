@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Django Debug",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py", // Path to manage.py
+      "args": ["runserver","127.0.0.1:8001","--noreload"], // Run the Django development server
+      "django": true, // Enable Django debugging
+      "console": "integratedTerminal",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}" // Set the PYTHONPATH to the workspace folder
+      },
+      "justMyCode": false // Include all code in debugging
+    }
+  ]
+}

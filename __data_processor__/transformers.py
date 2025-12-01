@@ -2628,6 +2628,10 @@ class DataTransformer:
                 
                 # Get stratification
                 stratification = record.stratification.label_name if record.stratification else "Error"
+                stratification_code = record.stratification.stratification_code if record.stratification else ""
+                
+                # Topic with stratification code (e.g., "FVDEHAAP ECO1")
+                topic = f"FVDEHAAP {stratification_code}" if stratification_code else "FVDEHAAP"
                 
                 # Group key
                 strat_key = (stratification, period)
@@ -2637,7 +2641,7 @@ class DataTransformer:
                     grouped_data[strat_key] = {
                         "layer": "State",
                         "geoid": "WI",
-                        "topic": "FVDEHAAP",
+                        "topic": topic,
                         "stratification": stratification,
                         "period": period,
                         "value": int(record.student_count) if record.student_count.isdigit() else 0,
