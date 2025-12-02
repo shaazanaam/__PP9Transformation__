@@ -15,7 +15,7 @@ from .models import (
     MetopioCityLayerTransformation,  # Add this line
 )
 from .forms import UploadFileForm
-from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation, MetopioTriCountyRemovalDataTransformation, CountyLayerRemovalData, ZipCodeLayerRemovalData, MetopioCityRemovalData, CombinedRemovalData, ForwardExamData, ForwardExamStateWideTransformation, ForwardExamTriCountyTransformation, ForwardExamCountyLayerTransformation, ForwardExamZipCodeLayerTransformation, ForwardExamCityLayerTransformation
+from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation, MetopioTriCountyRemovalDataTransformation, CountyLayerRemovalData, ZipCodeLayerRemovalData, MetopioCityRemovalData, CombinedRemovalData, ForwardExamData, ForwardExamStateWideTransformation, ForwardExamTriCountyTransformation, ForwardExamCountyLayerTransformation, ForwardExamZipCodeLayerTransformation, ForwardExamCityLayerTransformation, ForwardExamCombinedTransformation
 from .models import SchoolAddressFile
 from .models import CountyGEOID
 from django.http import HttpResponse
@@ -120,6 +120,26 @@ def transformation_success(request):
         transformer = DataTransformer(request)
         transformer.transform_ForwardExam_Statewide()
         data_list = ForwardExamStateWideTransformation.objects.all()
+    elif transformation_type == "ForwardExam-TriCounty":
+        transformer = DataTransformer(request)
+        transformer.transform_ForwardExam_TriCounty()
+        data_list = ForwardExamTriCountyTransformation.objects.all()
+    elif transformation_type == "ForwardExam-County":
+        transformer = DataTransformer(request)
+        transformer.transform_ForwardExam_CountyLayer()
+        data_list = ForwardExamCountyLayerTransformation.objects.all()
+    elif transformation_type == "ForwardExam-Zipcode":
+        transformer = DataTransformer(request)
+        transformer.transform_ForwardExam_ZipcodeLayer()
+        data_list = ForwardExamZipCodeLayerTransformation.objects.all()
+    elif transformation_type == "ForwardExam-City":
+        transformer = DataTransformer(request)
+        transformer.transform_ForwardExam_CityLayer()
+        data_list = ForwardExamCityLayerTransformation.objects.all()
+    elif transformation_type == "ForwardExam-Combined":
+        transformer = DataTransformer(request)
+        transformer.transform_ForwardExam_Combined()
+        data_list = ForwardExamCombinedTransformation.objects.all()
     else:
         # Handle unknown transformation types
         details = "Unknown transformation type. Please check your request."

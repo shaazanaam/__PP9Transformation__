@@ -1,0 +1,62 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Forward Exam Zip Code Layer Transformation Data</h1>
+
+<p><strong>Layer:</strong> Zip Code</p>
+<p><strong>Topic:</strong> FVDEHAAP (3rd Grade Reading Proficiency)</p>
+<p><strong>Counties:</strong> Outagamie, Winnebago, Calumet</p>
+
+<!-- Display paginated data -->
+<div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #007bff; color: white;">
+                <th style="padding: 10px; border: 1px solid #ddd;">Layer</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">GEOID (Zip Code)</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Topic</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Stratification</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Period</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Value (%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in page_obj %}
+            <tr style="background-color: {% cycle '#f2f2f2' 'white' %};">
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ item.layer }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ item.geoid }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ item.topic }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ item.stratification }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ item.period }}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">{{ item.value }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="padding: 10px; text-align: center;">No data available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Pagination Controls -->
+<div style="margin-top: 20px; text-align: center;">
+    {% if page_obj.has_previous %}
+    <a href="?page=1" style="padding: 5px 10px; margin: 0 5px; text-decoration: none; background-color: #007bff; color: white; border-radius: 3px;">&laquo; First</a>
+    <a href="?page={{ page_obj.previous_page_number }}" style="padding: 5px 10px; margin: 0 5px; text-decoration: none; background-color: #007bff; color: white; border-radius: 3px;">Previous</a>
+    {% endif %}
+
+    <span style="padding: 5px 10px; margin: 0 5px;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" style="padding: 5px 10px; margin: 0 5px; text-decoration: none; background-color: #007bff; color: white; border-radius: 3px;">Next</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}" style="padding: 5px 10px; margin: 0 5px; text-decoration: none; background-color: #007bff; color: white; border-radius: 3px;">Last &raquo;</a>
+    {% endif %}
+</div>
+
+<p style="margin-top: 20px; text-align: center;"><strong>Total Records: {{ page_obj.paginator.count }}</strong></p>
+
+<div style="margin-top: 20px;">
+    <a href="{% url 'upload' %}" style="padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px;">Back to Upload</a>
+</div>
+{% endblock %}

@@ -19,3 +19,4 @@ my_DEC12_ENV/
 .idea/
 .vscode/uploads/ForwardReport/**/*.csv
 uploads/*.csv
+uploads/ForwardReport/**/*.csv

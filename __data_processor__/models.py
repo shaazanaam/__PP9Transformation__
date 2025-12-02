@@ -392,3 +392,17 @@ class ForwardExamCityLayerTransformation(models.Model):
         verbose_name = 'Forward Exam City Layer Transformation'
         verbose_name_plural = 'Forward Exam City Layer Transformations'
         ordering = ['period', 'geoid', 'stratification']
+
+
+class ForwardExamCombinedTransformation(models.Model):
+    layer = models.CharField(max_length=50)
+    geoid = models.CharField(max_length=50)
+    topic = models.CharField(max_length=50, default='FVDEHAAP')
+    stratification = models.TextField(blank=True)
+    period = models.CharField(max_length=20)
+    value = models.IntegerField()
+
+    class Meta:
+        verbose_name = 'Forward Exam Combined Transformation'
+        verbose_name_plural = 'Forward Exam Combined Transformations'
+        ordering = ['period', 'layer', 'geoid', 'stratification']
