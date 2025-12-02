@@ -56,7 +56,7 @@
         </thead>
         <tbody>
             {% for item in data %}
-            <tr style="{% cycle 'background-color: #f9f9f9;' 'background-color: #ffffff;' %}">
+            <tr {% cycle 'style="background-color: #f9f9f9;"' 'style="background-color: #ffffff;"' %}>
                 <td style="padding: 8px; border: 1px solid #ddd;">{{ item.school_year }}</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">{{ item.test_subject }}</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">{{ item.grade_level }}</td>
