@@ -1440,21 +1440,21 @@ class DataTransformer:
                     combined_dataset.append(record)
 
 
-            log_data_statewide = []
-            for record in combined_dataset:
+            # log_data_statewide = []
+            # for record in combined_dataset:
                 
-                log_data_statewide.append({
-                    "school_name": record.school_name,
-                    "county": record.county,
-                    "group_by": record.group_by,
-                    "group_by_value": record.group_by_value,
-                    "Stratification": record.stratification.label_name if record.stratification else "",
-                    "removal_count": record.removal_count,
-                })
-            df = pd.DataFrame(log_data_statewide)
-            df= df.sort_values(by="Stratification")
-            df.to_excel("statewide_data.xlsx", index=False)
-            logger.info("Statewide data exported to statewide_data.xlsx")
+            #     log_data_statewide.append({
+            #         "school_name": record.school_name,
+            #         "county": record.county,
+            #         "group_by": record.group_by,
+            #         "group_by_value": record.group_by_value,
+            #         "Stratification": record.stratification.label_name if record.stratification else "",
+            #         "removal_count": record.removal_count,
+            #     })
+            # df = pd.DataFrame(log_data_statewide)
+            # df= df.sort_values(by="Stratification")
+            # df.to_excel("statewide_data.xlsx", index=False)
+            # logger.info("Statewide data exported to statewide_data.xlsx")
 
 
             #Group data by stratification and period
@@ -2614,8 +2614,9 @@ class DataTransformer:
             
             logger.info(f"Filtered Forward Exam Data count: {forward_exam_data.count()}")
             
-            # Group data by stratification and period (same pattern as removal)
-            grouped_data = {}
+            # Step 1: Calculate totals per GROUP_BY (same pattern as Statewide Removal)
+            group_totals = defaultdict(int)
+            all_students_totals = {}  # Track by period
             
             for record in forward_exam_data:
                 # Transform period: 2024-25 → 2024-2025
@@ -2626,12 +2627,82 @@ class DataTransformer:
                 else:
                     period = school_year
                 
+                student_count = int(record.student_count) if record.student_count.isdigit() else 0
+                
+                # Track totals by group_by category and period
+                group_key = (record.group_by, period)
+                group_totals[group_key] += student_count
+                
+                # Track All Students totals by period
+                if record.group_by == "All Students":
+                    all_students_totals[period] = all_students_totals.get(period, 0) + student_count
+            
+            # Step 2: Map each (group_by, group_by_value, period) to group total
+            group_by_totals = {}
+            for record in forward_exam_data:
+                school_year = record.school_year
+                if '-' in school_year:
+                    start_year, end_year = school_year.split('-')
+                    period = f"{start_year}-20{end_year}"
+                else:
+                    period = school_year
+                
+                key = (record.group_by, record.group_by_value, period)
+                group_key = (record.group_by, period)
+                group_by_totals[key] = group_totals[group_key]
+            
+            # Step 3: Create Unknown records for missing data
+            new_unknown_records = []
+            for (group_by, group_by_value, period), total in group_by_totals.items():
+                if period in all_students_totals and total < all_students_totals[period]:
+                    difference = all_students_totals[period] - total
+                    
+                    # Find a record to clone structure from
+                    sample_record = forward_exam_data.filter(
+                        group_by=group_by,
+                        school_year__contains=period.split('-')[0]
+                    ).first()
+                    
+                    if sample_record:
+                        # Create unknown record
+                        new_record = ForwardExamData(
+                            school_year=sample_record.school_year,
+                            district_name=sample_record.district_name,
+                            grade_level=sample_record.grade_level,
+                            test_group=sample_record.test_group,
+                            test_subject=sample_record.test_subject,
+                            test_result=sample_record.test_result,
+                            charter_school_status=sample_record.charter_school_status,
+                            group_by=group_by,
+                            group_by_value="Unknown",
+                            student_count=str(difference),
+                            stratification=sample_record.stratification
+                        )
+                        new_unknown_records.append(new_record)
+            
+            logger.info(f"Created {len(new_unknown_records)} Unknown records for data completeness")
+            
+            # Step 4: Combine datasets
+            combined_dataset = list(forward_exam_data)
+            combined_dataset.extend(new_unknown_records)
+            
+            # Now group the combined dataset by stratification and period
+            grouped_data = {}
+            
+            for record in combined_dataset:
+                # Transform period: 2024-25 → 2024-2025
+                school_year = record.school_year
+                if '-' in school_year:
+                    start_year, end_year = school_year.split('-')
+                    period = f"{start_year}-20{end_year}"
+                else:
+                    period = school_year
+                
                 # Get stratification
                 stratification = record.stratification.label_name if record.stratification else "Error"
-                stratification_code = record.stratification.stratification_code if record.stratification else ""
                 
-                # Topic with stratification code (e.g., "FVDEHAAP ECO1")
-                topic = f"FVDEHAAP {stratification_code}" if stratification_code else "FVDEHAAP"
+                # Topic code without stratification suffix
+                topic = "FVDEHAAP"
                 
                 # Group key
                 strat_key = (stratification, period)
@@ -2647,7 +2718,7 @@ class DataTransformer:
                         "value": int(record.student_count) if record.student_count.isdigit() else 0,
                     }
                 else:
-                    # Aggregate student counts (same as removal_count aggregation)
+                    # Aggregate student counts
                     grouped_data[strat_key]["value"] += int(record.student_count) if record.student_count.isdigit() else 0
             
             # Prepare transformed data for bulk insertion
