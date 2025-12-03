@@ -3,25 +3,143 @@
 {% block title %}Data Processor Home{% endblock %}
 
 {% block content %}
-    <h1>School Data Processor</h1>
-    <p>Select a transformation type to process your data in the existing database:
-        The Other option is to go to the Upload tab and then Upload the CSV file and run the transformation
-    </p>
-      <!-- Form to select transformation type -->
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="Statewide V01">Run Statewide V01 Transformation</button>
-        <button type="submit" name="transformation_type" value="Tri-County">Run Tri-County V02 Transformation</button>
-        <button type="submit" name="transformation_type" value="County-Layer">Run County Layer Transformation</button>
-        <button type="submit" name="transformation_type" value="Metopio Statewide">Run Metopio Statewide Transformation</button>
-        <button type="submit" name="transformation_type" value="Zipcode">Run Metopio Zipcode Transformation</button>
-        <button type="submit" name="transformation_type" value="City-Town">Run City-Town Transformation</button>
-        <button type="submit" name="transformation_type" value="Statewide-Removal">Run Metopio StateWide Removal Transformation</button>
-        <button type="submit" name="transformation_type" value="Tricounty-Removal">Run Metopio Tricounty Removal Transformation</button>
-        <button type="submit" name="transformation_type" value="County-Removal">Run Metopio County Removal Transformation</button>
-        <button type ="submit" name ="transformation_type" value="Zipcode-Removal">Run Metopio ZipCode Removal Transformation</button>
-        <button type ="submit" name ="transformation_type" value="City-Removal">Run Metopio City Removal Transformation</button>
-        <button type="submit" name="transformation_type" value="combined">Run Combined Removal Transformation</button>
-        <button type="submit" name="transformation_type" value="ForwardExam-Statewide">Run Forward Exam Statewide Transformation</button>
-    </form>
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-4">Wisconsin School Data Processor</h1>
+            <p class="lead">Transform and analyze Wisconsin school data across multiple geographic layers</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <div class="card h-100 border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">📥 Data Management</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Download data from WISEdash or upload your own CSV files</p>
+                    <a href="/data_processor/data_download/" class="btn btn-primary me-2">Auto Download Data</a>
+                    <a href="/data_processor/upload/" class="btn btn-outline-primary">Manual Upload</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-3">
+            <div class="card h-100 border-success">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">📊 View Results</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">View and download transformed data</p>
+                    <a href="/data_processor/statewide/" class="btn btn-success me-2">View Data</a>
+                    <a href="/data_processor/download/" class="btn btn-outline-success">Download Excel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transformation Sections -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Run Transformations</h2>
+            <p>Select a transformation type to process data from your database:</p>
+        </div>
+    </div>
+
+    <!-- Enrollment Transformations -->
+    <div class="card mb-3">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">📚 Enrollment Data Transformations</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" class="d-inline">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="Statewide V01" class="btn btn-outline-info w-100">Statewide V01</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="Tri-County" class="btn btn-outline-info w-100">Tri-County V02</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="County-Layer" class="btn btn-outline-info w-100">County Layer</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="Metopio Statewide" class="btn btn-outline-info w-100">Metopio Statewide</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="Zipcode" class="btn btn-outline-info w-100">Metopio Zipcode</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="City-Town" class="btn btn-outline-info w-100">City-Town</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Removal/Discipline Transformations -->
+    <div class="card mb-3">
+        <div class="card-header bg-warning">
+            <h5 class="mb-0">⚠️ Removal/Discipline Data Transformations</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" class="d-inline">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="Statewide-Removal" class="btn btn-outline-warning w-100">Statewide Removal</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="Tricounty-Removal" class="btn btn-outline-warning w-100">Tri-County Removal</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="County-Removal" class="btn btn-outline-warning w-100">County Removal</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="Zipcode-Removal" class="btn btn-outline-warning w-100">Zipcode Removal</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="City-Removal" class="btn btn-outline-warning w-100">City Removal</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="combined" class="btn btn-outline-warning w-100">Combined Removal</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forward Exam Transformations -->
+    <div class="card mb-3">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0">📝 Forward Exam (3rd Grade Reading) Transformations</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" class="d-inline">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="ForwardExam-Statewide" class="btn btn-outline-danger w-100">Statewide</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="ForwardExam-TriCounty" class="btn btn-outline-danger w-100">Tri-County</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="ForwardExam-County" class="btn btn-outline-danger w-100">County Layer</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="ForwardExam-Zipcode" class="btn btn-outline-danger w-100">Zip Code</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="ForwardExam-City" class="btn btn-outline-danger w-100">City Layer</button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <button type="submit" name="transformation_type" value="ForwardExam-Combined" class="btn btn-outline-danger w-100">Combined</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

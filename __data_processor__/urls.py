@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.data_processor_home, name='data_processor_home'),
+    path('data_download/', views.data_download_view, name='data_download'),
     path('upload/', views.upload_file, name='upload'),
     path('success/', views.transformation_success, name='transformation_success'),
     path('download/', views.download_excel, name='download_excel'),

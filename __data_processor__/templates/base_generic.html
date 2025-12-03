@@ -33,108 +33,79 @@
                         <li class="nav-item">
                             <a 
                                 class="nav-link {% if request.path == '/' %}active{% endif %}" 
-                                href="/">Home</a>
+                                href="/">🏠 Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/upload/' %}active{% endif %}" 
-                                href="/data_processor/upload/">Upload</a>
+                        
+                        <!-- Data Management Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dataManagementDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                📥 Data Management
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dataManagementDropdown">
+                                <li><a class="dropdown-item" href="/data_processor/data_download/">Auto Download Data</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/upload/">Manual Upload</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/statewide/' %}active{% endif %}" 
-                                href="/data_processor/statewide/?type=Statewide">Statewide Data</a>
+                        
+                        <!-- Enrollment Data Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="enrollmentDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                📚 Enrollment
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="enrollmentDropdown">
+                                <li><h6 class="dropdown-header">Enrollment Data</h6></li>
+                                <li><a class="dropdown-item" href="/data_processor/statewide/?type=Statewide">Statewide Data</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/tricounty/?type=Tri-County">Tri-County Data</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/county_layer/?type=County-Layer">County Layer Data</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/metopio_statewide/?type=Metopio-Statewide">Metopio Statewide Data</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/metopio_zipcode/?type=Metopio-ZipCode">Metopio Zip Code Data</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/city_town/?type=City-Town">City-Town Data</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/tricounty/' %}active{% endif %}" 
-                                href="/data_processor/tricounty/?type=Tri-County">Tri-County Data</a>
+                        
+                        <!-- Removal/Discipline Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="removalDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ⚠️ Removal/Discipline
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="removalDropdown">
+                                <li><h6 class="dropdown-header">Removal Data</h6></li>
+                                <li><a class="dropdown-item" href="/data_processor/statewide_removal/?type=Statewide-Removal">Statewide Removal</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/tricounty_removal/?type=Tricounty-Removal">Tri-County Removal</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/county_layer_removal/?type=County-Removal">County Removal</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/zipcode_layer_removal/?type=Zipcode-Removal">Zip Code Removal</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/city_layer_removal/?type=City-Removal">City Removal</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/data_processor/combined_removal/?type=combined">Combined Removal</a></li>
+                            </ul>
                         </li>
-
-                        <li class="nav-item">
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/county_layer/' %}active{% endif %}" 
-                                href="/data_processor/county_layer/?type=County-Layer">County Layer Data</a>
+                        
+                        <!-- Forward Exam Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="forwardExamDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                📝 Forward Exam
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="forwardExamDropdown">
+                                <li><h6 class="dropdown-header">Forward Exam (3rd Grade)</h6></li>
+                                <li><a class="dropdown-item" href="/data_processor/success/?type=ForwardExam-Statewide">Statewide</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/success/?type=ForwardExam-TriCounty">Tri-County</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/success/?type=ForwardExam-County">County Layer</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/success/?type=ForwardExam-Zipcode">Zip Code</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/success/?type=ForwardExam-City">City Layer</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/data_processor/success/?type=ForwardExam-Combined">Combined</a></li>
+                            </ul>
                         </li>
-
-                        <li class = "nav-item">
-
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/metopio_statewide/' %}active{% endif %}" 
-                                href="/data_processor/metopio_statewide/?type=Metopio-Statewide">Metopio Statewide Data</a>
-                        </li>
-
-                        <li class = "nav-item">
-                            
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/metopio_zipcode/' %}active{% endif %}" 
-                                href="/data_processor/metopio_zipcode/?type=Metopio-ZipCode">Metopio Zip Code Data</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/city_town/' %}active{% endif %}" 
-                                href="/data_processor/city_town/?type=City-Town">City-Town Data</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/statewide_removal/' %}active{% endif %}" 
-                                href="/data_processor/statewide_removal/?type=Statewide-Removal">Metopio State-Wide Removal Data</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/tricounty_removal/' %}active{% endif %}" 
-                                href="/data_processor/tricounty_removal/?type=Tricounty-Removal">Metopio Tri-County Removal Data</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/county_layer_removal/' %}active{% endif %}" 
-                                href="/data_processor/county_layer_removal/?type=County-Removal">Metopio County Removal Data</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/zipcode_layer_removal/' %}active{% endif %}" 
-                                href="/data_processor/zipcode_layer_removal/?type=Zipcode-Removal">Metopio Zip Code Removal Data</a>
-                        </li>
-
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/city_layer_removal/' %}active{% endif %}" 
-                                href="/data_processor/city_layer_removal/?type=City-Removal">Metopio City Code Removal Data</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/combined_removal/' %}active{% endif %}" 
-                                href="/data_processor/combined_removal/?type=combined">Combined Removal Data</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/forward_exam_statewide_transformation/' %}active{% endif %}" 
-                                href="/data_processor/success/?type=ForwardExam-Statewide">Forward Exam Statewide Transformation</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/forward_exam_tricounty_transformation/' %}active{% endif %}" 
-                                href="/data_processor/success/?type=ForwardExam-TriCounty">Forward Exam Tri-County Transformation</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/forward_exam_county_transformation/' %}active{% endif %}" 
-                                href="/data_processor/success/?type=ForwardExam-County">Forward Exam County Transformation</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/forward_exam_zipcode_transformation/' %}active{% endif %}" 
-                                href="/data_processor/success/?type=ForwardExam-Zipcode">Forward Exam Zip Code Transformation</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/forward_exam_city_transformation/' %}active{% endif %}" 
-                                href="/data_processor/success/?type=ForwardExam-City">Forward Exam City Transformation</a>
-                        </li>
-                        <li>
-                            <a 
-                                class="nav-link {% if request.path == '/data_processor/forward_exam_combined_transformation/' %}active{% endif %}" 
-                                href="/data_processor/success/?type=ForwardExam-Combined">Forward Exam Combined Transformation</a>
+                        
+                        <!-- Downloads Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="downloadsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                📊 Downloads
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="downloadsDropdown">
+                                <li><a class="dropdown-item" href="/data_processor/download/">Download Excel</a></li>
+                                <li><a class="dropdown-item" href="/data_processor/download_csv/">Download CSV</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>

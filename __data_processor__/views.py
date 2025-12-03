@@ -3,6 +3,9 @@ from django.db.utils import OperationalError
 import time
 import os
 import csv
+import requests
+import zipfile
+from datetime import datetime
 from django.urls import reverse  # For generating URLs
 from .models import (
     SchoolData,
@@ -1194,3 +1197,101 @@ def download_csv(request):
         response = HttpResponse(f.read(), content_type="text/csv")
         response["Content-Disposition"] = f"attachment; filename={new_file_name}"
         return response
+
+
+def data_download_view(request):
+    """View to automatically download data from WISEdash"""
+    download_status = None
+    recent_files = []
+    
+    # Get list of recent files in uploads directory
+    uploads_dir = os.path.join(settings.BASE_DIR, 'uploads')
+    if os.path.exists(uploads_dir):
+        files = []
+        for filename in os.listdir(uploads_dir):
+            filepath = os.path.join(uploads_dir, filename)
+            if os.path.isfile(filepath):
+                stat_info = os.stat(filepath)
+                files.append({
+                    'name': filename,
+                    'date': datetime.fromtimestamp(stat_info.st_mtime).strftime('%Y-%m-%d %H:%M'),
+                    'size': f"{stat_info.st_size / 1024:.2f} KB"
+                })
+        recent_files = sorted(files, key=lambda x: x['date'], reverse=True)[:10]
+    
+    if request.method == 'POST':
+        data_type = request.POST.get('data_type')
+        school_year = request.POST.get('school_year')
+        
+        if data_type and school_year:
+            # Construct the filename based on WISEdash naming convention
+            filename = f"{data_type}_certified_{school_year}.zip"
+            
+            # WISEdash download URL pattern
+            base_url = "https://dpi.wi.gov/sites/default/files/imce/wisedash/data-files/"
+            download_url = f"{base_url}{filename}"
+            
+            try:
+                # Create uploads directory if it doesn't exist
+                os.makedirs(uploads_dir, exist_ok=True)
+                
+                # Download the file
+                logger.info(f"Attempting to download: {download_url}")
+                response = requests.get(download_url, timeout=30, stream=True)
+                response.raise_for_status()
+                
+                # Save the ZIP file
+                zip_filepath = os.path.join(uploads_dir, filename)
+                with open(zip_filepath, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        f.write(chunk)
+                
+                # Extract the ZIP file
+                with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
+                    zip_ref.extractall(uploads_dir)
+                
+                # Get the extracted CSV filename (usually same name but .csv extension)
+                csv_filename = filename.replace('.zip', '.csv')
+                csv_filepath = os.path.join(uploads_dir, csv_filename)
+                
+                file_size = os.path.getsize(zip_filepath)
+                
+                download_status = {
+                    'success': True,
+                    'filename': filename,
+                    'filepath': zip_filepath,
+                    'size': f"{file_size / 1024:.2f} KB",
+                    'csv_file': csv_filename if os.path.exists(csv_filepath) else None
+                }
+                
+                logger.info(f"Successfully downloaded and extracted: {filename}")
+                messages.success(request, f"Successfully downloaded {filename}")
+                
+            except requests.exceptions.RequestException as e:
+                logger.error(f"Error downloading file: {e}")
+                download_status = {
+                    'success': False,
+                    'error': f"Failed to download file. The file may not exist or the URL is incorrect. Error: {str(e)}"
+                }
+                messages.error(request, f"Failed to download {filename}")
+            except zipfile.BadZipFile as e:
+                logger.error(f"Error extracting ZIP file: {e}")
+                download_status = {
+                    'success': False,
+                    'error': f"Downloaded file is not a valid ZIP file: {str(e)}"
+                }
+                messages.error(request, "Downloaded file is corrupted")
+            except Exception as e:
+                logger.error(f"Unexpected error: {e}")
+                download_status = {
+                    'success': False,
+                    'error': f"An unexpected error occurred: {str(e)}"
+                }
+                messages.error(request, "An unexpected error occurred")
+    
+    context = {
+        'download_status': download_status,
+        'recent_files': recent_files
+    }
+    
+    return render(request, '__data_processor__/data_download.html', context)

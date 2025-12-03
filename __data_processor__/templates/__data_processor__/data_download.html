@@ -1,0 +1,172 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Auto Download WISEdash Data{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-5">📥 Auto Download WISEdash Data</h1>
+        <p class="lead">Automatically download the latest school data files from Wisconsin DPI WISEdash</p>
+    </div>
+</div>
+
+<!-- Instructions -->
+<div class="alert alert-info" role="alert">
+    <h5 class="alert-heading">How it works:</h5>
+    <ol class="mb-0">
+        <li>Select the data type and school year you want to download</li>
+        <li>Click "Download from WISEdash" to fetch the file directly</li>
+        <li>The system will automatically save it to your uploads folder</li>
+        <li>Once downloaded, you can run transformations on the data</li>
+    </ol>
+</div>
+
+<!-- Download Form -->
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Select Data to Download</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" id="downloadForm">
+            {% csrf_token %}
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="data_type" class="form-label fw-bold">Data Type:</label>
+                    <select class="form-select" id="data_type" name="data_type" required>
+                        <option value="">-- Select Data Type --</option>
+                        <optgroup label="Enrollment Data">
+                            <option value="enrollment">Enrollment (Certified)</option>
+                            <option value="enrollment_by_gradelevel">Enrollment by Grade Level</option>
+                        </optgroup>
+                        <optgroup label="Discipline/Removal Data">
+                            <option value="discipline_actions">Discipline Actions (Certified)</option>
+                            <option value="discipline_incidents">Discipline Incidents (Certified)</option>
+                        </optgroup>
+                        <optgroup label="Forward Exam Data">
+                            <option value="forward">Forward Exam (3rd Grade Reading)</option>
+                        </optgroup>
+                        <optgroup label="Other Data">
+                            <option value="agency">Agency/District Information</option>
+                            <option value="absenteeism">Absenteeism Data</option>
+                            <option value="attendance_dropouts">Attendance & Dropouts</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div class="col-md-6">
+                    <label for="school_year" class="form-label fw-bold">School Year:</label>
+                    <select class="form-select" id="school_year" name="school_year" required>
+                        <option value="">-- Select Year --</option>
+                        <option value="2024-25">2024-25</option>
+                        <option value="2023-24" selected>2023-24</option>
+                        <option value="2022-23">2022-23</option>
+                        <option value="2021-22">2021-22</option>
+                        <option value="2020-21">2020-21</option>
+                        <option value="2019-20">2019-20</option>
+                        <option value="2018-19">2018-19</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="alert alert-secondary" role="alert">
+                        <strong>Expected filename:</strong> <span id="expectedFilename">Select data type and year</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary btn-lg" id="downloadBtn">
+                        <span class="spinner-border spinner-border-sm d-none" id="downloadSpinner" role="status" aria-hidden="true"></span>
+                        📥 Download from WISEdash
+                    </button>
+                    <a href="/" class="btn btn-outline-secondary btn-lg ms-2">← Back to Home</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Download Status -->
+{% if download_status %}
+<div class="card mt-4">
+    <div class="card-header {% if download_status.success %}bg-success{% else %}bg-danger{% endif %} text-white">
+        <h5 class="mb-0">{% if download_status.success %}✅ Download Successful{% else %}❌ Download Failed{% endif %}</h5>
+    </div>
+    <div class="card-body">
+        {% if download_status.success %}
+            <p class="mb-2"><strong>File Downloaded:</strong> {{ download_status.filename }}</p>
+            <p class="mb-2"><strong>Saved to:</strong> <code>{{ download_status.filepath }}</code></p>
+            <p class="mb-2"><strong>File Size:</strong> {{ download_status.size }}</p>
+            <p class="mb-3"><strong>Status:</strong> Ready for transformation</p>
+            <a href="/" class="btn btn-success">Run Transformations →</a>
+        {% else %}
+            <p class="text-danger"><strong>Error:</strong> {{ download_status.error }}</p>
+            <p class="mb-0"><small>Please check the data type and year, or try downloading manually from <a href="https://dpi.wi.gov/wisedash/download-files" target="_blank">WISEdash</a></small></p>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Available Files -->
+<div class="card mt-4">
+    <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">📁 Recently Downloaded Files</h5>
+    </div>
+    <div class="card-body">
+        {% if recent_files %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Filename</th>
+                            <th>Date</th>
+                            <th>Size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for file in recent_files %}
+                        <tr>
+                            <td>{{ file.name }}</td>
+                            <td>{{ file.date }}</td>
+                            <td>{{ file.size }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-muted mb-0">No files downloaded yet. Start by downloading data above.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+// Update expected filename when selections change
+document.getElementById('data_type').addEventListener('change', updateFilename);
+document.getElementById('school_year').addEventListener('change', updateFilename);
+
+function updateFilename() {
+    const dataType = document.getElementById('data_type').value;
+    const schoolYear = document.getElementById('school_year').value;
+    const filenameElement = document.getElementById('expectedFilename');
+    
+    if (dataType && schoolYear) {
+        const filename = `${dataType}_certified_${schoolYear}.zip`;
+        filenameElement.textContent = filename;
+    } else {
+        filenameElement.textContent = 'Select data type and year';
+    }
+}
+
+// Show loading spinner on form submit
+document.getElementById('downloadForm').addEventListener('submit', function() {
+    document.getElementById('downloadSpinner').classList.remove('d-none');
+    document.getElementById('downloadBtn').disabled = true;
+});
+</script>
+
+{% endblock %}
