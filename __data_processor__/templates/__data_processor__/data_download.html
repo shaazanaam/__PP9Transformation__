@@ -32,17 +32,11 @@
     <p class="mb-0"><small>You can still try the automatic download below, but it may not work for all files.</small></p>
 </div>
 
-<div class="alert alert-info" role="alert">
-    <h5 class="alert-heading">Automatic Download (Experimental):</h5>
-    <ol class="mb-0">
-        <li>Select the data type and school year you want to download</li>
-        <li>Click "Download from WISEdash" to attempt automatic fetch</li>
-        <li>If successful, the file will be saved to your uploads folder</li>
-        <li>If it fails, follow the manual download steps above</li>
-    </ol>
-</div>
 
-<!-- Download Form -->
+
+<!-- Download Form - HIDDEN: WISEdash doesn't support direct URL downloads -->
+<!-- Uncomment this section if WISEdash provides API access or direct download URLs in the future -->
+{% comment %}
 <div class="card">
     <div class="card-header bg-secondary text-white">
         <h5 class="mb-0">Try Automatic Download (Experimental)</h5>
@@ -110,6 +104,7 @@
         </form>
     </div>
 </div>
+{% endcomment %}
 
 <!-- Download Status -->
 {% if download_status %}
