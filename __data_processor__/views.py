@@ -342,38 +342,39 @@ def upload_file(request):
         
         else:
             # Handle file uploads (user uploaded files via the form)
-            file = request.FILES.get("file")  # Main enrollment file
+            enrollment_file = request.FILES.get("enrollment_file")
+            discipline_file = request.FILES.get("discipline_file")
+            forward_exam_file = request.FILES.get("forward_exam_file")
             stratifications_file = request.FILES.get("stratifications_file")  
             county_geoid_file = request.FILES.get("county_geoid_file")
             school_address_file = request.FILES.get("school_address_file")
-            school_removal_file = request.FILES.get("school_removal_file")
-            forward_exam_file = request.FILES.get("forward_exam_file")
             
             # Track what was uploaded
             uploaded_files = []
             
-            # Process each file type independently - each is optional
-            if file:
+            # Process main data files
+            if enrollment_file:
                 form = UploadFileForm(request.POST, request.FILES)
                 if form.is_valid():
-                    handle_uploaded_file(file, stratifications_file=stratifications_file)
+                    handle_uploaded_file(enrollment_file, stratifications_file=stratifications_file)
                     uploaded_files.append("Enrollment data")
             
-            if county_geoid_file:
-                load_county_geoid_file(county_geoid_file)
-                uploaded_files.append("County GEOID data")
-            
-            if school_address_file:
-                load_school_address_file(school_address_file)
-                uploaded_files.append("School Address data")
-            
-            if school_removal_file:
-                load_school_removal_data(school_removal_file)
-                uploaded_files.append("School Removal data")
+            if discipline_file:
+                load_school_removal_data(discipline_file)
+                uploaded_files.append("Discipline/Removal data")
             
             if forward_exam_file:
                 records_loaded = load_forward_exam_data(forward_exam_file)
                 uploaded_files.append(f"Forward Exam data ({records_loaded} records)")
+            
+            # Process reference files (these are reused across transformations)
+            if county_geoid_file:
+                load_county_geoid_file(county_geoid_file)
+                uploaded_files.append("County GEOID reference")
+            
+            if school_address_file:
+                load_school_address_file(school_address_file)
+                uploaded_files.append("School Address reference")
             
             # Redirect with success message showing what was uploaded
             if uploaded_files:

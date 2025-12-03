@@ -1,86 +1,180 @@
 {% extends "base_generic.html" %}
 
+{% block title %}Upload Data Files{% endblock %}
+
 {% block content %}
-    <h1>Upload CSV</h1>
-    <p>{{ details }}</p>
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-5">Ì≥§ Upload Data Files</h1>
+        <p class="lead">Upload your data files to run transformations</p>
+    </div>
+</div>
+
+{% if message %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endif %}
+
+<div class="alert alert-info" role="alert">
+    <h5 class="alert-heading">Ì≥ã How to Upload:</h5>
+    <ol class="mb-0">
+        <li><strong>Choose your main data file</strong> based on what transformation you want to run:
+            <ul>
+                <li><strong>Enrollment transformations</strong> ‚Üí Upload enrollment file only</li>
+                <li><strong>Removal/Discipline transformations</strong> ‚Üí Upload discipline file only</li>
+                <li><strong>Forward Exam transformations</strong> ‚Üí Upload forward exam file only</li>
+            </ul>
+        </li>
+        <li><strong>Upload reference files once</strong> (if not already uploaded) - these are reused for all transformations</li>
+        <li>Click <strong>"Upload Files"</strong> to load data into the system</li>
+        <li>Return to the <a href="/" class="alert-link">Home page</a> to run transformations</li>
+    </ol>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
     
-    <!-- File upload form -->
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}  <!-- Renders the form fields as paragraphs -->
-        
-        <br>
-               
-        <button type="submit">Upload</button>
-    </form>
-    <br>
-
-    <!-- Transformation buttons -->
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="Statewide V01">Run Statewide V01 Transformation</button>
-    </form>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="Tri-County">Run Tri-County Transformation</button>
-    </form>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="County-Layer">Run County Layer Transformation</button>
-    </form>
-
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="Metopio Statewide">Run Metopio Statewide Transformation</button>
-    </form>
-
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="Zipcode">Run Metopio Zip Code Transformation</button>
-    </form>
-
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="City-Town">Run City-Town Transformation</button>
-    </form>
+    <!-- Main Data Files -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Ì≥ä Main Data Files (Choose One)</h5>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">Upload the specific data file you need for your transformation type:</p>
+            
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-info">
+                        <div class="card-header bg-info text-white">
+                            <strong>Ì≥ö Enrollment Data</strong>
+                        </div>
+                        <div class="card-body">
+                            <label for="id_enrollment_file" class="form-label">Enrollment File:</label>
+                            <input type="file" class="form-control" id="id_enrollment_file" name="enrollment_file" accept=".csv">
+                            <small class="form-text text-muted">
+                                enrollment_certified_YYYY-YY.csv<br>
+                                <em>Use for: Statewide, Tri-County, County Layer, Metopio, City-Town transformations</em>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-warning">
+                        <div class="card-header bg-warning">
+                            <strong>‚ö†Ô∏è Discipline Data</strong>
+                        </div>
+                        <div class="card-body">
+                            <label for="id_discipline_file" class="form-label">Discipline File:</label>
+                            <input type="file" class="form-control" id="id_discipline_file" name="discipline_file" accept=".csv">
+                            <small class="form-text text-muted">
+                                discipline_actions_certified_YYYY-YY.csv<br>
+                                <em>Use for: All Removal/Discipline transformations</em>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-danger">
+                        <div class="card-header bg-danger text-white">
+                            <strong>Ì≥ù Forward Exam Data</strong>
+                        </div>
+                        <div class="card-body">
+                            <label for="id_forward_exam_file" class="form-label">Forward Exam File:</label>
+                            <input type="file" class="form-control" id="id_forward_exam_file" name="forward_exam_file" accept=".csv">
+                            <small class="form-text text-muted">
+                                forward_certified_ELA_RDG_WRT_YYYY-YY.csv<br>
+                                <em>Use for: All Forward Exam transformations</em>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
-    <form method ="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="Statewide-Removal">Run Metopio StateWide Removal Transformation</button>
-    </form>
-
-    <form method ="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="Tricounty-Removal">Run Metopio Tri-County Removal Transformation</button>
-    </form>
+    <!-- Reference Files -->
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Ì≥ö Reference Files (Upload Once, Reused for All Transformations)</h5>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">These files are used across all transformation types. Upload them once if not already loaded:</p>
+            
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="id_stratifications_file" class="form-label fw-bold">Stratifications Reference:</label>
+                    <input type="file" class="form-control" id="id_stratifications_file" name="stratifications_file" accept=".csv">
+                    <small class="form-text text-muted">PP10 Normalized Stratifications.csv</small>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <label for="id_county_geoid_file" class="form-label fw-bold">County GEOID Reference:</label>
+                    <input type="file" class="form-control" id="id_county_geoid_file" name="county_geoid_file" accept=".csv">
+                    <small class="form-text text-muted">Fox Valley Data Exchange Places GEIODs.csv</small>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                    <label for="id_school_address_file" class="form-label fw-bold">School Address Reference:</label>
+                    <input type="file" class="form-control" id="id_school_address_file" name="school_address_file" accept=".csv">
+                    <small class="form-text text-muted">sd-export-public-schools-YYYYMMDD.HHMM.csv</small>
+                </div>
+            </div>
+        </div>
+    </div>
     
-    <form method ="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="County-Removal">Run Metopio County Removal Transformation</button>
-    </form>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4">
+        <button type="submit" class="btn btn-primary btn-lg">
+            Ì≥§ Upload Files
+        </button>
+        <a href="/" class="btn btn-outline-secondary btn-lg">
+            ‚Üê Back to Home
+        </a>
+    </div>
+</form>
 
-    <form method ="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="Zipcode-Removal">Run Metopio Zip CodeRemoval Removal Transformation</button>
-    </form>
+<!-- Quick Actions -->
+<div class="card border-success">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">‚ö° Quick Actions After Upload</h5>
+    </div>
+    <div class="card-body">
+        <p>Once your files are uploaded, return to the home page to run transformations:</p>
+        <div class="row">
+            <div class="col-md-4">
+                <h6>Ì≥ö Enrollment Transformations:</h6>
+                <ul class="small">
+                    <li>Statewide V01</li>
+                    <li>Tri-County V02</li>
+                    <li>County Layer</li>
+                    <li>Metopio variants</li>
+                    <li>City-Town</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h6>‚ö†Ô∏è Removal/Discipline:</h6>
+                <ul class="small">
+                    <li>Statewide Removal</li>
+                    <li>Tri-County Removal</li>
+                    <li>County/Zipcode/City Removal</li>
+                    <li>Combined Removal</li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h6>Ì≥ù Forward Exam (3rd Grade):</h6>
+                <ul class="small">
+                    <li>Statewide</li>
+                    <li>Tri-County</li>
+                    <li>County/Zipcode/City</li>
+                    <li>Combined</li>
+                </ul>
+            </div>
+        </div>
+        <a href="/" class="btn btn-success mt-3">Go to Home Page ‚Üí</a>
+    </div>
+</div>
 
-    <form method ="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="City-Removal">Run Metopio City Removal Removal Transformation</button>
-    </form>
-
-    <form method ="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="combined">Run combined Removal Transformation</button>
-    </form>
-
-    <form method ="post">
-        {% csrf_token %}
-        <button type="submit" name="transformation_type" value="ForwardExam-Statewide">Run Forward Exam Statewide Transformation</button>
-    </form>
-    
-    <br>
-    {% if message %}
-        <div class="alert alert-info">{{ message }}</div>
-    {% endif %}
 {% endblock %}
