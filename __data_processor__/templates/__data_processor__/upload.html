@@ -5,7 +5,7 @@
 {% block content %}
 <div class="row mb-4">
     <div class="col-12">
-        <h1 class="display-5">Ì≥§ Upload Data Files</h1>
+        <h1 class="display-5">Upload Data Files</h1>
         <p class="lead">Upload your data files to run transformations</p>
     </div>
 </div>
@@ -18,13 +18,13 @@
 {% endif %}
 
 <div class="alert alert-info" role="alert">
-    <h5 class="alert-heading">Ì≥ã How to Upload:</h5>
+    <h5 class="alert-heading">How to Upload:</h5>
     <ol class="mb-0">
         <li><strong>Choose your main data file</strong> based on what transformation you want to run:
             <ul>
-                <li><strong>Enrollment transformations</strong> ‚Üí Upload enrollment file only</li>
-                <li><strong>Removal/Discipline transformations</strong> ‚Üí Upload discipline file only</li>
-                <li><strong>Forward Exam transformations</strong> ‚Üí Upload forward exam file only</li>
+                <li><strong>Enrollment transformations</strong> &rarr; Upload enrollment file only</li>
+                <li><strong>Removal/Discipline transformations</strong> &rarr; Upload discipline file only</li>
+                <li><strong>Forward Exam transformations</strong> &rarr; Upload forward exam file only</li>
             </ul>
         </li>
         <li><strong>Upload reference files once</strong> (if not already uploaded) - these are reused for all transformations</li>
@@ -39,7 +39,7 @@
     <!-- Main Data Files -->
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Ì≥ä Main Data Files (Choose One)</h5>
+            <h5 class="mb-0">Main Data Files (Choose One)</h5>
         </div>
         <div class="card-body">
             <p class="text-muted">Upload the specific data file you need for your transformation type:</p>
@@ -48,7 +48,7 @@
                 <div class="col-md-4 mb-3">
                     <div class="card h-100 border-info">
                         <div class="card-header bg-info text-white">
-                            <strong>Ì≥ö Enrollment Data</strong>
+                            <strong>Enrollment Data</strong>
                         </div>
                         <div class="card-body">
                             <label for="id_enrollment_file" class="form-label">Enrollment File:</label>
@@ -64,7 +64,7 @@
                 <div class="col-md-4 mb-3">
                     <div class="card h-100 border-warning">
                         <div class="card-header bg-warning">
-                            <strong>‚ö†Ô∏è Discipline Data</strong>
+                            <strong>Discipline Data</strong>
                         </div>
                         <div class="card-body">
                             <label for="id_discipline_file" class="form-label">Discipline File:</label>
@@ -80,7 +80,7 @@
                 <div class="col-md-4 mb-3">
                     <div class="card h-100 border-danger">
                         <div class="card-header bg-danger text-white">
-                            <strong>Ì≥ù Forward Exam Data</strong>
+                            <strong>Forward Exam Data</strong>
                         </div>
                         <div class="card-body">
                             <label for="id_forward_exam_file" class="form-label">Forward Exam File:</label>
@@ -99,7 +99,7 @@
     <!-- Reference Files -->
     <div class="card mb-4">
         <div class="card-header bg-secondary text-white">
-            <h5 class="mb-0">Ì≥ö Reference Files (Upload Once, Reused for All Transformations)</h5>
+            <h5 class="mb-0">Reference Files (Upload Once, Reused for All Transformations)</h5>
         </div>
         <div class="card-body">
             <p class="text-muted">These files are used across all transformation types. Upload them once if not already loaded:</p>
@@ -128,10 +128,10 @@
     
     <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4">
         <button type="submit" class="btn btn-primary btn-lg">
-            Ì≥§ Upload Files
+            Upload Files
         </button>
         <a href="/" class="btn btn-outline-secondary btn-lg">
-            ‚Üê Back to Home
+            &larr; Back to Home
         </a>
     </div>
 </form>
@@ -139,13 +139,13 @@
 <!-- Quick Actions -->
 <div class="card border-success">
     <div class="card-header bg-success text-white">
-        <h5 class="mb-0">‚ö° Quick Actions After Upload</h5>
+        <h5 class="mb-0">Quick Actions After Upload</h5>
     </div>
     <div class="card-body">
         <p>Once your files are uploaded, return to the home page to run transformations:</p>
         <div class="row">
             <div class="col-md-4">
-                <h6>Ì≥ö Enrollment Transformations:</h6>
+                <h6>Enrollment Transformations:</h6>
                 <ul class="small">
                     <li>Statewide V01</li>
                     <li>Tri-County V02</li>
@@ -155,7 +155,7 @@
                 </ul>
             </div>
             <div class="col-md-4">
-                <h6>‚ö†Ô∏è Removal/Discipline:</h6>
+                <h6>Removal/Discipline:</h6>
                 <ul class="small">
                     <li>Statewide Removal</li>
                     <li>Tri-County Removal</li>
@@ -164,7 +164,7 @@
                 </ul>
             </div>
             <div class="col-md-4">
-                <h6>Ì≥ù Forward Exam (3rd Grade):</h6>
+                <h6>Forward Exam (3rd Grade):</h6>
                 <ul class="small">
                     <li>Statewide</li>
                     <li>Tri-County</li>
@@ -173,7 +173,7 @@
                 </ul>
             </div>
         </div>
-        <a href="/" class="btn btn-success mt-3">Go to Home Page ‚Üí</a>
+        <a href="/" class="btn btn-success mt-3">Go to Home Page &rarr;</a>
     </div>
 </div>
 
