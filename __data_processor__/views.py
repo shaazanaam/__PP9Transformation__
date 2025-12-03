@@ -1258,11 +1258,62 @@ def data_download_view(request):
         
         if data_type and school_year:
             # Construct the filename based on WISEdash naming convention
-            filename = f"{data_type}_certified_{school_year}.zip"
+            # Try multiple possible filename patterns
+            year_formats = [
+                school_year,  # e.g., "2023-24"
+                school_year.replace('-', '_'),  # e.g., "2023_24"
+            ]
             
-            # WISEdash download URL pattern
-            base_url = "https://dpi.wi.gov/sites/default/files/imce/wisedash/data-files/"
-            download_url = f"{base_url}{filename}"
+            # Map data types to their various naming conventions
+            data_type_map = {
+                'enrollment': ['enrollment', 'Enrollment'],
+                'discipline_actions': ['discipline_actions', 'Discipline_Actions', 'disciplinary_actions'],
+                'forward': ['forward_certified_ELA_RDG_WRT', 'forward', 'Forward'],
+            }
+            
+            # Get possible data type names
+            possible_names = data_type_map.get(data_type, [data_type])
+            
+            # Try different URL patterns and filename combinations
+            base_urls = [
+                "https://dpi.wi.gov/sites/default/files/imce/wisedash/data-files/",
+                "https://dpi.wi.gov/sites/default/files/imce/wisedash/",
+            ]
+            
+            download_url = None
+            filename = None
+            
+            # Try to find a valid download URL
+            for base_url in base_urls:
+                for name in possible_names:
+                    for year_fmt in year_formats:
+                        # Try both .csv and .zip extensions
+                        for ext in ['.csv', '.zip']:
+                            test_filename = f"{name}_certified_{year_fmt}{ext}"
+                            test_url = f"{base_url}{test_filename}"
+                            
+                            try:
+                                # Check if file exists with HEAD request
+                                head_response = requests.head(test_url, timeout=10, verify=False, allow_redirects=True)
+                                if head_response.status_code == 200:
+                                    download_url = test_url
+                                    filename = test_filename
+                                    logger.info(f"Found valid URL: {download_url}")
+                                    break
+                            except:
+                                continue
+                        
+                        if download_url:
+                            break
+                    if download_url:
+                        break
+                if download_url:
+                    break
+            
+            # If no URL found, use the default pattern
+            if not download_url:
+                filename = f"{data_type}_certified_{school_year}.csv"
+                download_url = f"{base_urls[0]}{filename}"
             
             try:
                 # Create uploads directory if it doesn't exist
@@ -1273,43 +1324,55 @@ def data_download_view(request):
                 response = requests.get(download_url, timeout=30, stream=True, verify=False)
                 response.raise_for_status()
                 
-                # Save the ZIP file
-                zip_filepath = os.path.join(uploads_dir, filename)
-                with open(zip_filepath, 'wb') as f:
+                # Save the file
+                filepath = os.path.join(uploads_dir, filename)
+                with open(filepath, 'wb') as f:
                     for chunk in response.iter_content(chunk_size=8192):
                         f.write(chunk)
                 
-                # Extract the ZIP file
-                with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
-                    zip_ref.extractall(uploads_dir)
+                # Handle ZIP files - extract them
+                csv_filename = filename
+                if filename.endswith('.zip'):
+                    try:
+                        with zipfile.ZipFile(filepath, 'r') as zip_ref:
+                            zip_ref.extractall(uploads_dir)
+                        # Get the extracted CSV filename
+                        csv_filename = filename.replace('.zip', '.csv')
+                        csv_filepath = os.path.join(uploads_dir, csv_filename)
+                    except zipfile.BadZipFile:
+                        logger.warning(f"File {filename} is not a valid ZIP file, treating as direct download")
                 
-                # Get the extracted CSV filename (usually same name but .csv extension)
-                csv_filename = filename.replace('.zip', '.csv')
-                csv_filepath = os.path.join(uploads_dir, csv_filename)
-                
-                file_size = os.path.getsize(zip_filepath)
+                file_size = os.path.getsize(filepath)
                 
                 download_status = {
                     'success': True,
                     'filename': filename,
-                    'filepath': zip_filepath,
+                    'filepath': filepath,
                     'size': f"{file_size / 1024:.2f} KB",
-                    'csv_file': csv_filename if os.path.exists(csv_filepath) else None
+                    'csv_file': csv_filename if filename.endswith('.zip') else filename
                 }
                 
-                logger.info(f"Successfully downloaded and extracted: {filename}")
+                logger.info(f"Successfully downloaded: {filename}")
                 messages.success(request, f"Successfully downloaded {filename}")
                 
             except requests.exceptions.RequestException as e:
                 logger.error(f"Error downloading file: {e}")
+                
+                # Determine the appropriate WISEdash link based on data type
+                wisedash_links = {
+                    'enrollment': 'https://dpi.wi.gov/wisedash/download-files/type?field_wisedash_upload_type_value=Enrollment',
+                    'discipline_actions': 'https://dpi.wi.gov/wisedash/download-files/type?field_wisedash_upload_type_value=Discipline',
+                    'forward': 'https://dpi.wi.gov/wisedash/download-files/type?field_wisedash_upload_type_value=Forward'
+                }
+                
                 download_status = {
                     'success': False,
-                    'error': f"Failed to download file. The file may not exist or the URL is incorrect. Error: {str(e)}",
+                    'error': f"Failed to download file. The file may not exist at this URL. Error: {str(e)}",
                     'url': download_url,
-                    'filename': filename,
-                    'wisedash_link': 'https://dpi.wi.gov/wisedash/download-files'
+                    'filename': filename if filename else f"{data_type}_certified_{school_year}",
+                    'wisedash_link': wisedash_links.get(data_type, 'https://dpi.wi.gov/wisedash/download-files')
                 }
-                messages.error(request, f"Failed to download {filename}. The file may not be available on WISEdash.")
+                messages.error(request, f"Failed to download. Please try manual download from WISEdash.")
             except zipfile.BadZipFile as e:
                 logger.error(f"Error extracting ZIP file: {e}")
                 download_status = {
