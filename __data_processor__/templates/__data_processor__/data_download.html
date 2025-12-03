@@ -5,26 +5,47 @@
 {% block content %}
 <div class="row mb-4">
     <div class="col-12">
-        <h1 class="display-5">📥 Auto Download WISEdash Data</h1>
-        <p class="lead">Automatically download the latest school data files from Wisconsin DPI WISEdash</p>
+        <h1 class="display-5">📥 Download WISEdash Data</h1>
+        <p class="lead">Get the latest school data files from Wisconsin DPI WISEdash</p>
+        
+        <div class="btn-group mb-3" role="group">
+            <a href="https://dpi.wi.gov/wisedash/download-files" target="_blank" class="btn btn-primary btn-lg">
+                🌐 Open WISEdash (Recommended)
+            </a>
+            <a href="/data_processor/upload/" class="btn btn-success btn-lg">
+                📤 Manual Upload
+            </a>
+        </div>
     </div>
 </div>
 
 <!-- Instructions -->
+<div class="alert alert-warning" role="alert">
+    <h5 class="alert-heading">⚠️ Note: Manual Download Recommended</h5>
+    <p>WISEdash files are not always directly accessible via automated downloads. We recommend the following approach:</p>
+    <ol class="mb-2">
+        <li>Visit the <a href="https://dpi.wi.gov/wisedash/download-files" target="_blank" class="alert-link"><strong>WISEdash Download Files</strong></a> page</li>
+        <li>Filter by data type (Enrollment, Discipline, Forward Exam, etc.)</li>
+        <li>Download the file you need manually</li>
+        <li>Use the <a href="/data_processor/upload/" class="alert-link"><strong>Manual Upload</strong></a> feature to import it</li>
+    </ol>
+    <p class="mb-0"><small>You can still try the automatic download below, but it may not work for all files.</small></p>
+</div>
+
 <div class="alert alert-info" role="alert">
-    <h5 class="alert-heading">How it works:</h5>
+    <h5 class="alert-heading">Automatic Download (Experimental):</h5>
     <ol class="mb-0">
         <li>Select the data type and school year you want to download</li>
-        <li>Click "Download from WISEdash" to fetch the file directly</li>
-        <li>The system will automatically save it to your uploads folder</li>
-        <li>Once downloaded, you can run transformations on the data</li>
+        <li>Click "Download from WISEdash" to attempt automatic fetch</li>
+        <li>If successful, the file will be saved to your uploads folder</li>
+        <li>If it fails, follow the manual download steps above</li>
     </ol>
 </div>
 
 <!-- Download Form -->
 <div class="card">
-    <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">Select Data to Download</h5>
+    <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">Try Automatic Download (Experimental)</h5>
     </div>
     <div class="card-body">
         <form method="post" id="downloadForm">
