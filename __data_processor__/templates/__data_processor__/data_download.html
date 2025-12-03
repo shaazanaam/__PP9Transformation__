@@ -105,7 +105,18 @@
             <a href="/" class="btn btn-success">Run Transformations →</a>
         {% else %}
             <p class="text-danger"><strong>Error:</strong> {{ download_status.error }}</p>
-            <p class="mb-0"><small>Please check the data type and year, or try downloading manually from <a href="https://dpi.wi.gov/wisedash/download-files" target="_blank">WISEdash</a></small></p>
+            {% if download_status.url %}
+                <p class="mb-2"><small><strong>Attempted URL:</strong> <code>{{ download_status.url }}</code></small></p>
+            {% endif %}
+            <div class="alert alert-warning mt-3" role="alert">
+                <h6 class="alert-heading">💡 Manual Download Options:</h6>
+                <ol class="mb-2">
+                    <li>Visit <a href="{{ download_status.wisedash_link }}" target="_blank" class="alert-link">WISEdash Download Files</a> page</li>
+                    <li>Download the file manually ({{ download_status.filename }})</li>
+                    <li>Upload it using the <a href="/data_processor/upload/" class="alert-link">Manual Upload</a> page</li>
+                </ol>
+                <p class="mb-0"><small><strong>Note:</strong> Some files may not be available as ZIP archives. Download the CSV directly if needed.</small></p>
+            </div>
         {% endif %}
     </div>
 </div>

@@ -1304,9 +1304,12 @@ def data_download_view(request):
                 logger.error(f"Error downloading file: {e}")
                 download_status = {
                     'success': False,
-                    'error': f"Failed to download file. The file may not exist or the URL is incorrect. Error: {str(e)}"
+                    'error': f"Failed to download file. The file may not exist or the URL is incorrect. Error: {str(e)}",
+                    'url': download_url,
+                    'filename': filename,
+                    'wisedash_link': 'https://dpi.wi.gov/wisedash/download-files'
                 }
-                messages.error(request, f"Failed to download {filename}")
+                messages.error(request, f"Failed to download {filename}. The file may not be available on WISEdash.")
             except zipfile.BadZipFile as e:
                 logger.error(f"Error extracting ZIP file: {e}")
                 download_status = {
