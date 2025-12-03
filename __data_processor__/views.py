@@ -6,6 +6,8 @@ import csv
 import requests
 import zipfile
 from datetime import datetime
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 from django.urls import reverse  # For generating URLs
 from .models import (
     SchoolData,
@@ -1268,7 +1270,7 @@ def data_download_view(request):
                 
                 # Download the file
                 logger.info(f"Attempting to download: {download_url}")
-                response = requests.get(download_url, timeout=30, stream=True)
+                response = requests.get(download_url, timeout=30, stream=True, verify=False)
                 response.raise_for_status()
                 
                 # Save the ZIP file
