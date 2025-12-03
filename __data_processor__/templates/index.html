@@ -53,29 +53,44 @@
             <h5 class="mb-0">📚 Enrollment Data Transformations</h5>
         </div>
         <div class="card-body">
-            <form method="post" class="d-inline">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-4 mb-2">
+            <div class="row">
+                <div class="col-md-4 mb-2">
+                    <form method="post" action="">
+                        {% csrf_token %}
                         <button type="submit" name="transformation_type" value="Statewide V01" class="btn btn-outline-info w-100">Statewide V01</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="Tri-County" class="btn btn-outline-info w-100">Tri-County V02</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="County-Layer" class="btn btn-outline-info w-100">County Layer</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="Metopio Statewide" class="btn btn-outline-info w-100">Metopio Statewide</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="Zipcode" class="btn btn-outline-info w-100">Metopio Zipcode</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="City-Town" class="btn btn-outline-info w-100">City-Town</button>
-                    </div>
+                    </form>
                 </div>
-            </form>
+                <div class="col-md-4 mb-2">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="Tri-County" class="btn btn-outline-info w-100">Tri-County V02</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="County-Layer" class="btn btn-outline-info w-100">County Layer</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="Metopio Statewide" class="btn btn-outline-info w-100">Metopio Statewide</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="Zipcode" class="btn btn-outline-info w-100">Metopio Zipcode</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="City-Town" class="btn btn-outline-info w-100">City-Town</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -85,29 +100,44 @@
             <h5 class="mb-0">⚠️ Removal/Discipline Data Transformations</h5>
         </div>
         <div class="card-body">
-            <form method="post" class="d-inline">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-4 mb-2">
+            <div class="row">
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
                         <button type="submit" name="transformation_type" value="Statewide-Removal" class="btn btn-outline-warning w-100">Statewide Removal</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="Tricounty-Removal" class="btn btn-outline-warning w-100">Tri-County Removal</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="County-Removal" class="btn btn-outline-warning w-100">County Removal</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="Zipcode-Removal" class="btn btn-outline-warning w-100">Zipcode Removal</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="City-Removal" class="btn btn-outline-warning w-100">City Removal</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="combined" class="btn btn-outline-warning w-100">Combined Removal</button>
-                    </div>
+                    </form>
                 </div>
-            </form>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="Tricounty-Removal" class="btn btn-outline-warning w-100">Tri-County Removal</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="County-Removal" class="btn btn-outline-warning w-100">County Removal</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="Zipcode-Removal" class="btn btn-outline-warning w-100">Zipcode Removal</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="City-Removal" class="btn btn-outline-warning w-100">City Removal</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="combined" class="btn btn-outline-warning w-100">Combined Removal</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -117,29 +147,44 @@
             <h5 class="mb-0">📝 Forward Exam (3rd Grade Reading) Transformations</h5>
         </div>
         <div class="card-body">
-            <form method="post" class="d-inline">
-                {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-4 mb-2">
+            <div class="row">
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
                         <button type="submit" name="transformation_type" value="ForwardExam-Statewide" class="btn btn-outline-danger w-100">Statewide</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="ForwardExam-TriCounty" class="btn btn-outline-danger w-100">Tri-County</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="ForwardExam-County" class="btn btn-outline-danger w-100">County Layer</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="ForwardExam-Zipcode" class="btn btn-outline-danger w-100">Zip Code</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="ForwardExam-City" class="btn btn-outline-danger w-100">City Layer</button>
-                    </div>
-                    <div class="col-md-4 mb-2">
-                        <button type="submit" name="transformation_type" value="ForwardExam-Combined" class="btn btn-outline-danger w-100">Combined</button>
-                    </div>
+                    </form>
                 </div>
-            </form>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="ForwardExam-TriCounty" class="btn btn-outline-danger w-100">Tri-County</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="ForwardExam-County" class="btn btn-outline-danger w-100">County Layer</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="ForwardExam-Zipcode" class="btn btn-outline-danger w-100">Zip Code</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="ForwardExam-City" class="btn btn-outline-danger w-100">City Layer</button>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="ForwardExam-Combined" class="btn btn-outline-danger w-100">Combined</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
