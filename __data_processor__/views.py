@@ -39,6 +39,8 @@ def data_processor_home(request):
         transformation_type = request.POST.get(
             "transformation_type", "Statewide V01"
         )  # Default to 'Statewide'
+        print(f"DEBUG: Received POST with transformation_type: {transformation_type}")
+        print(f"DEBUG: Full POST data: {request.POST}")
         # Instantiate the DataTransformer and apply the transformation
         transformer = DataTransformer(request)
         success = transformer.apply_transformation(transformation_type)
@@ -1197,6 +1199,11 @@ def download_csv(request):
         response = HttpResponse(f.read(), content_type="text/csv")
         response["Content-Disposition"] = f"attachment; filename={new_file_name}"
         return response
+
+
+def download_select_view(request):
+    """View to display download selection page"""
+    return render(request, "download_select.html")
 
 
 def data_download_view(request):

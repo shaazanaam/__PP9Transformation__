@@ -97,15 +97,11 @@
                             </ul>
                         </li>
                         
-                        <!-- Downloads Dropdown -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="downloadsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <!-- Downloads Link -->
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'download' in request.path %}active{% endif %}" href="/data_processor/download_select/">
                                 📊 Downloads
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="downloadsDropdown">
-                                <li><a class="dropdown-item" href="/data_processor/download/">Download Excel</a></li>
-                                <li><a class="dropdown-item" href="/data_processor/download_csv/">Download CSV</a></li>
-                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -127,6 +123,6 @@
         {% endblock %}
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-qkqNpWRMzHtYE1N/B9Ar0FR7uo6aXhF2P2OCj3HQok+zg7kNc4X2W3IX6siyVSA/" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

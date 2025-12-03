@@ -105,8 +105,40 @@ class DataTransformer:
             return self.transform_statewide()
         elif transformation_type == 'Tri-County':
             return self.apply_tri_county_layer_transformation()
+        elif transformation_type == 'County-Layer':
+            return self.apply_county_layer_transformation()
+        elif transformation_type == 'Metopio Statewide':
+            return self.transform_Metopio_StateWideLayer()
+        elif transformation_type == 'Zipcode':
+            return self.transforms_Metopio_ZipCodeLayer()
+        elif transformation_type == 'City-Town':
+            return self.transform_Metopio_CityLayer()
+        elif transformation_type == 'Statewide-Removal':
+            return self.transform_Statewide_Removal()
+        elif transformation_type == 'Tricounty-Removal':
+            return self.transform_Tri_County_Removal()
+        elif transformation_type == 'County-Removal':
+            return self.transform_County_Layer_Removal()
+        elif transformation_type == 'Zipcode-Removal':
+            return self.transform_Zipcode_Layer_Removal()
+        elif transformation_type == 'City-Removal':
+            return self.transform_City_Layer_Removal()
+        elif transformation_type == 'combined':
+            return self.transform_combined_removal()
+        elif transformation_type == 'ForwardExam-Statewide':
+            return self.transform_ForwardExam_Statewide()
+        elif transformation_type == 'ForwardExam-TriCounty':
+            return self.transform_ForwardExam_TriCounty()
+        elif transformation_type == 'ForwardExam-County':
+            return self.transform_ForwardExam_CountyLayer()
+        elif transformation_type == 'ForwardExam-Zipcode':
+            return self.transform_ForwardExam_ZipcodeLayer()
+        elif transformation_type == 'ForwardExam-City':
+            return self.transform_ForwardExam_CityLayer()
+        elif transformation_type == 'ForwardExam-Combined':
+            return self.transform_ForwardExam_Combined()
         else:
-            messages.error(self.request, 'Unknown transformation type.')
+            messages.error(self.request, f'Unknown transformation type: {transformation_type}')
             return False
 
     def apply_tri_county_layer_transformation(self):

@@ -6,6 +6,7 @@ urlpatterns = [
     path('data_download/', views.data_download_view, name='data_download'),
     path('upload/', views.upload_file, name='upload'),
     path('success/', views.transformation_success, name='transformation_success'),
+    path('download_select/', views.download_select_view, name='download_select'),
     path('download/', views.download_excel, name='download_excel'),
     path('download_csv/', views.download_csv, name='download_csv'),
     path('statewide/', views.statewide_view, name='statewide_view'),

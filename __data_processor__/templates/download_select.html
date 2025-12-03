@@ -1,0 +1,117 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Select Download{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">📊 Download Transformed Data</h1>
+    <p class="lead">Select the transformation type and format you want to download:</p>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Select Transformation Type</h5>
+                </div>
+                <div class="card-body">
+                    <form id="downloadForm">
+                        <div class="mb-3">
+                            <label for="transformationType" class="form-label fw-bold">Transformation Type:</label>
+                            <select class="form-select" id="transformationType" name="type" required>
+                                <optgroup label="📚 Enrollment Data">
+                                    <option value="Statewide">Statewide V01</option>
+                                    <option value="Tri-County">Tri-County V02</option>
+                                    <option value="County-Layer">County Layer</option>
+                                    <option value="Metopio Statewide">Metopio Statewide</option>
+                                    <option value="Zipcode">Metopio Zipcode</option>
+                                    <option value="City-Town">City-Town</option>
+                                </optgroup>
+                                <optgroup label="⚠️ Removal/Discipline Data">
+                                    <option value="Statewide-Removal">Statewide Removal</option>
+                                    <option value="Tricounty-Removal">Tri-County Removal</option>
+                                    <option value="County-Removal">County Removal</option>
+                                    <option value="Zipcode-Removal">Zipcode Removal</option>
+                                    <option value="City-Removal">City Removal</option>
+                                    <option value="combined">Combined Removal</option>
+                                </optgroup>
+                                <optgroup label="📝 Forward Exam Data">
+                                    <option value="ForwardExam-Statewide">Forward Exam - Statewide</option>
+                                    <option value="ForwardExam-TriCounty">Forward Exam - Tri-County</option>
+                                    <option value="ForwardExam-County">Forward Exam - County Layer</option>
+                                    <option value="ForwardExam-Zipcode">Forward Exam - Zipcode</option>
+                                    <option value="ForwardExam-City">Forward Exam - City Layer</option>
+                                    <option value="ForwardExam-Combined">Forward Exam - Combined</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Download Format:</label>
+                            <div class="btn-group w-100" role="group">
+                                <button type="button" class="btn btn-success btn-lg" onclick="downloadFile('excel')">
+                                    <i class="bi bi-file-earmark-excel"></i> 📥 Download Excel
+                                </button>
+                                <button type="button" class="btn btn-info btn-lg" onclick="downloadFile('csv')">
+                                    <i class="bi bi-file-earmark-text"></i> 📥 Download CSV
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="alert alert-info mt-4" role="alert">
+                <strong>💡 Tip:</strong> Make sure you have run the transformation before downloading. If no data is available, the download will default to Statewide data.
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-warning">
+                <div class="card-header bg-warning">
+                    <h5 class="mb-0">ℹ️ Quick Help</h5>
+                </div>
+                <div class="card-body">
+                    <h6>Enrollment Data</h6>
+                    <p class="small">Download enrollment statistics for different geographic layers.</p>
+                    
+                    <h6>Removal/Discipline Data</h6>
+                    <p class="small">Download disciplinary action data including removals and suspensions.</p>
+                    
+                    <h6>Forward Exam Data</h6>
+                    <p class="small">Download 3rd grade reading Forward Exam results.</p>
+                    
+                    <hr>
+                    
+                    <h6>File Formats</h6>
+                    <ul class="small">
+                        <li><strong>Excel:</strong> Best for viewing and analysis in Excel/Google Sheets</li>
+                        <li><strong>CSV:</strong> Best for importing into databases or other tools</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function downloadFile(format) {
+    const select = document.getElementById('transformationType');
+    const type = select.value;
+    
+    if (!type) {
+        alert('Please select a transformation type');
+        return;
+    }
+    
+    let url;
+    if (format === 'excel') {
+        url = `/data_processor/download/?type=${encodeURIComponent(type)}`;
+    } else if (format === 'csv') {
+        url = `/data_processor/download_csv/?type=${encodeURIComponent(type)}`;
+    }
+    
+    // Open download in new window/tab
+    window.location.href = url;
+}
+</script>
+{% endblock %}
