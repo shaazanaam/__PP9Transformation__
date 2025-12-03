@@ -11,7 +11,82 @@ The Wisconsin School Data Processor handles complex transformations of school da
 - **ZIP Code Layer** - ZIP code-based geographic analysis
 - **City/Town Layer** - Municipality-level data
 
-The application processes both **enrollment data** and **disciplinary removal data** with support for various stratifications (demographics, grade levels, disability status, etc.).
+The application processes both **enrollment data**, **disciplinary removal data**, and **Forward Exam data** (3rd Grade Reading Proficiency) with support for various stratifications (demographics, grade levels, disability status, etc.).
+
+## 🏗️ Application Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         USER INTERFACE                               │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐             │
+│  │  Upload View │  │ Transform    │  │   Download   │             │
+│  │              │→ │   View       │→ │     View     │             │
+│  └──────────────┘  └──────────────┘  └──────────────┘             │
+└────────────────────────────┬──────────────────────────────────────┘
+                             ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│                     DJANGO APPLICATION LAYER                         │
+│  ┌──────────────────────────────────────────────────────────────┐  │
+│  │                         views.py                              │  │
+│  │  - File Upload Handler                                        │  │
+│  │  - Transformation Router                                      │  │
+│  │  - Download Generator (CSV/Excel)                            │  │
+│  └───────────────────────┬──────────────────────────────────────┘  │
+│                          ↓                                           │
+│  ┌──────────────────────────────────────────────────────────────┐  │
+│  │                    transformers.py                            │  │
+│  │  ┌─────────────────┐  ┌──────────────────┐  ┌──────────────┐│  │
+│  │  │   Enrollment    │  │    Removal       │  │  Forward Exam ││  │
+│  │  │ Transformations │  │ Transformations  │  │Transformations││  │
+│  │  │                 │  │                  │  │               ││  │
+│  │  │ - Statewide     │  │ - Statewide      │  │ - Statewide   ││  │
+│  │  │ - Tri-County    │  │ - Tri-County     │  │ - Tri-County  ││  │
+│  │  │ - County        │  │ - County         │  │ - County      ││  │
+│  │  │ - Zip Code      │  │ - Zip Code       │  │ - Zip Code    ││  │
+│  │  │ - City          │  │ - City           │  │ - City        ││  │
+│  │  │ - Combined      │  │ - Combined       │  │ - Combined    ││  │
+│  │  └─────────────────┘  └──────────────────┘  └──────────────┘│  │
+│  └───────────────────────┬──────────────────────────────────────┘  │
+└──────────────────────────┼──────────────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│                      DATABASE LAYER (models.py)                      │
+│  ┌────────────────────────────────────────────────────────────┐    │
+│  │  Raw Data Models                                            │    │
+│  │  - SchoolData (Enrollment)                                  │    │
+│  │  - SchoolRemovalData (Discipline Actions)                   │    │
+│  │  - ForwardExamData (Test Results)                          │    │
+│  └────────────────────────────────────────────────────────────┘    │
+│  ┌────────────────────────────────────────────────────────────┐    │
+│  │  Reference Data Models                                       │    │
+│  │  - Stratification (Demographics Mapping)                     │    │
+│  │  - CountyGEOID (Geographic IDs)                            │    │
+│  │  - SchoolAddressFile (School Locations)                     │    │
+│  └────────────────────────────────────────────────────────────┘    │
+│  ┌────────────────────────────────────────────────────────────┐    │
+│  │  Transformed Data Models (Output)                           │    │
+│  │  - MetopioStateWideLayerTransformation                      │    │
+│  │  - MetopioTriCountyLayerTransformation                      │    │
+│  │  - CountyLayerTransformation                                │    │
+│  │  - ZipCodeLayerTransformation                               │    │
+│  │  - MetopioCityLayerTransformation                           │    │
+│  │  - ForwardExamStateWideTransformation                       │    │
+│  │  - ForwardExamTriCountyTransformation                       │    │
+│  │  - ForwardExamCountyLayerTransformation                     │    │
+│  │  - ForwardExamZipCodeLayerTransformation                    │    │
+│  │  - ForwardExamCityLayerTransformation                       │    │
+│  │  - ForwardExamCombinedTransformation                        │    │
+│  │  ... and removal data transformations                       │    │
+│  └────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────┘
+
+Data Flow:
+1. User uploads CSV files → views.py handles upload
+2. Data stored in raw models → SchoolData, SchoolRemovalData, ForwardExamData
+3. User triggers transformation → transformers.py processes data
+4. Transformed data saved → Transformation models
+5. User downloads results → CSV/Excel export
+```
 
 ## ✨ Key Features
 
@@ -207,6 +282,35 @@ This project is proprietary. All rights reserved.
 For issues or questions:
 - Open an issue on GitHub
 - Contact the development team
+
+## 📋 TODO - Future Enhancements
+
+### High Priority
+
+#### 🔌 API Data Integration
+**Problem:** Currently, users must manually upload CSV files for each transformation, which is time-consuming and error-prone.
+
+**Proposed Solution:** Integrate with data source API to automatically fetch the latest school data, eliminating manual uploads.
+
+**Benefits:**
+- Automated data updates
+- Reduced user workload
+- Real-time data availability
+- Fewer upload errors
+- Streamlined workflow
+
+**Implementation Considerations:**
+- API endpoint to be provided
+- Support for scheduling automatic data fetches
+- Fallback to manual upload if API unavailable
+- Data validation after API fetch
+- Cache mechanism to reduce API calls
+- Authentication/API key management
+- Error handling for API timeouts or failures
+
+**Status:** 🟡 Planned - Endpoint information pending
+
+---
 
 ## 📈 Project Status
 

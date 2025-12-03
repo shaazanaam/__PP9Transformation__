@@ -83,17 +83,17 @@ class ForwardExamTransformationTestCase(TestCase):
         self.county_geoids = {
             'outagamie': CountyGEOID.objects.create(
                 layer='County',
-                name='Outagamie County, WI',
+                name='Outagamie',
                 geoid='55-087'
             ),
             'winnebago': CountyGEOID.objects.create(
                 layer='County',
-                name='Winnebago County, WI',
+                name='Winnebago',
                 geoid='55-139'
             ),
             'calumet': CountyGEOID.objects.create(
                 layer='County',
-                name='Calumet County, WI',
+                name='Calumet',
                 geoid='55-015'
             ),
         }

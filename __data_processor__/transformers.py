@@ -2754,10 +2754,10 @@ class DataTransformer:
                 'test_result__in': ['Meeting', 'Advanced']
             }
 
-            # Filter for tri-county area using geoid lookup
+            # Filter for tri-county area (matching enrollment/removal pattern)
             forward_exam_data = ForwardExamData.objects.filter(
                 **base_filters,
-                geoid__name__in=['Outagamie', 'Winnebago', 'Calumet']
+                county__in=['Outagamie', 'Winnebago', 'Calumet']
             ).exclude(
                 group_by='Migrant Status'
             ).exclude(
@@ -2916,10 +2916,10 @@ class DataTransformer:
                 'test_result__in': ['Meeting', 'Advanced']
             }
 
-            # Filter for tri-county area
+            # Filter for tri-county area (matching enrollment/removal pattern)
             forward_exam_data = ForwardExamData.objects.filter(
                 **base_filters,
-                geoid__name__in=['Outagamie', 'Winnebago', 'Calumet']
+                county__in=['Outagamie', 'Winnebago', 'Calumet']
             ).exclude(
                 group_by='Migrant Status'
             ).exclude(
@@ -2936,7 +2936,7 @@ class DataTransformer:
             # Compute totals per GROUP_BY per county
             for record in combined_dataset:
                 period = format_period(record.school_year)
-                county = record.geoid.county if record.geoid else "Unknown"
+                county = record.county if record.county else "Unknown"
                 key = (period, county, record.group_by)
                 group_totals[key] += int(record.student_count) if record.student_count.isdigit() else 0
                 if record.group_by == "All Students":
@@ -2958,7 +2958,7 @@ class DataTransformer:
                     if unique_key not in unique_records:
                         unique_records.add(unique_key)
                         # Find a reference record for this county and group_by
-                        reference_record = next((r for r in combined_dataset if r.geoid and r.geoid.county == county and r.group_by == group_by), None)
+                        reference_record = next((r for r in combined_dataset if r.county == county and r.group_by == group_by), None)
                         if reference_record:
                             new_unknown_records.append(
                                 ForwardExamData(
@@ -2999,7 +2999,7 @@ class DataTransformer:
             for record in combined_dataset:
                 period = format_period(record.school_year)
                 strat_label = record.stratification.label_name if record.stratification else "Unknown"
-                county = record.geoid.county if record.geoid else "Unknown"
+                county = record.county if record.county else "Unknown"
                 geoid = county_geoid_map.get(county).geoid if county_geoid_map.get(county) else "Error"
                 count = int(record.student_count) if record.student_count.isdigit() else 0
 
@@ -3074,10 +3074,10 @@ class DataTransformer:
                 'test_result__in': ['Meeting', 'Advanced']
             }
 
-            # Filter for tri-county area (exclude statewide)
+            # Filter for tri-county area (matching enrollment/removal pattern)
             forward_exam_data = ForwardExamData.objects.filter(
                 **base_filters,
-                geoid__name__in=['Outagamie', 'Winnebago', 'Calumet']
+                county__in=['Outagamie', 'Winnebago', 'Calumet']
             ).exclude(
                 group_by='Migrant Status'
             ).exclude(
@@ -3268,10 +3268,10 @@ class DataTransformer:
                 'test_result__in': ['Meeting', 'Advanced']
             }
 
-            # Filter for tri-county area (exclude districtwide)
+            # Filter for tri-county area (matching enrollment/removal pattern)
             forward_exam_data = ForwardExamData.objects.filter(
                 **base_filters,
-                geoid__name__in=['Outagamie', 'Winnebago', 'Calumet']
+                county__in=['Outagamie', 'Winnebago', 'Calumet']
             ).exclude(
                 group_by='Migrant Status'
             ).exclude(

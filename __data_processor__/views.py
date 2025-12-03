@@ -1012,6 +1012,16 @@ def generate_transformed_excel(transformation_type):
         data = MetopioTriCountyLayerTransformation.objects.all()
     elif transformation_type == "ForwardExam-Statewide":
         data = ForwardExamStateWideTransformation.objects.all()
+    elif transformation_type == "ForwardExam-TriCounty":
+        data = ForwardExamTriCountyTransformation.objects.all()
+    elif transformation_type == "ForwardExam-County":
+        data = ForwardExamCountyLayerTransformation.objects.all()
+    elif transformation_type == "ForwardExam-Zipcode":
+        data = ForwardExamZipCodeLayerTransformation.objects.all()
+    elif transformation_type == "ForwardExam-City":
+        data = ForwardExamCityLayerTransformation.objects.all()
+    elif transformation_type == "ForwardExam-Combined":
+        data = ForwardExamCombinedTransformation.objects.all()
     else:
         data = TransformedSchoolData.objects.filter(
             place="WI"
@@ -1081,6 +1091,16 @@ def generate_transformed_csv(transformation_type):
         data = CombinedRemovalData.objects.all()
     elif transformation_type == "ForwardExam-Statewide":
         data = ForwardExamStateWideTransformation.objects.all()
+    elif transformation_type == "ForwardExam-TriCounty":
+        data = ForwardExamTriCountyTransformation.objects.all()
+    elif transformation_type == "ForwardExam-County":
+        data = ForwardExamCountyLayerTransformation.objects.all()
+    elif transformation_type == "ForwardExam-Zipcode":
+        data = ForwardExamZipCodeLayerTransformation.objects.all()
+    elif transformation_type == "ForwardExam-City":
+        data = ForwardExamCityLayerTransformation.objects.all()
+    elif transformation_type == "ForwardExam-Combined":
+        data = ForwardExamCombinedTransformation.objects.all()
     else:
         data = TransformedSchoolData.objects.filter(
             place="WI"
