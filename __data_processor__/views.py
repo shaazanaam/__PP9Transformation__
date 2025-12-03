@@ -1013,8 +1013,29 @@ def forward_exam_statewide_transformation_view(request):
 
 def generate_transformed_excel(transformation_type):
     # Fetch the transformed data based on the transformation type
+    # This is where you will be having various transformation types
     if transformation_type == "Tri-County":
         data = MetopioTriCountyLayerTransformation.objects.all()
+    elif transformation_type == "County-Layer":
+        data = CountyLayerTransformation.objects.all()
+    elif transformation_type == "Metopio Statewide":
+        data = MetopioStateWideLayerTransformation.objects.all()
+    elif transformation_type == "Zipcode":
+        data = ZipCodeLayerTransformation.objects.all()
+    elif transformation_type == "City-Town":
+        data = MetopioCityLayerTransformation.objects.all()
+    elif transformation_type == "Statewide-Removal":
+        data = MetopioStateWideRemovalDataTransformation.objects.all()
+    elif transformation_type == "Tricounty-Removal":
+        data = MetopioTriCountyRemovalDataTransformation.objects.all()
+    elif transformation_type == "County-Removal":
+        data = CountyLayerRemovalData.objects.all()
+    elif transformation_type == "Zipcode-Removal":
+        data = ZipCodeLayerRemovalData.objects.all()
+    elif transformation_type == "City-Removal":
+        data = MetopioCityRemovalData.objects.all()
+    elif transformation_type == "combined":
+        data = CombinedRemovalData.objects.all()
     elif transformation_type == "ForwardExam-Statewide":
         data = ForwardExamStateWideTransformation.objects.all()
     elif transformation_type == "ForwardExam-TriCounty":
@@ -1030,10 +1051,13 @@ def generate_transformed_excel(transformation_type):
     else:
         data = TransformedSchoolData.objects.filter(
             place="WI"
-        )  # Default to Statewide if not Tri-County
+        )  # Default to Statewide if not specified
 
-    # Convert the QuerySet to a list of dictionaries
-    data_list = list(data.values())
+    # Convert the QuerySet to a list of dictionaries and exclude the id field
+    data_list = [
+        {key.lower(): value for key, value in row.items() if key != "id"}
+        for row in data.values()
+    ]
 
     # Create a Pandas DataFrame
     df = pd.DataFrame(data_list)
