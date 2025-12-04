@@ -26,6 +26,7 @@ from .models import CountyGEOID
 from django.http import HttpResponse
 import logging
 from django.conf import settings
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 import pandas as pd
@@ -1135,8 +1136,13 @@ def generate_transformed_excel(transformation_type):
     # Create a Pandas DataFrame
     df = pd.DataFrame(data_list)
 
-    # Generate the Excel file name
-    excel_file = f"transformed_{transformation_type.lower()}_data.xlsx"
+    # Create downloads directory if it doesn't exist
+    downloads_dir = Path(settings.DOWNLOADS_ROOT)
+    downloads_dir.mkdir(exist_ok=True)
+
+    # Generate the Excel file name with full path
+    excel_filename = f"transformed_{transformation_type.lower()}_data.xlsx"
+    excel_file = downloads_dir / excel_filename
 
     # Use the context manager to handle the saving of the Excel file
     with pd.ExcelWriter(excel_file, engine="xlsxwriter") as writer:
@@ -1160,7 +1166,8 @@ def download_excel(request):
             f.read(),
             content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
-        response["Content-Disposition"] = f"attachment; filename={excel_file}"
+        # Use only the filename, not the full path
+        response["Content-Disposition"] = f"attachment; filename={Path(excel_file).name}"
         return response
 
 ## CSV HANDLE##
@@ -1259,8 +1266,14 @@ def generate_combined_csv():
     # Get the field names (keys) from the first item, including the "type" field
     fieldnames = combined_data[0].keys() if combined_data else []
 
-    # Generate the combined CSV file
-    csv_file = "combined_transformed_data.csv"
+    # Create downloads directory if it doesn't exist
+    downloads_dir = Path(settings.DOWNLOADS_ROOT)
+    downloads_dir.mkdir(exist_ok=True)
+
+    # Generate the combined CSV file with full path
+    csv_filename = "combined_transformed_data.csv"
+    csv_file = downloads_dir / csv_filename
+    
     with open(csv_file, "w", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
