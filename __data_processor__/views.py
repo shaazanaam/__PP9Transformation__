@@ -81,71 +81,71 @@ def transformation_success(request):
         )  # Replace 'statewide_view' with the actual name of your URL
     elif transformation_type == "Tri-County":
         transformer = DataTransformer(request)
-        transformer.apply_tri_county_layer_transformation()
+        transformer.enrollment.apply_tri_county_layer_transformation()
         data_list = MetopioTriCountyLayerTransformation.objects.all()
     elif transformation_type == "County-Layer":
         transformer = DataTransformer(request)  # Apply County Layer transformation
-        transformer.apply_county_layer_transformation()
+        transformer.enrollment.apply_county_layer_transformation()
         data_list = CountyLayerTransformation.objects.all()
     elif transformation_type == "Metopio Statewide":
         transformer = DataTransformer(request)
-        transformer.transform_Metopio_StateWideLayer()
+        transformer.enrollment.transform_Metopio_StateWideLayer()
         data_list = MetopioStateWideLayerTransformation.objects.all()
     elif transformation_type == "Zipcode":
         transformer = DataTransformer(request)
-        transformer.transforms_Metopio_ZipCodeLayer()
+        transformer.enrollment.transforms_Metopio_ZipCodeLayer()
         data_list = ZipCodeLayerTransformation.objects.all()
     elif transformation_type == "City-Town":
         transformer = DataTransformer(request)
-        transformer.transform_Metopio_CityLayer()
+        transformer.enrollment.transform_Metopio_CityLayer()
         data_list = MetopioCityLayerTransformation.objects.all()
     elif transformation_type == "Statewide-Removal":
         transformer = DataTransformer(request)
-        transformer.transform_Statewide_Removal()
+        transformer.removal.transform_Statewide_Removal()
         data_list = MetopioStateWideRemovalDataTransformation.objects.all()
     elif transformation_type == "Tricounty-Removal":
         transformer = DataTransformer(request)
-        transformer.transform_Tri_County_Removal()
+        transformer.removal.transform_Tri_County_Removal()
         data_list = MetopioTriCountyRemovalDataTransformation.objects.all()
     elif transformation_type == "County-Removal":
         transformer = DataTransformer(request)
-        transformer.transform_County_Layer_Removal()
+        transformer.removal.transform_County_Layer_Removal()
         data_list = CountyLayerRemovalData.objects.all()
     elif transformation_type == "Zipcode-Removal":
         transformer = DataTransformer(request)
-        transformer.transform_Zipcode_Layer_Removal()
+        transformer.removal.transform_Zipcode_Layer_Removal()
         data_list = ZipCodeLayerRemovalData.objects.all()
     elif transformation_type == "City-Removal":
         transformer = DataTransformer(request)
-        transformer.transform_City_Layer_Removal()
+        transformer.removal.transform_City_Layer_Removal()
         data_list = MetopioCityRemovalData.objects.all()
     elif transformation_type == "combined":
         transformer = DataTransformer(request) # Assuming this function generates the combined CSV data
-        transformer.transform_combined_removal()
+        transformer.removal.transform_combined_removal()
         data_list = CombinedRemovalData.objects.all()
     elif transformation_type == "ForwardExam-Statewide":
         transformer = DataTransformer(request)
-        transformer.transform_ForwardExam_Statewide()
+        transformer.forward_exam.transform_ForwardExam_Statewide()
         data_list = ForwardExamStateWideTransformation.objects.all()
     elif transformation_type == "ForwardExam-TriCounty":
         transformer = DataTransformer(request)
-        transformer.transform_ForwardExam_TriCounty()
+        transformer.forward_exam.transform_ForwardExam_TriCounty()
         data_list = ForwardExamTriCountyTransformation.objects.all()
     elif transformation_type == "ForwardExam-County":
         transformer = DataTransformer(request)
-        transformer.transform_ForwardExam_CountyLayer()
+        transformer.forward_exam.transform_ForwardExam_CountyLayer()
         data_list = ForwardExamCountyLayerTransformation.objects.all()
     elif transformation_type == "ForwardExam-Zipcode":
         transformer = DataTransformer(request)
-        transformer.transform_ForwardExam_ZipcodeLayer()
+        transformer.forward_exam.transform_ForwardExam_ZipcodeLayer()
         data_list = ForwardExamZipCodeLayerTransformation.objects.all()
     elif transformation_type == "ForwardExam-City":
         transformer = DataTransformer(request)
-        transformer.transform_ForwardExam_CityLayer()
+        transformer.forward_exam.transform_ForwardExam_CityLayer()
         data_list = ForwardExamCityLayerTransformation.objects.all()
     elif transformation_type == "ForwardExam-Combined":
         transformer = DataTransformer(request)
-        transformer.transform_ForwardExam_Combined()
+        transformer.forward_exam.transform_ForwardExam_Combined()
         data_list = ForwardExamCombinedTransformation.objects.all()
     else:
         # Handle unknown transformation types
@@ -678,6 +678,76 @@ def statewide_view(request):
             "transformation_type": transformation_type,  # The transformation type (Statewide or Tri-County)
         },
     )
+
+def dashboard_view(request):
+    """Analytics dashboard showing transformation statistics and insights"""
+    from django.db.models import Count, Sum
+    
+    # Get counts for each transformation type
+    enrollment_stats = {
+        'statewide': TransformedSchoolData.objects.filter(place='WI').count(),
+        'tri_county': MetopioTriCountyLayerTransformation.objects.count(),
+        'county': CountyLayerTransformation.objects.count(),
+        'metopio_statewide': MetopioStateWideLayerTransformation.objects.count(),
+        'zipcode': ZipCodeLayerTransformation.objects.count(),
+        'city': MetopioCityLayerTransformation.objects.count(),
+    }
+    
+    removal_stats = {
+        'statewide': MetopioStateWideRemovalDataTransformation.objects.count(),
+        'tri_county': MetopioTriCountyRemovalDataTransformation.objects.count(),
+        'county': CountyLayerRemovalData.objects.count(),
+        'zipcode': ZipCodeLayerRemovalData.objects.count(),
+        'city': MetopioCityRemovalData.objects.count(),
+        'combined': CombinedRemovalData.objects.count(),
+    }
+    
+    forward_exam_stats = {
+        'statewide': ForwardExamStateWideTransformation.objects.count(),
+        'tri_county': ForwardExamTriCountyTransformation.objects.count(),
+        'county': ForwardExamCountyLayerTransformation.objects.count(),
+        'zipcode': ForwardExamZipCodeLayerTransformation.objects.count(),
+        'city': ForwardExamCityLayerTransformation.objects.count(),
+        'combined': ForwardExamCombinedTransformation.objects.count(),
+    }
+    
+    # Calculate totals
+    total_enrollment = sum(enrollment_stats.values())
+    total_removal = sum(removal_stats.values())
+    total_forward_exam = sum(forward_exam_stats.values())
+    total_all = total_enrollment + total_removal + total_forward_exam
+    
+    # Get raw data counts
+    raw_data_stats = {
+        'school_data': SchoolData.objects.count(),
+        'removal_data': SchoolRemovalData.objects.count(),
+        'forward_exam_data': ForwardExamData.objects.count(),
+        'stratifications': Stratification.objects.count(),
+    }
+    
+    # Get year ranges for each dataset
+    years_data = {}
+    if SchoolData.objects.exists():
+        years_data['enrollment_years'] = SchoolData.objects.values_list('school_year', flat=True).distinct().order_by('school_year')
+    if SchoolRemovalData.objects.exists():
+        years_data['removal_years'] = SchoolRemovalData.objects.values_list('school_year', flat=True).distinct().order_by('school_year')
+    if ForwardExamData.objects.exists():
+        years_data['forward_exam_years'] = ForwardExamData.objects.values_list('school_year', flat=True).distinct().order_by('school_year')
+    
+    context = {
+        'enrollment_stats': enrollment_stats,
+        'removal_stats': removal_stats,
+        'forward_exam_stats': forward_exam_stats,
+        'total_enrollment': total_enrollment,
+        'total_removal': total_removal,
+        'total_forward_exam': total_forward_exam,
+        'total_all': total_all,
+        'raw_data_stats': raw_data_stats,
+        'years_data': years_data,
+    }
+    
+    return render(request, '__data_processor__/dashboard.html', context)
+
 
 def tri_county_view(request):
     transformation_type = request.GET.get(

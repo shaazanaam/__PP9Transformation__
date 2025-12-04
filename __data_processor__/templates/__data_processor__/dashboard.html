@@ -1,0 +1,288 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Analytics Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-4">📊 Analytics Dashboard</h1>
+            <p class="lead">Overview of transformed data and statistics</p>
+            <a href="/data_processor/" class="btn btn-outline-secondary">← Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-primary">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-primary">Total Records</h5>
+                    <h2 class="display-4">{{ total_all|default:"0" }}</h2>
+                    <p class="text-muted">All Transformations</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-info">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-info">Enrollment Data</h5>
+                    <h2 class="display-4">{{ total_enrollment|default:"0" }}</h2>
+                    <p class="text-muted">6 Transformations</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-warning">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-warning">Removal Data</h5>
+                    <h2 class="display-4">{{ total_removal|default:"0" }}</h2>
+                    <p class="text-muted">6 Transformations</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-success">Forward Exam</h5>
+                    <h2 class="display-4">{{ total_forward_exam|default:"0" }}</h2>
+                    <p class="text-muted">6 Transformations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Raw Data Statistics -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">📦 Raw Data Sources</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <h6>School Enrollment</h6>
+                            <h3 class="text-primary">{{ raw_data_stats.school_data|default:"0" }}</h3>
+                            <small class="text-muted">records</small>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h6>Discipline Actions</h6>
+                            <h3 class="text-warning">{{ raw_data_stats.removal_data|default:"0" }}</h3>
+                            <small class="text-muted">records</small>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h6>Forward Exam Data</h6>
+                            <h3 class="text-success">{{ raw_data_stats.forward_exam_data|default:"0" }}</h3>
+                            <small class="text-muted">records</small>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <h6>Stratifications</h6>
+                            <h3 class="text-info">{{ raw_data_stats.stratifications|default:"0" }}</h3>
+                            <small class="text-muted">groups</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transformation Details -->
+    <div class="row mb-4">
+        <!-- Enrollment Transformations -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">📚 Enrollment Transformations</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Statewide V01
+                            <span class="badge bg-primary rounded-pill">{{ enrollment_stats.statewide|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Tri-County
+                            <span class="badge bg-primary rounded-pill">{{ enrollment_stats.tri_county|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            County Layer
+                            <span class="badge bg-primary rounded-pill">{{ enrollment_stats.county|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Metopio Statewide
+                            <span class="badge bg-primary rounded-pill">{{ enrollment_stats.metopio_statewide|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Zipcode Layer
+                            <span class="badge bg-primary rounded-pill">{{ enrollment_stats.zipcode|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            City/Town Layer
+                            <span class="badge bg-primary rounded-pill">{{ enrollment_stats.city|default:"0" }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Removal Transformations -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">⚠️ Removal/Discipline Transformations</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Statewide Removal
+                            <span class="badge bg-warning rounded-pill">{{ removal_stats.statewide|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Tri-County Removal
+                            <span class="badge bg-warning rounded-pill">{{ removal_stats.tri_county|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            County Removal
+                            <span class="badge bg-warning rounded-pill">{{ removal_stats.county|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Zipcode Removal
+                            <span class="badge bg-warning rounded-pill">{{ removal_stats.zipcode|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            City Removal
+                            <span class="badge bg-warning rounded-pill">{{ removal_stats.city|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Combined Removal
+                            <span class="badge bg-warning rounded-pill">{{ removal_stats.combined|default:"0" }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forward Exam Transformations -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">📝 Forward Exam Transformations</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Statewide
+                            <span class="badge bg-success rounded-pill">{{ forward_exam_stats.statewide|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Tri-County
+                            <span class="badge bg-success rounded-pill">{{ forward_exam_stats.tri_county|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            County Layer
+                            <span class="badge bg-success rounded-pill">{{ forward_exam_stats.county|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Zipcode Layer
+                            <span class="badge bg-success rounded-pill">{{ forward_exam_stats.zipcode|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            City Layer
+                            <span class="badge bg-success rounded-pill">{{ forward_exam_stats.city|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Combined
+                            <span class="badge bg-success rounded-pill">{{ forward_exam_stats.combined|default:"0" }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Year Coverage -->
+    {% if years_data %}
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">📅 Data Coverage by Year</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if years_data.enrollment_years %}
+                        <div class="col-md-4">
+                            <h6 class="text-info">Enrollment Data</h6>
+                            <p class="mb-1">
+                                <strong>Years:</strong>
+                                {% for year in years_data.enrollment_years %}
+                                    <span class="badge bg-light text-dark">{{ year }}</span>
+                                {% endfor %}
+                            </p>
+                        </div>
+                        {% endif %}
+                        
+                        {% if years_data.removal_years %}
+                        <div class="col-md-4">
+                            <h6 class="text-warning">Removal Data</h6>
+                            <p class="mb-1">
+                                <strong>Years:</strong>
+                                {% for year in years_data.removal_years %}
+                                    <span class="badge bg-light text-dark">{{ year }}</span>
+                                {% endfor %}
+                            </p>
+                        </div>
+                        {% endif %}
+                        
+                        {% if years_data.forward_exam_years %}
+                        <div class="col-md-4">
+                            <h6 class="text-success">Forward Exam Data</h6>
+                            <p class="mb-1">
+                                <strong>Years:</strong>
+                                {% for year in years_data.forward_exam_years %}
+                                    <span class="badge bg-light text-dark">{{ year }}</span>
+                                {% endfor %}
+                            </p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">⚡ Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <a href="/data_processor/download_select/" class="btn btn-primary me-2">📥 Download Transformed Data</a>
+                    <a href="/data_processor/upload/" class="btn btn-success me-2">📤 Upload New Data</a>
+                    <a href="/data_processor/" class="btn btn-info">🔄 Run Transformations</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if total_all == 0 %}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">⚠️ No Transformed Data Found</h4>
+                <p>It looks like you haven't run any transformations yet. Upload your data files and run transformations to see analytics here.</p>
+                <hr>
+                <p class="mb-0">
+                    <a href="/data_processor/upload/" class="btn btn-warning">Upload Files</a>
+                    <a href="/data_processor/" class="btn btn-outline-warning ms-2">Go to Transformations</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

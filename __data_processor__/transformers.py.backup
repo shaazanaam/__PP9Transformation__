@@ -35,7 +35,7 @@ import logging
 import traceback
 import pandas as pd
 from collections import defaultdict
-from django.db.models import Q, F
+from django.db.models import Q, F, Sum, Count, Prefetch
 from django.contrib import messages
 logger = logging.getLogger(__name__)
 
@@ -52,7 +52,7 @@ class DataTransformer:
 
         # Clear existing data in the TransformedSchoolData to avoid duplicates
         TransformedSchoolData.objects.all().delete()
-        data = SchoolData.objects.filter(school_name='[Statewide]')
+        data = SchoolData.objects.filter(school_name='[Statewide]').select_related('stratification')
         transformed_data = []
 
         for entry in data:
@@ -146,10 +146,10 @@ class DataTransformer:
         try:
             logger.info("Starting Tri-County Layer Transformation...")
             logger.info(f"{SchoolData.objects.count()} records found in the SchoolData model.")
-            # Fetch filtered school data, including 'Unknown' county and school_name
+            # Fetch filtered school data with related stratification (PERFORMANCE OPTIMIZATION)
             school_data = SchoolData.objects.filter(
                 county__in=['Outagamie', 'Winnebago', 'Calumet'],
-             ).exclude(school_name='[Districtwide]')
+             ).exclude(school_name='[Districtwide]').select_related('stratification')
             logger.info(f"Filtered school data count: {school_data.count()}")
 
             #Add the UNKOWNN VALUES TO THE MAIN DATA SET
@@ -300,10 +300,10 @@ class DataTransformer:
 
             logger.info(f"County GEOID entries count: {len(county_geoid_map)}")
 
-            # STEP 2: Fetch dataset (No need to process "Unknown" separately)
+            # STEP 2: Fetch dataset with related data (PERFORMANCE OPTIMIZATION)
             school_data = SchoolData.objects.filter(
                 models.Q(county__in=county_geoid_map.keys())
-            ).exclude(school_name="[Districtwide]")
+            ).exclude(school_name="[Districtwide]").select_related('stratification')
             logger.info(f"Refetched school data count: {school_data.count()}")
             
             #HANDLE UNKOWN
@@ -486,7 +486,7 @@ class DataTransformer:
             
             #Fetch filtered school data
             
-            school_data = SchoolData.objects.filter(district_name=district_name_filter)
+            school_data = SchoolData.objects.filter(district_name=district_name_filter).select_related('stratification')
             logger.info(f"Filtered school data count: {school_data.count()}")
             
 

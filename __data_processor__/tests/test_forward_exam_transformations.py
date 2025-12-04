@@ -17,6 +17,12 @@ Tests verify:
 5. Record counts and data integrity
 """
 
+import os
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'school_data_project.settings')
+django.setup()
+
 from django.test import TestCase
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.test import RequestFactory
