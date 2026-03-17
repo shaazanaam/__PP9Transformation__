@@ -49,9 +49,9 @@ class DataTransformer:
         
         # Removal/Discipline transformations (6 types)
         elif transformation_type == 'Statewide-Removal':
-            return self.removal.transform_Statewide_Removal()
+            return self.removal.transform_Statewide_Removal_OPTIMIZED()
         elif transformation_type == 'Tricounty-Removal':
-            return self.removal.transform_Tri_County_Removal()
+            return self.removal.transform_Tri_County_Removal_OPTIMIZED()
         elif transformation_type == 'County-Removal':
             return self.removal.transform_County_Layer_Removal()
         elif transformation_type == 'Zipcode-Removal':

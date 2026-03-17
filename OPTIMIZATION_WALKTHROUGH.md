@@ -4,7 +4,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                    ZIPCODE REMOVAL TRANSFORMATION ARCHITECTURE               │
+│                    ZIPCODE REMOVAL TRANSFORMATION ARCHITECTURE              │
 └─────────────────────────────────────────────────────────────────────────────┘
 
 INPUT DATA SOURCES:
