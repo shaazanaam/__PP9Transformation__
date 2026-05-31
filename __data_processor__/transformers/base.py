@@ -46,6 +46,8 @@ class DataTransformer:
             return self.enrollment.transforms_Metopio_ZipCodeLayer()
         elif transformation_type == 'City-Town':
             return self.enrollment.transform_Metopio_CityLayer()
+        elif transformation_type == 'Enrollment-Combined':
+            return self.enrollment.transform_Enrollment_Combined()
         
         # Removal/Discipline transformations (6 types)
         elif transformation_type == 'Statewide-Removal':

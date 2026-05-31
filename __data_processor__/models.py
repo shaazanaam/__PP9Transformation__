@@ -207,6 +207,20 @@ class MetopioCityLayerTransformation(models.Model):
         verbose_name_plural = 'City Layer Transformations'
         ordering = ['period']
 
+
+class EnrollmentCombinedTransformation(models.Model):
+    layer = models.CharField(max_length=50)
+    geoid = models.CharField(max_length=50)
+    topic = models.CharField(max_length=50, default='FVDEYLCV')
+    stratification = models.TextField(blank=True)
+    period = models.CharField(max_length=20)
+    value = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name = 'Enrollment Combined Transformation'
+        verbose_name_plural = 'Enrollment Combined Transformations'
+        ordering = ['period', 'layer', 'geoid', 'stratification']
+
 class MetopioCityRemovalData(models.Model):
     layer = models.CharField(max_length=50, default='City')
     geoid = models.CharField(max_length=50)  # Change this to CharField

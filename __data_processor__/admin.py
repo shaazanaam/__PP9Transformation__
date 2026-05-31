@@ -16,6 +16,7 @@ from .models import (
     ZipCodeLayerTransformation,
     ZipCodeLayerRemovalData,
     MetopioCityLayerTransformation,
+    EnrollmentCombinedTransformation,
     MetopioCityRemovalData,
     CombinedRemovalData,
     ForwardExamStateWideTransformation,
@@ -80,6 +81,7 @@ admin.site.register(CountyLayerRemovalData)
 admin.site.register(ZipCodeLayerTransformation)
 admin.site.register(ZipCodeLayerRemovalData)
 admin.site.register(MetopioCityLayerTransformation)
+admin.site.register(EnrollmentCombinedTransformation)
 admin.site.register(MetopioCityRemovalData)
 admin.site.register(CombinedRemovalData)
 

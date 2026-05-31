@@ -18,6 +18,7 @@ from .models import (
     MetopioStateWideLayerTransformation,
     ZipCodeLayerTransformation,
     MetopioCityLayerTransformation,  # Add this line
+    EnrollmentCombinedTransformation,
 )
 from .forms import UploadFileForm
 from .models import ZipCodeLayerTransformation, SchoolRemovalData, MetopioStateWideRemovalDataTransformation, MetopioTriCountyRemovalDataTransformation, CountyLayerRemovalData, ZipCodeLayerRemovalData, MetopioCityRemovalData, CombinedRemovalData, ForwardExamData, ForwardExamStateWideTransformation, ForwardExamTriCountyTransformation, ForwardExamCountyLayerTransformation, ForwardExamZipCodeLayerTransformation, ForwardExamCityLayerTransformation, ForwardExamCombinedTransformation
@@ -100,6 +101,10 @@ def transformation_success(request):
         transformer = DataTransformer(request)
         transformer.enrollment.transform_Metopio_CityLayer()
         data_list = MetopioCityLayerTransformation.objects.all()
+    elif transformation_type == "Enrollment-Combined":
+        transformer = DataTransformer(request)
+        transformer.enrollment.transform_Enrollment_Combined()
+        data_list = EnrollmentCombinedTransformation.objects.all()
     elif transformation_type == "Statewide-Removal":
         transformer = DataTransformer(request)
         transformer.removal.transform_Statewide_Removal()
@@ -692,6 +697,7 @@ def dashboard_view(request):
         'metopio_statewide': MetopioStateWideLayerTransformation.objects.count(),
         'zipcode': ZipCodeLayerTransformation.objects.count(),
         'city': MetopioCityLayerTransformation.objects.count(),
+        'combined': EnrollmentCombinedTransformation.objects.count(),
     }
     
     removal_stats = {
@@ -1008,6 +1014,24 @@ def combined_removal_view(request):
         {"data": data, "transformation_type": transformation_type},
     )
 
+
+def enrollment_combined_view(request):
+    transformation_type = request.GET.get("type", "Enrollment-Combined")
+    print(f"Query Parameters: {request.GET}")
+
+    DataTransformer(request).enrollment.transform_Enrollment_Combined()
+    data_list = EnrollmentCombinedTransformation.objects.all()
+
+    paginator = Paginator(data_list, 20)
+    page_number = request.GET.get("page")
+    data = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "__data_processor__/enrollment_combined.html",
+        {"data": data, "transformation_type": transformation_type},
+    )
+
 #City Town REMOVAL View
 
 # Forward Exam View
@@ -1098,6 +1122,8 @@ def generate_transformed_excel(transformation_type):
         data = ZipCodeLayerTransformation.objects.all()
     elif transformation_type == "City-Town":
         data = MetopioCityLayerTransformation.objects.all()
+    elif transformation_type == "Enrollment-Combined":
+        data = EnrollmentCombinedTransformation.objects.all()
     elif transformation_type == "Statewide-Removal":
         data = MetopioStateWideRemovalDataTransformation.objects.all()
     elif transformation_type == "Tricounty-Removal":
@@ -1186,6 +1212,8 @@ def generate_transformed_csv(transformation_type):
         data = ZipCodeLayerTransformation.objects.all()
     elif transformation_type == "City-Town":
         data = MetopioCityLayerTransformation.objects.all()
+    elif transformation_type == "Enrollment-Combined":
+        data = EnrollmentCombinedTransformation.objects.all()
     elif transformation_type == "Statewide-Removal":
         data = MetopioStateWideRemovalDataTransformation.objects.all()
     elif transformation_type == "Tricounty-Removal":

@@ -90,6 +90,12 @@
                         <button type="submit" name="transformation_type" value="City-Town" class="btn btn-outline-info w-100">City-Town</button>
                     </form>
                 </div>
+                <div class="col-md-4 mb-2">
+                    <form method="post" action="/data_processor/">
+                        {% csrf_token %}
+                        <button type="submit" name="transformation_type" value="Enrollment-Combined" class="btn btn-outline-info w-100">Enrollment Combined</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

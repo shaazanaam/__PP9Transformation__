@@ -28,7 +28,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title text-info">Enrollment Data</h5>
                     <h2 class="display-4">{{ total_enrollment|default:"0" }}</h2>
-                    <p class="text-muted">6 Transformations</p>
+                    <p class="text-muted">7 Transformations</p>
                 </div>
             </div>
         </div>
@@ -120,6 +120,10 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             City/Town Layer
                             <span class="badge bg-primary rounded-pill">{{ enrollment_stats.city|default:"0" }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Enrollment Combined
+                            <span class="badge bg-primary rounded-pill">{{ enrollment_stats.combined|default:"0" }}</span>
                         </li>
                     </ul>
                 </div>

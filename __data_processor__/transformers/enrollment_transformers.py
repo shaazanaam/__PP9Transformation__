@@ -20,6 +20,7 @@ from ..models import (
     ZipCodeLayerTransformation,
     SchoolAddressFile,
     MetopioCityLayerTransformation,
+    EnrollmentCombinedTransformation,
     Stratification,
 )
 
@@ -112,30 +113,8 @@ class EnrollmentTransformers:
             return self.transforms_Metopio_ZipCodeLayer()
         elif transformation_type == 'City-Town':
             return self.transform_Metopio_CityLayer()
-        elif transformation_type == 'Statewide-Removal':
-            return self.transform_Statewide_Removal()
-        elif transformation_type == 'Tricounty-Removal':
-            return self.transform_Tri_County_Removal()
-        elif transformation_type == 'County-Removal':
-            return self.transform_County_Layer_Removal()
-        elif transformation_type == 'Zipcode-Removal':
-            return self.transform_Zipcode_Layer_Removal()
-        elif transformation_type == 'City-Removal':
-            return self.transform_City_Layer_Removal()
-        elif transformation_type == 'combined':
-            return self.transform_combined_removal()
-        elif transformation_type == 'ForwardExam-Statewide':
-            return self.transform_ForwardExam_Statewide()
-        elif transformation_type == 'ForwardExam-TriCounty':
-            return self.transform_ForwardExam_TriCounty()
-        elif transformation_type == 'ForwardExam-County':
-            return self.transform_ForwardExam_CountyLayer()
-        elif transformation_type == 'ForwardExam-Zipcode':
-            return self.transform_ForwardExam_ZipcodeLayer()
-        elif transformation_type == 'ForwardExam-City':
-            return self.transform_ForwardExam_CityLayer()
-        elif transformation_type == 'ForwardExam-Combined':
-            return self.transform_ForwardExam_Combined()
+        elif transformation_type == 'Enrollment-Combined':
+            return self.transform_Enrollment_Combined()
         else:
             messages.error(self.request, f'Unknown transformation type: {transformation_type}')
             return False
@@ -1377,6 +1356,86 @@ class EnrollmentTransformers:
             line_number = tb[-1][1]
             logger.error(f"Error during Metopio City Layer Transformation: {e} at line number {line_number}")
             logger.error(f"Traceback: {traceback.format_exc()}")
+            return False
+
+    def transform_Enrollment_Combined(self):
+        """Apply Combined Enrollment Transformation by calling individual transformations and merging results."""
+        try:
+            logger.info("Starting Combined Enrollment Transformation...")
+
+            EnrollmentCombinedTransformation.objects.all().delete()
+            combined_data = []
+
+            if not self.transform_Metopio_StateWideLayer():
+                logger.error("Enrollment Metopio Statewide Transformation failed.")
+                return False
+            combined_data.extend(
+                MetopioStateWideLayerTransformation.objects.values(
+                    "layer", "geoid", "topic", "stratification", "period", "value"
+                )
+            )
+
+            if not self.apply_tri_county_layer_transformation():
+                logger.error("Enrollment Tri-County Transformation failed.")
+                return False
+            combined_data.extend(
+                MetopioTriCountyLayerTransformation.objects.values(
+                    "layer", "geoid", "topic", "stratification", "period", "value"
+                )
+            )
+
+            if not self.apply_county_layer_transformation():
+                logger.error("Enrollment County Layer Transformation failed.")
+                return False
+            combined_data.extend(
+                CountyLayerTransformation.objects.values(
+                    "layer", "geoid", "topic", "stratification", "period", "value"
+                )
+            )
+
+            if not self.transforms_Metopio_ZipCodeLayer():
+                logger.error("Enrollment Zip Code Layer Transformation failed.")
+                return False
+            combined_data.extend(
+                ZipCodeLayerTransformation.objects.values(
+                    "layer", "geoid", "topic", "stratification", "period", "value"
+                )
+            )
+
+            if not self.transform_Metopio_CityLayer():
+                logger.error("Enrollment City Layer Transformation failed.")
+                return False
+            combined_data.extend(
+                MetopioCityLayerTransformation.objects.values(
+                    "layer", "geoid", "topic", "stratification", "period", "value"
+                )
+            )
+
+            combined_instances = [
+                EnrollmentCombinedTransformation(
+                    layer=row["layer"],
+                    geoid=row["geoid"],
+                    topic=row["topic"],
+                    stratification=row["stratification"],
+                    period=row["period"],
+                    value=row["value"],
+                )
+                for row in combined_data
+            ]
+
+            EnrollmentCombinedTransformation.objects.bulk_create(combined_instances)
+            logger.info(
+                f"Combined Enrollment Transformation completed successfully with {len(combined_instances)} records."
+            )
+            messages.success(
+                self.request,
+                f"Enrollment Combined transformation completed successfully. {len(combined_instances)} records were transformed.",
+            )
+            return True
+        except Exception as e:
+            tb = traceback.extract_tb(e.__traceback__)
+            line_number = tb[-1][1]
+            logger.error(f"Error during Combined Enrollment Transformation: {e} at line number {line_number}")
             return False
 
 #######################Removal Count Transformation#######################
